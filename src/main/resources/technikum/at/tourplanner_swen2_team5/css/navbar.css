@@ -1,0 +1,107 @@
+/* Grundlegende Navbar-Styles */
+.navbar {
+    -fx-background-color: #F5F5F5;
+    -fx-background-radius: 30; /* Erhöhte Rundung */
+    -fx-padding: 10px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 5);
+    -fx-background-insets: 10 0 10 0; /* Kleinere Navbar */
+}
+
+/* Container für die Navbar-Elemente */
+.navbar-container {
+    -fx-alignment: center-left;
+    -fx-padding: 0 20px;
+    -fx-spacing: 15; /* Abstand zwischen den Elementen */
+}
+
+.logo {
+    -fx-cursor: hand;
+}
+
+/* Button-Styling */
+.icon-button {
+    -fx-background-color: #A4D65E;
+    -fx-background-radius: 50; /* Macht die Buttons kreisförmig */
+    -fx-min-width: 40px;
+    -fx-min-height: 40px;
+    -fx-max-width: 40px;
+    -fx-max-height: 40px;
+    -fx-cursor: hand;
+    -fx-border-radius: 20;
+    -fx-border-color: #202020;
+    -fx-border-width: 2;
+}
+
+/* Button-Hover-Styling */
+.icon-button:hover {
+    -fx-background-color: #395C37; /* Dunklere Farbe beim Hovern */
+}
+
+.search-container {
+    -fx-background-color: transparent;
+    -fx-spacing: 0;
+    -fx-alignment: center-right;
+}
+
+.search-button .graphic-container,
+.search-button .graphic {
+    -fx-fit-height: 20px; /* Höhe des Icons */
+    -fx-fit-width: 20px; /* Breite des Icons */
+    -fx-background-color: transparent; /* Hintergrund des Icons transparent machen */
+}
+
+/* Suchleiste Styling */
+.search-bar {
+    -fx-background-color: #F5F5F5; /* Hintergrund weiß */
+    -fx-background-radius: 20 0 0 0; /* Rund nur auf der linken Seite */
+    -fx-border-radius: 20 0 0 20;
+    -fx-border-color: #202020; /* Dunklere Rahmenfarbe */
+    -fx-border-width: 2 0 2 2; /* Rahmen nur oben, unten und links */
+    -fx-prompt-text-fill: #A4D65E;
+    -fx-min-height: 40px;
+    -fx-max-height: 40px;
+    -fx-min-width: 160px; /* Passende Breite */
+    -fx-max-width: 160px;
+    -fx-text-inner-color: #202020;
+    -fx-font-size: 20;
+}
+
+.search-box {
+    -fx-alignment: center-right;
+    -fx-spacing: 0;
+}
+
+/* Pseudoklasse für die Grafik innerhalb des Suchfeldes */
+.search-bar .graphic-container {
+    -fx-padding: 5px; /* Abstand um die Lupe */
+    -fx-alignment: center; /* Zentriere die Lupe */
+}
+
+.search-button {
+    -fx-background-color: #A4D65E;
+    -fx-background-radius: 0 20 20 0; /* Rund nur auf der rechten Seite */
+    -fx-border-radius: 0 20 20 0;
+    -fx-border-color: #202020;
+    -fx-border-width: 2 2 2 2;
+    -fx-min-width: 40px;
+    -fx-min-height: 40px;
+    -fx-max-width: 40px;
+    -fx-max-height: 40px;
+    -fx-cursor: hand;
+}
+
+.search-button .graphic {
+    -fx-fit-height: 20px; /* Höhe des Icons */
+    -fx-fit-width: 20px; /* Breite des Icons */
+    -fx-background-color: transparent; /* Hintergrund des Icons transparent machen */
+}
+
+/* Verschönern der Suchleiste */
+search-bar:focused {
+    -fx-background-color: #FFFFFF; /* Auch beim Fokussieren weiß halten */
+    -fx-border-color: #AAAAAA; /* Sichtbare Umrandung beibehalten */
+}
+
+.search-button:hover {
+    -fx-background-color: #395C37;
+}

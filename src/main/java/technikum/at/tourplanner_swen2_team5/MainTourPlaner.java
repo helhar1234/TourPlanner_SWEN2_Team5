@@ -12,17 +12,18 @@ import java.util.Objects;
 
 public class MainTourPlaner extends Application {
 
-    @Getter
     private static Stage stg;
 
     @Override
     public void start(Stage stage) throws IOException {
         stg = stage;
-        FXMLLoader fxmlLoader = new FXMLLoader(MainTourPlaner.class.getResource("mainWindow.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(MainTourPlaner.class.getResource("home_screen.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        stage.setTitle("LogInDemo!");
+        stage.setTitle("Tours By Helena");
         stage.setScene(scene);
         stage.setResizable(false);
+        stage.setMinWidth(800);
+        stage.setMinHeight(600);
         stage.show();
     }
 
@@ -31,6 +32,10 @@ public class MainTourPlaner extends Application {
     }
 
     public static void main(String[] args) {
-        launch();
+        launch(args);
+    }
+
+    public static Stage getStage() {
+        return stg;
     }
 }

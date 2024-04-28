@@ -1,0 +1,15 @@
+.root {
+    -fx-padding: 10; /* Abstand um das BorderPane */
+}
+
+.logo-view {
+    -fx-fit-width: 50; /* Breite des Logos */
+    -fx-preserve-ratio: true;
+    -fx-smooth: true;
+}
+
+.title-label {
+    -fx-font-size: 24px;
+    -fx-text-fill: #333;
+    -fx-font-weight: bold; /* Wenn du Arial Bold verwenden möchtest */
+}

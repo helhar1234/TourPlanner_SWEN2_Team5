@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="technikum.at.tourplanner_swen2_team5.controller.AddTourController"
+      spacing="10" alignment="TOP_CENTER" stylesheets="@css/addTour.css" fillWidth="true">
+
+    <padding>
+        <Insets top="30" right="30" bottom="30" left="30"/> <!-- Erhöhtes Padding für den gesamten VBox-Container -->
+    </padding>
+
+    <HBox alignment="TOP_LEFT" spacing="10">
+        <Button fx:id="backButton" styleClass="icon-button">
+            <graphic>
+                <ImageView fitHeight="25" fitWidth="25" preserveRatio="true">
+                    <Image url="@img/icons/arrow-icon.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+    </HBox>
+
+
+    <VBox spacing="10" fillWidth="true">
+        <TextField fx:id="nameField" promptText="Tour Name" styleClass="text-field"/>
+        <TextArea fx:id="descriptionArea" promptText="Tour Description" styleClass="text-area"/>
+        <TextField fx:id="fromField" promptText="From" styleClass="text-field"/>
+        <TextField fx:id="toField" promptText="To" styleClass="text-field"/>
+
+        <HBox spacing="10" alignment="CENTER">
+            <Label text="Transport Type:"/>
+            <ComboBox fx:id="transportTypeBox" styleClass="combo-box">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="Hike"/>
+                        <String fx:value="Bike"/>
+                        <String fx:value="Running"/>
+                        <String fx:value="Vacation"/>
+                    </FXCollections>
+                </items>
+            </ComboBox>
+        </HBox>
+
+        <HBox spacing="10" alignment="CENTER_RIGHT">
+            <Button fx:id="saveButton" styleClass="icon-button">
+                <graphic>
+                    <ImageView fitHeight="25" fitWidth="25" preserveRatio="true">
+                        <Image url="@img/icons/check-icon.png"/>
+                    </ImageView>
+                </graphic>
+            </Button>
+            <Button fx:id="deleteButton" styleClass="icon-button">
+                <graphic>
+                    <ImageView fitHeight="25" fitWidth="25" preserveRatio="true">
+                        <Image url="@img/icons/trash-icon.png"/>
+                    </ImageView>
+                </graphic>
+            </Button>
+        </HBox>
+    </VBox>
+</VBox>
