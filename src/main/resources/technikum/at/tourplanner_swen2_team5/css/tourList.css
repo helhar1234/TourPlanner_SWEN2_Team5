@@ -1,0 +1,81 @@
+.list-container {
+    -fx-background-radius: 15;
+    -fx-padding: 20;
+    -fx-background-color: #F5F5F5; /* Hintergrundfarbe des Containers */
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 10); /* Leichter Schatten für den Schwebeeffekt */
+    -fx-spacing: 10; /* Abstand zwischen den Elementen im Container */
+}
+
+.list-top-buttons {
+    -fx-alignment: center-left;
+    -fx-padding: 10;
+    -fx-spacing: 15; /* Abstand zwischen Buttons */
+}
+
+.icon-button {
+    -fx-background-color: #A4D65E;
+    -fx-background-radius: 50; /* Macht die Buttons kreisförmig */
+    -fx-min-width: 40px;
+    -fx-min-height: 40px;
+    -fx-max-width: 40px;
+    -fx-max-height: 40px;
+    -fx-cursor: hand;
+    -fx-border-radius: 50;
+    -fx-border-color: #202020;
+    -fx-border-width: 2;
+}
+
+.icon-button .graphic {
+    -fx-fit-height: true;
+    -fx-fit-width: true;
+    -fx-max-height: 20; /* Angepasste Größe der Icons */
+    -fx-max-width: 20;
+}
+
+.icon-button:hover {
+    -fx-background-color: #395C37; /* Dunklere Farbe beim Hovern */
+}
+
+.list-title {
+    -fx-font-size: 36px; /* Größe des Titels */
+    -fx-font-weight: bold;
+    -fx-text-fill: #202020;
+    -fx-alignment: center;
+}
+
+/* Stile für die Tabelle entfernen */
+.table-view {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: transparent;
+}
+
+.table-view .column-header {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.table-view .cell {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 0;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: #202020; /* Farbe der Überschrift */
+    -fx-font-weight: normal; /* Kein Fett gedruckter Text */
+    -fx-font-size: 16px; /* Größe der Überschrift */
+}
+
+.table-view .table-row-cell {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.table-view .table-row-cell:selected {
+    -fx-background-color: #87CEEB; /* Farbe für ausgewählte Zeile */
+    -fx-text-fill: #202020; /* Farbe des Texts für ausgewählte Zeile */
+}

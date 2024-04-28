@@ -19,7 +19,7 @@
          </cursor>
         </ImageView>
 
-        <Button fx:id="mapButton" styleClass="icon-button">
+        <Button fx:id="mapButton" styleClass="icon-button" onAction="#onMapPinClicked">
             <graphic>
                 <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                     <Image url="@img/icons/map-icon.png" />

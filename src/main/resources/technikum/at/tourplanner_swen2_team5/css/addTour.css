@@ -26,7 +26,17 @@
     -fx-border-color: #A4D65E;
     -fx-border-width: 2;
     -fx-padding: 4;
+    -fx-background-color: white;
+    -fx-background-insets: 0; /* Setzt die Hintergrundabstände auf 0 */
 }
+
+.text-area .content {
+    -fx-background-color: white;
+    -fx-background-insets: 0;
+}
+
+
+
 
 .combo-box {
     -fx-background-color: white;

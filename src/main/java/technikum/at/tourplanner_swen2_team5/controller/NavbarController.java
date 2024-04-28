@@ -38,4 +38,16 @@ public class NavbarController {
         }
     }
 
+    private HomeScreenController homeScreenController;
+
+    public void setHomeScreenController(HomeScreenController controller) {
+        this.homeScreenController = controller;
+    }
+
+    @FXML
+    private void onMapPinClicked() {
+        homeScreenController.changeMainContent("tour_list.fxml");
+    }
+
+
 }

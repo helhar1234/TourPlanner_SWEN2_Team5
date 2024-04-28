@@ -15,11 +15,10 @@
     </top>
 
     <center>
-        <VBox alignment="CENTER" spacing="20">
+        <VBox fx:id="mainContentArea" alignment="CENTER" spacing="20">
             <ImageView fitWidth="200" fitHeight="200" preserveRatio="true">
                 <Image url="@img/BikerLogoMave.png"/>
             </ImageView>
-
             <Label text="TOURS BY HELENA" styleClass="title-label"/>
         </VBox>
     </center>
