@@ -36,6 +36,8 @@ public class MainTourPlaner extends Application {
         stage.setScene(scene);
         stage.setTitle("Tours By Helena");
         stage.show();
+        stage.setMinWidth(280);
+        stage.setMinHeight(180);
     }
 
 
