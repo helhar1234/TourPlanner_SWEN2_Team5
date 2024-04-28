@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import lombok.Getter;
 import technikum.at.tourplanner_swen2_team5.controller.HomeScreenController;
@@ -29,8 +30,9 @@ public class MainTourPlaner extends Application {
         NavbarController navbarController = navbarLoader.getController(); // Zugriff auf den NavbarController
         navbarController.setHomeScreenController(homeController); // Setzen der Referenz zum HomeScreenController
 
-        BorderPane borderPane = (BorderPane) homeRoot; // Annahme, dass homeRoot ein BorderPane ist
-        borderPane.setTop(navbar); // Setzen der Navbar im BorderPane oben
+        GridPane gridPane = (GridPane) homeRoot; // Annahme, dass homeRoot ein BorderPane ist
+        GridPane.setConstraints(navbar, 0, 0); // 0 steht für die erste Zeile, 0 steht für die erste Spalte
+        gridPane.getChildren().add(navbar); // Setzen der Navbar im BorderPane oben
 
         Scene scene = new Scene(homeRoot);
         stage.setScene(scene);

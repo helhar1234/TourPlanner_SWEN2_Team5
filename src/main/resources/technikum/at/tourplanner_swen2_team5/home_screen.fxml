@@ -1,27 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.VBox?>
-
 <?import javafx.scene.image.Image?>
-<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-            fx:controller="technikum.at.tourplanner_swen2_team5.controller.HomeScreenController"
-            prefWidth="800.0" prefHeight="600.0" minWidth="800.0" minHeight="600.0"
-            stylesheets="@css/homeScreen.css">
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
 
-    <top>
+<GridPane xmlns:fx="http://javafx.com/fxml/1" stylesheets="@css/homeScreen.css" xmlns="http://javafx.com/javafx/21"
+          fx:controller="technikum.at.tourplanner_swen2_team5.controller.HomeScreenController">
+    <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" prefWidth="800.0"/>
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints maxHeight="590" minHeight="80" prefHeight="80"/>
+        <RowConstraints maxHeight="850" minHeight="300" prefHeight="600"/>
+    </rowConstraints>
+
+    <HBox prefHeight="500" GridPane.rowIndex="0" GridPane.columnIndex="0" GridPane.columnSpan="2">
         <fx:include source="navbar.fxml"/>
-    </top>
+    </HBox>
 
-    <center>
-        <VBox fx:id="mainContentArea" alignment="CENTER" spacing="20">
-            <ImageView fitWidth="200" fitHeight="200" preserveRatio="true">
-                <Image url="@img/BikerLogoMave.png"/>
+    <VBox fx:id="mainContentArea" alignment="CENTER" spacing="20" GridPane.rowIndex="1">
+        <ImageView fitHeight="200" fitWidth="200" preserveRatio="true">
+            <Image url="@img/BikerLogoMave.png"/>
             </ImageView>
-            <Label text="TOURS BY HELENA" styleClass="title-label"/>
+        <Label styleClass="title-label" text="TOURS BY HELENA"/>
         </VBox>
-    </center>
-
-
-</BorderPane>
+</GridPane>

@@ -7,7 +7,8 @@
     <list default="true" id="8f872066-c34b-4251-8255-dc953efecf3a" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/technikum/at/tourplanner_swen2_team5/MainTourPlaner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/technikum/at/tourplanner_swen2_team5/MainTourPlaner.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/technikum/at/tourplanner_swen2_team5/navbar.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/technikum/at/tourplanner_swen2_team5/navbar.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/technikum/at/tourplanner_swen2_team5/controller/HomeScreenController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/technikum/at/tourplanner_swen2_team5/controller/HomeScreenController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/technikum/at/tourplanner_swen2_team5/home_screen.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/technikum/at/tourplanner_swen2_team5/home_screen.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

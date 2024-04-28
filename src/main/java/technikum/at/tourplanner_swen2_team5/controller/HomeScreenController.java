@@ -19,12 +19,10 @@ public class HomeScreenController {
 
     public void changeMainContent(String fxmlFile) {
         try {
-            mainContentArea.getChildren().clear(); // Entfernen Sie bestehende Inhalte
+            mainContentArea.getChildren().clear();
             mainContentArea.getChildren().add(FXMLLoader.load(MainTourPlaner.class.getResource(fxmlFile)));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
-
 }
