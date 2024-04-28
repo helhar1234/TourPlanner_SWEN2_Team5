@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+
+<?import java.util.Map?>
+<?import java.lang.String?>
+<VBox prefHeight="400.0" prefWidth="600.0" styleClass="list-container" stylesheets="@css/tourList.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="technikum.at.tourplanner_swen2_team5.controller.TourListController">
+
+    <HBox spacing="10" styleClass="list-top-buttons">
+        <Button fx:id="backButton" styleClass="icon-button">
+            <graphic>
+                <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@img/icons/arrow-icon.png" />
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button fx:id="refreshButton" styleClass="icon-button">
+            <graphic>
+                <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@img/icons/reload-icon.png" />
+                </ImageView>
+            </graphic>
+        </Button>
+        <Pane HBox.hgrow="ALWAYS" /> <!-- Spacer -->
+        <Button fx:id="uploadButton" styleClass="icon-button">
+            <graphic>
+                <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@img/icons/upload-icon.png" />
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button fx:id="addButton" styleClass="icon-button">
+            <graphic>
+                <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@img/icons/plus-icon.png" />
+                </ImageView>
+            </graphic>
+        </Button>
+    </HBox>
+
+    <Label fx:id="titleLabel" text="TOURS" styleClass="list-title" maxWidth="1.7976931348623157E308" />
+
+    <TableView fx:id="toursTable" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="colType" maxWidth="50" minWidth="10" prefWidth="50" text="Type"/>
+            <TableColumn fx:id="colName" text="Name" />
+            <TableColumn fx:id="colStart" text="Start" />
+            <TableColumn fx:id="colDestination" text="Destination" />
+            <TableColumn fx:id="colDistance" text="Distance" />
+            <TableColumn fx:id="colTime" text="Time" />
+            <TableColumn fx:id="colButtons" maxWidth="50" minWidth="10" prefWidth="50" />
+        </columns>
+    </TableView>
+
+
+</VBox>

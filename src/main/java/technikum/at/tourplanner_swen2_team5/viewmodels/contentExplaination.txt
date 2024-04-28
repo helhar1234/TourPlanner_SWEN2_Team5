@@ -1,0 +1,3 @@
+Im viewModels Ordner liegen alle files, dessen Code als Schnittstelle zwischen den views (Benutzeroberfläche) und den Models (Daten) dient.
+Sie enthalten Logik, die für die Darstellung notwendig ist, wie das Halten eines Zustandes der UI, die Verarbeitung von Benutzereingaben und die Bereitstellung von Daten in einer form, die direkt von der View genutzt werden kann.
+z.B.: Klassen, die spezifisisch Daten für die UI vorbereiten, Validierung und UNterformatierungen durchführen und Befehle, die auf Nutzerinteraktionen wie Klicks oder Eingaben reagieren.

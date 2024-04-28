@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+
+<Pane prefHeight="70.0" prefWidth="800.0" styleClass="navbar" stylesheets="@css/navbar.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="technikum.at.tourplanner_swen2_team5.controller.NavbarController">
+    <HBox alignment="CENTER_LEFT" fillHeight="true" layoutX="-14.0" layoutY="15.0" spacing="10" styleClass="navbar-container">
+        <ImageView fx:id="logo" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" styleClass="logo">
+            <image>
+                <Image url="@img/BikerLogoMave.png" />
+            </image>
+         <cursor>
+            <Cursor fx:constant="DEFAULT" />
+         </cursor>
+        </ImageView>
+
+        <Button fx:id="mapButton" styleClass="icon-button" onAction="#onMapPinClicked">
+            <graphic>
+                <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@img/icons/map-icon.png" />
+                </ImageView>
+            </graphic>
+        </Button>
+
+        <Button fx:id="plusButton" onAction="#onAddTourClicked" styleClass="icon-button">
+            <graphic>
+                <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@img/icons/plus-icon.png" />
+                </ImageView>
+            </graphic>
+        </Button>
+    </HBox>
+   <HBox alignment="CENTER_RIGHT" fillHeight="true" layoutX="499.0" layoutY="15.0" spacing="10" styleClass="navbar-container">
+      <children> <!-- Spacer Pane -->
+   
+              <HBox styleClass="search-container">
+               <TextField fx:id="searchBar" maxHeight="36.0" prefHeight="36.0" prefWidth="160.0" promptText="Search..." styleClass="search-bar" />
+               <Button fx:id="searchButton" styleClass="search-button">
+                   <graphic>
+                       <ImageView fitHeight="20" fitWidth="20" pickOnBounds="true" preserveRatio="true">
+                           <Image url="@img/icons/search-icon.png" />
+                       </ImageView>
+                   </graphic>
+               </Button>
+           </HBox>
+   
+      
+      
+              <Button fx:id="settingsButton" styleClass="icon-button">
+               <graphic>
+                   <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                       <Image url="@img/icons/settings-icon.png" />
+                   </ImageView>
+               </graphic>
+           </Button>
+      </children>
+   </HBox>
+</Pane>

@@ -1,0 +1,15 @@
+/* Hier liegen alle Farben für das Design Theme */
+:root {
+    --main-text-color: #202020;
+    --secondary-text-color: #555555;
+    --primary-brightgreen-color: #A4D65E;
+    --primary-darkgreen-color: #395C37;
+    --secondary-cremewhite-color: #F5F5F5;
+    --secondary-gray-color: #708090;
+    --accent-skyblue-color: #87CEEB;
+    --accent-sunyellow-color: #FFD700;
+    --button-green-color: #6B8E23;
+    --warning-red-color: #F44336;
+    --primary-font: 'Roboto', sans-serif;
+    --header-font: 'Montserrat', sans-serif;
+}
