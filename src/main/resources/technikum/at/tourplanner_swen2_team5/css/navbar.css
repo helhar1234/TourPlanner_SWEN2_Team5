@@ -2,14 +2,14 @@
 .navbar {
     -fx-background-color: #F5F5F5;
     -fx-background-radius: 30; /* Erhöhte Rundung */
-    -fx-padding: 10px;
+    -fx-padding: 0 20px;
+    -fx-spacing: 15;
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 5);
     -fx-background-insets: 10 0 10 0; /* Kleinere Navbar */
 }
 
 /* Container für die Navbar-Elemente */
 .navbar-container {
-    -fx-alignment: center-left;
     -fx-padding: 0 20px;
     -fx-spacing: 15; /* Abstand zwischen den Elementen */
 }

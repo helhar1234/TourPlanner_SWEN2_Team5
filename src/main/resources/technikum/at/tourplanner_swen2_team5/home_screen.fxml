@@ -24,5 +24,5 @@
             <Image url="@img/BikerLogoMave.png"/>
             </ImageView>
         <Label styleClass="title-label" text="TOURS BY HELENA"/>
-        </VBox>
+    </VBox>
 </GridPane>
