@@ -1,2 +1,0 @@
-Im models-Ordner liegen alle Datenstrukturen bzw Geschäftslogik des Tour Planers.
-zB.: Klassen, DAOs, Geschäftsregeln usw

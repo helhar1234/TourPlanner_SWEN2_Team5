@@ -1,2 +1,0 @@
-Nimmt die Anfragen von der Benutzeroberfläche entgegen und returned durch das Aufrufen von Modellen oder Geschäftslogik die Resultate an die Views.
-zB: Klassen, die UI Events behandeln, die Steuerung von Übergängen zwischen verschiedenen Views organisieren oder auch Interaktion die nicht direkt in die ViewModel passt
