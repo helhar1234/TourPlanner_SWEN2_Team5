@@ -60,7 +60,8 @@
             <TableColumn fx:id="colDestination" text="Destination" />
             <TableColumn fx:id="colDistance" text="Distance" />
             <TableColumn fx:id="colTime" text="Time" />
-            <TableColumn fx:id="colButtons" />
+            <TableColumn fx:id="colButtons" text="muss die breite noch gscheit einstellen :)"/>
+
         </columns>
     </TableView>
 </GridPane>

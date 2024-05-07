@@ -1,13 +1,12 @@
 package technikum.at.tourplanner_swen2_team5.controller;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.ComboBox;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
-import technikum.at.tourplanner_swen2_team5.models.Tour;
+import technikum.at.tourplanner_swen2_team5.models.TourModel;
 import technikum.at.tourplanner_swen2_team5.viewmodels.TourViewModel;
+
+import java.io.IOException;
 
 public class AddTourController {
     @FXML private TextField nameField;
@@ -18,12 +17,18 @@ public class AddTourController {
 
     @FXML private Button saveButton;
 
-    private TourViewModel viewModel;
+    @FXML private Label warningLabelName;
+    @FXML private Label warningLabelDescription;
+    @FXML private Label warningLabelStart;
+    @FXML private Label warningLabelDestination;
+    @FXML private Label warningLabelTransportationType;
+
+    private TourViewModel tourViewModel;
 
     public void initialize() {
-        viewModel = TourViewModel.getInstance();
+        tourViewModel = TourViewModel.getInstance();
 
-        Tour newTour = new Tour();
+        TourModel newTour = new TourModel();
         nameField.textProperty().bindBidirectional(newTour.nameProperty());
         descriptionArea.textProperty().bindBidirectional(newTour.descriptionProperty());
         fromField.textProperty().bindBidirectional(newTour.fromProperty());
@@ -35,20 +40,46 @@ public class AddTourController {
 
     @FXML
     private void onSaveButtonClicked() {
-        Tour tour = new Tour(
-                nameField.getText(),
-                descriptionArea.getText(),
-                fromField.getText(),
-                toField.getText(),
-                transportTypeBox.getSelectionModel().getSelectedItem()
-        );
-        viewModel.addTour(tour);
-        closeStage();
+        boolean hasError = false;
+
+        hasError |= setFieldError(nameField, warningLabelName, tourViewModel.validateName(nameField.getText()));
+        hasError |= setFieldError(descriptionArea, warningLabelDescription, tourViewModel.validateDescription(descriptionArea.getText()));
+        hasError |= setFieldError(fromField, warningLabelStart, tourViewModel.validateStart(fromField.getText()));
+        hasError |= setFieldError(toField, warningLabelDestination, tourViewModel.validateDestination(toField.getText()));
+        hasError |= setFieldError(transportTypeBox, warningLabelTransportationType, tourViewModel.validateTransportationType(transportTypeBox.getValue()));
+
+        if (!hasError) {
+            TourModel tour = new TourModel(
+                    nameField.getText(),
+                    descriptionArea.getText(),
+                    fromField.getText(),
+                    toField.getText(),
+                    transportTypeBox.getSelectionModel().getSelectedItem()
+            );
+            tourViewModel.addTour(tour);
+            closeStage();
+        }
     }
 
+
     private void closeStage() {
-        Stage stage = (Stage) saveButton.getScene().getWindow();  // Hole die Stage über den Save-Button
-        stage.close();  // Schließe die Stage
+        Stage stage = (Stage) saveButton.getScene().getWindow();
+        stage.close();
     }
+
+    private boolean setFieldError(Control field, Label warningLabel, String errorMessage) {
+        if (errorMessage != null) {
+            warningLabel.setText(errorMessage);
+            field.setStyle("-fx-border-color: red;"); // Setzt die Umrandung auf rot
+            return true;
+        } else {
+            warningLabel.setText("");
+            field.setStyle(""); // Setzt den Stil zurück
+            return false;
+        }
+    }
+
+
+
 }
 
