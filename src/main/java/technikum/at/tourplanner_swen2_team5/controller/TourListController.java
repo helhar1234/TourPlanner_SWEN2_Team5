@@ -8,21 +8,21 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import technikum.at.tourplanner_swen2_team5.MainTourPlaner;
-import technikum.at.tourplanner_swen2_team5.models.Tour;
+import technikum.at.tourplanner_swen2_team5.models.TourModel;
 import technikum.at.tourplanner_swen2_team5.viewmodels.TourViewModel;
 
 import java.net.URL;
 
 public class TourListController {
 
-    @FXML private TableView<Tour> toursTable;
+    @FXML private TableView<TourModel> toursTable;
 
-    @FXML private TableColumn<Tour, String> colType;
-    @FXML private TableColumn<Tour, String> colName;
-    @FXML private TableColumn<Tour, String> colStart;
-    @FXML private TableColumn<Tour, String> colDestination;
-    @FXML private TableColumn<Tour, String> colDistance;
-    @FXML private TableColumn<Tour, String> colTime;
+    @FXML private TableColumn<TourModel, String> colType;
+    @FXML private TableColumn<TourModel, String> colName;
+    @FXML private TableColumn<TourModel, String> colStart;
+    @FXML private TableColumn<TourModel, String> colDestination;
+    @FXML private TableColumn<TourModel, String> colDistance;
+    @FXML private TableColumn<TourModel, String> colTime;
 
     private TourViewModel viewModel;
 

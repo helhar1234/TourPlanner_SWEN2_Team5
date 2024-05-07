@@ -29,11 +29,15 @@
 
     <VBox spacing="10" fillWidth="true">
         <TextField fx:id="nameField" promptText="Tour Name" styleClass="text-field"/>
+        <Label fx:id="warningLabelName" style="-fx-text-fill: #FF0000FF"/>
         <TextArea fx:id="descriptionArea" promptText="Tour Description" styleClass="text-area"/>
+        <Label fx:id="warningLabelDescription" style="-fx-text-fill: #FF0000FF"/>
         <TextField fx:id="fromField" promptText="From" styleClass="text-field"/>
+        <Label fx:id="warningLabelStart" style="-fx-text-fill: #FF0000FF"/>
         <TextField fx:id="toField" promptText="To" styleClass="text-field"/>
+        <Label fx:id="warningLabelDestination" style="-fx-text-fill: #FF0000FF"/>
 
-        <HBox spacing="10" alignment="CENTER">
+        <HBox spacing="10" alignment="CENTER_LEFT">
             <Label text="Transport Type:"/>
             <ComboBox fx:id="transportTypeBox" styleClass="combo-box">
                 <items>
@@ -46,6 +50,8 @@
                 </items>
             </ComboBox>
         </HBox>
+
+        <Label fx:id="warningLabelTransportationType" style="-fx-text-fill: #FF0000FF"/>
 
         <HBox spacing="10" alignment="CENTER_RIGHT">
             <Button fx:id="saveButton" styleClass="icon-button" onAction="#onSaveButtonClicked">
