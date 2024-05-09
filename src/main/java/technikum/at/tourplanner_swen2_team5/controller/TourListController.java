@@ -1,7 +1,11 @@
 package technikum.at.tourplanner_swen2_team5.controller;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -10,10 +14,14 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.util.Callback;
 import technikum.at.tourplanner_swen2_team5.MainTourPlaner;
 import technikum.at.tourplanner_swen2_team5.models.TourModel;
 import technikum.at.tourplanner_swen2_team5.viewmodels.TourViewModel;
 
+import java.io.IOException;
 import java.net.URL;
 
 public class TourListController {
@@ -61,41 +69,41 @@ public class TourListController {
         });
 
         colName.setCellValueFactory(new PropertyValueFactory<>("name"));
-        colStart.setCellValueFactory(new PropertyValueFactory<>("from"));
-        colDestination.setCellValueFactory(new PropertyValueFactory<>("to"));
+        colStart.setCellValueFactory(new PropertyValueFactory<>("start"));
+        colDestination.setCellValueFactory(new PropertyValueFactory<>("destination"));
         // colDistance.setCellValueFactory(new PropertyValueFactory<>("distance"));
         // colTime.setCellValueFactory(new PropertyValueFactory<>("time"));
 
         colButtons.setCellFactory(column -> new TableCell<TourModel, Void>() {
             private final HBox buttonContainer = new HBox(10);
-            private final Button editButton = createButton("edit", "#A4D65E", "#395C37", false);
-            private final Button detailButton = createButton("detail", "#A4D65E", "#395C37", false);
-            private final Button downloadButton = createButton("download", "#A4D65E", "#395C37", false);
-            private final Button trashButton = createButton("trash", "#F44336", "#BB1B11", true);
-
-            {
-                buttonContainer.setAlignment(Pos.CENTER_RIGHT);
-                buttonContainer.getChildren().addAll(editButton, detailButton, downloadButton, trashButton);
-            }
+            private Button editButton, detailButton, downloadButton, trashButton;
 
             @Override
             protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);
-                if (empty) {
+                if (empty || getTableRow() == null || getTableRow().getItem() == null) {
                     setGraphic(null);
                 } else {
+                    TourModel tour = getTableRow().getItem();
+                    editButton = createButton("edit", "#A4D65E", "#395C37", false, tour.getId());
+                    detailButton = createButton("detail", "#A4D65E", "#395C37", false, tour.getId());
+                    downloadButton = createButton("download", "#A4D65E", "#395C37", false, tour.getId());
+                    trashButton = createButton("trash", "#F44336", "#BB1B11", true, tour.getId());
+
+                    buttonContainer.getChildren().setAll(editButton, detailButton, downloadButton, trashButton);
+                    buttonContainer.setAlignment(Pos.CENTER_RIGHT);
                     setGraphic(buttonContainer);
                 }
             }
         });
 
-
         toursTable.setItems(viewModel.getTours());
     }
 
-    private Button createButton(String iconName, String baseColor, String hoverColor, boolean isTrashButton) {
+    private Button createButton(String iconName, String baseColor, String hoverColor, boolean isTrashButton, String tourId) {
         Button button = new Button();
-        button.getStyleClass().add("icon-button-small"); // Standard CSS-Klasse
+        button.getStyleClass().add("icon-button-small");
+        button.setUserData(tourId);
 
         String imageName = "img/icons/" + iconName.toLowerCase() + "-icon.png";
         URL resource = MainTourPlaner.class.getResource(imageName);
@@ -105,15 +113,60 @@ public class TourListController {
         iconView.setFitHeight(20);
         button.setGraphic(iconView);
 
-        String borderColor = isTrashButton ? "#F44336" : "black";
-        String radius = "50";
+        String borderColor = "black";
+        String radius = "60";
         button.setStyle(String.format("-fx-background-color: %s; -fx-border-color: #202020; -fx-border-radius: %s; -fx-background-radius: %s;", baseColor, radius, radius));
 
         button.setOnMouseEntered(e -> button.setStyle(String.format("-fx-background-color: %s; -fx-border-color: %s; -fx-border-radius: %s; -fx-background-radius: %s;", hoverColor, borderColor, radius, radius)));
         button.setOnMouseExited(e -> button.setStyle(String.format("-fx-background-color: %s; -fx-border-color: %s; -fx-border-radius: %s; -fx-background-radius: %s;", baseColor, borderColor, radius, radius)));
 
+        button.setOnAction(event -> {
+            System.out.println("Button clicked for tour ID: " + button.getUserData());
+            switch (iconName){
+                case "edit":
+                    Platform.runLater(() -> {
+                        onEditTourClicked(tourId);
+                        });
+                    break;
+                case "detail":
+                    // TODO: detail ansicht öffnet sich
+                    break;
+                case "download":
+                    // TODO: Tour wird downgeloaded
+                    break;
+                case "trash":
+                    Platform.runLater(() -> {
+                        viewModel.deleteTourById(tourId);
+                    });
+                    break;
+            }
+        });
+
         return button;
     }
+
+    private void onEditTourClicked(String id) {
+        try {
+            TourModel tour = viewModel.getTourById(id);
+            FXMLLoader fxmlLoader = new FXMLLoader(MainTourPlaner.class.getResource("edit_tour.fxml"));
+            Parent root = fxmlLoader.load(); // Lade die FXML und initialisiere den Controller
+
+            EditTourController controller = fxmlLoader.getController();
+            controller.setTour(tour);
+
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setTitle("Edit Tour");
+            stage.setScene(new Scene(root));
+            stage.showAndWait(); // Zeige das Fenster und warte, bis es geschlossen wird
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+
 
 }
 

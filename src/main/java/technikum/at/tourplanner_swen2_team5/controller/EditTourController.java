@@ -6,30 +6,47 @@ import javafx.stage.Stage;
 import technikum.at.tourplanner_swen2_team5.models.TourModel;
 import technikum.at.tourplanner_swen2_team5.viewmodels.TourViewModel;
 
-import java.io.IOException;
+public class EditTourController {
+    @FXML
+    private TextField nameField;
+    @FXML
+    private TextArea descriptionArea;
+    @FXML
+    private TextField startField;
+    @FXML
+    private TextField destinationField;
+    @FXML
+    private ComboBox<String> transportTypeBox;
 
-public class AddTourController {
-    @FXML private TextField nameField;
-    @FXML private TextArea descriptionArea;
-    @FXML private TextField startField;
-    @FXML private TextField destinationField;
-    @FXML private ComboBox<String> transportTypeBox;
+    @FXML
+    private Button saveButton;
 
-    @FXML private Button saveButton;
-
-    @FXML private Label warningLabelName;
-    @FXML private Label warningLabelDescription;
-    @FXML private Label warningLabelStart;
-    @FXML private Label warningLabelDestination;
-    @FXML private Label warningLabelTransportationType;
+    @FXML
+    private Label warningLabelName;
+    @FXML
+    private Label warningLabelDescription;
+    @FXML
+    private Label warningLabelStart;
+    @FXML
+    private Label warningLabelDestination;
+    @FXML
+    private Label warningLabelTransportationType;
 
     private TourViewModel tourViewModel;
-    private TourModel currentTour = new TourModel();
+    private TourModel currentTour;
 
     public void initialize() {
         tourViewModel = TourViewModel.getInstance();
-        bindFieldsToModel(currentTour);
         transportTypeBox.getItems().setAll("Hike", "Bike", "Running", "Vacation");
+    }
+
+    public void setTour(TourModel tour) {
+        //System.out.println(tour.getId());
+        this.currentTour = tour;
+        if (currentTour != null) {
+            unbindFieldsToModel(currentTour);
+            loadTourDetails();
+        }
     }
 
     private void bindFieldsToModel(TourModel tour) {
@@ -40,11 +57,28 @@ public class AddTourController {
         transportTypeBox.valueProperty().bindBidirectional(tour.transportTypeProperty());
     }
 
+    private void unbindFieldsToModel(TourModel tour) {
+        nameField.textProperty().unbind();
+        descriptionArea.textProperty().unbind();
+        startField.textProperty().unbind();
+        destinationField.textProperty().unbind();
+        transportTypeBox.valueProperty().unbind();
+    }
+
+    private void loadTourDetails() {
+        nameField.setText(currentTour.getName());
+        descriptionArea.setText(currentTour.getDescription());
+        startField.setText(currentTour.getStart());
+        destinationField.setText(currentTour.getDestination());
+        transportTypeBox.setValue(currentTour.getTransportationType());
+    }
+
     @FXML
     private void onSaveButtonClicked() {
         if (validateInputs()) {
             updateTourModelFromFields();
-            tourViewModel.addTour(currentTour);
+            tourViewModel.updateTour(currentTour);
+            bindFieldsToModel(currentTour);
             closeStage();
         }
     }
@@ -83,8 +117,6 @@ public class AddTourController {
             return false;
         }
     }
-
-
 
 }
 

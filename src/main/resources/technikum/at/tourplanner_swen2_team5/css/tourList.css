@@ -63,6 +63,7 @@
     -fx-border-width: 2;
 }
 
+
 /* Textdarstellung in Spaltenköpfen verbessern */
 .table-view .column-header .label {
     -fx-text-fill: #333;

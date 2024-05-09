@@ -15,7 +15,6 @@ public class NavbarController {
 
     @FXML
     private void initialize() {
-        // CController initialization after FXML load
     }
 
     public void onSearch(ActionEvent actionEvent) {
@@ -24,7 +23,6 @@ public class NavbarController {
     @FXML
     private void onAddTourClicked() {
         try {
-            // Verwende den ClassLoader, der die MainApp geladen hat, um die Ressource zu bekommen
             FXMLLoader fxmlLoader = new FXMLLoader(MainTourPlaner.class.getResource("add_tour.fxml"));
             Parent root = fxmlLoader.load();
 
