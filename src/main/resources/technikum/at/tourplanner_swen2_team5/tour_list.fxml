@@ -1,20 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 
-<GridPane xmlns:fx="http://javafx.com/fxml/1" styleClass="list-container" stylesheets="@css/tourList.css"
-          xmlns="http://javafx.com/javafx/21"
-          fx:controller="technikum.at.tourplanner_swen2_team5.controller.TourListController">
+<GridPane styleClass="list-container" stylesheets="@css/tourList.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="technikum.at.tourplanner_swen2_team5.controller.TourListController">
     <columnConstraints>
-        <ColumnConstraints hgrow="SOMETIMES" prefWidth="800.0"/>
+        <ColumnConstraints minWidth="10" prefWidth="100" hgrow="SOMETIMES" /> <!-- Erste Spalte -->
+        <ColumnConstraints hgrow="ALWAYS" /> <!-- Zweite Spalte, die expandiert -->
     </columnConstraints>
     <rowConstraints>
-        <RowConstraints prefHeight="70.0" vgrow="SOMETIMES"/>
+        <RowConstraints prefHeight="70.0" vgrow="SOMETIMES" />
+        <RowConstraints vgrow="SOMETIMES" />
+        <RowConstraints vgrow="ALWAYS" />
     </rowConstraints>
 
-    <HBox GridPane.rowIndex="0" GridPane.columnIndex="0" spacing="10">
+    <HBox spacing="10" GridPane.columnIndex="0" GridPane.rowIndex="0">
         <Button fx:id="backButton" styleClass="icon-button">
             <graphic>
                 <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
@@ -31,7 +41,7 @@
         </Button>
     </HBox>
 
-    <HBox GridPane.rowIndex="0" GridPane.columnIndex="1" alignment="CENTER_RIGHT" spacing="10">
+    <HBox alignment="CENTER_RIGHT" spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="0">
         <Pane HBox.hgrow="ALWAYS" /> <!-- Spacer -->
         <Button fx:id="uploadButton" styleClass="icon-button">
             <graphic>
@@ -49,18 +59,17 @@
         </Button>
     </HBox>
 
-    <Label GridPane.rowIndex="1" GridPane.columnSpan="2" alignment="CENTER" fx:id="titleLabel" text="TOURS" styleClass="list-title"
-           maxWidth="1.7976931348623157E308"/>
+    <Label fx:id="titleLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" styleClass="list-title" text="TOURS" GridPane.columnSpan="2" GridPane.rowIndex="1" />
 
-    <TableView GridPane.rowIndex="2" GridPane.columnSpan="2" fx:id="toursTable" VBox.vgrow="ALWAYS" >
+    <TableView fx:id="toursTable" GridPane.columnSpan="2" GridPane.rowIndex="2" VBox.vgrow="ALWAYS">
         <columns>
-            <TableColumn fx:id="colType" text="Type"/>
+            <TableColumn fx:id="colType" />
             <TableColumn fx:id="colName" text="Name" />
             <TableColumn fx:id="colStart" text="Start" />
-            <TableColumn fx:id="colDestination" text="Destination" />
-            <TableColumn fx:id="colDistance" text="Distance" />
-            <TableColumn fx:id="colTime" text="Time" />
-            <TableColumn fx:id="colButtons" text="muss die breite noch gscheit einstellen :)"/>
+            <TableColumn fx:id="colDestination" prefWidth="110.0" text="Destination" />
+            <TableColumn fx:id="colDistance" prefWidth="90.0" text="Distance" />
+            <TableColumn fx:id="colTime" prefWidth="70.0" text="Time" />
+            <TableColumn fx:id="colButtons"  text="wie kann es so scheiß kompliziert sein eine spalte 100% width zu machen....im done" />
 
         </columns>
     </TableView>
