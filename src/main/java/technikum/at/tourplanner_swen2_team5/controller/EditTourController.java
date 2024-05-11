@@ -1,5 +1,6 @@
 package technikum.at.tourplanner_swen2_team5.controller;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
@@ -20,6 +21,11 @@ public class EditTourController {
 
     @FXML
     private Button saveButton;
+
+    @FXML
+    private Button deleteButton;
+    @FXML
+    private Button backButton;
 
     @FXML
     private Label warningLabelName;
@@ -117,6 +123,38 @@ public class EditTourController {
             return false;
         }
     }
+
+    @FXML
+    private void onDeleteButtonClicked(ActionEvent actionEvent) {
+        // Erstelle und zeige den Bestätigungsdialog
+        ConfirmationWindow dialog = new ConfirmationWindow(
+                (Stage) deleteButton.getScene().getWindow(),
+                "Delete Tour",
+                "Deletion Confirmation",
+                "Do you want to delete this tour?"
+        );
+
+        // Überprüfe die Benutzerantwort
+        if (dialog.showAndWait()) {
+            tourViewModel.deleteTourById(currentTour.getId());
+            closeStage();
+        }
+    }
+
+    public void onBackButtonClicked(ActionEvent actionEvent) {
+        ConfirmationWindow dialog = new ConfirmationWindow(
+                (Stage) backButton.getScene().getWindow(),
+                "Return to Tour Planner",
+                "Return to Tour Planner",
+                "If you go back now, your Changes will not be saved!"
+        );
+
+        // Überprüfe die Benutzerantwort
+        if (dialog.showAndWait()) {
+            closeStage();
+        }
+    }
+
 
 }
 

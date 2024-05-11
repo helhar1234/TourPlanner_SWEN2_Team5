@@ -1,43 +1,59 @@
 package technikum.at.tourplanner_swen2_team5.controller;
 
+import javafx.animation.RotateTransition;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.util.Callback;
+import javafx.util.Duration;
 import technikum.at.tourplanner_swen2_team5.MainTourPlaner;
 import technikum.at.tourplanner_swen2_team5.models.TourModel;
+import technikum.at.tourplanner_swen2_team5.util.ApplicationContext;
 import technikum.at.tourplanner_swen2_team5.viewmodels.TourViewModel;
+import technikum.at.tourplanner_swen2_team5.controller.HomeScreenController;
 
 import java.io.IOException;
 import java.net.URL;
 
 public class TourListController {
 
-    @FXML private TableView<TourModel> toursTable;
+    @FXML
+    private TableView<TourModel> toursTable;
 
-    @FXML private TableColumn<TourModel, String> colType;
-    @FXML private TableColumn<TourModel, String> colName;
-    @FXML private TableColumn<TourModel, String> colStart;
-    @FXML private TableColumn<TourModel, String> colDestination;
-    @FXML private TableColumn<TourModel, String> colDistance;
-    @FXML private TableColumn<TourModel, String> colTime;
-    @FXML private TableColumn<TourModel, Void> colButtons;
+    @FXML
+    private TableColumn<TourModel, String> colType;
+    @FXML
+    private TableColumn<TourModel, String> colName;
+    @FXML
+    private TableColumn<TourModel, String> colStart;
+    @FXML
+    private TableColumn<TourModel, String> colDestination;
+    @FXML
+    private TableColumn<TourModel, Double> colDistance;
+    @FXML
+    private TableColumn<TourModel, Integer> colTime;
+    @FXML
+    private TableColumn<TourModel, Void> colButtons;
 
+    @FXML
+    private ImageView reloadIcon;
 
     private TourViewModel viewModel;
+
 
     public void initialize() {
         viewModel = TourViewModel.getInstance();
@@ -56,12 +72,12 @@ public class TourListController {
                     String imageName = "img/icons/" + item.toLowerCase() + "-icon.png";
                     URL resource = MainTourPlaner.class.getResource(imageName);
 
-                        Image image = new Image(resource.toString());
-                        ImageView imageView = new ImageView(image);
-                        imageView.setFitWidth(20);
-                        imageView.setFitHeight(20);
-                        imageView.setPreserveRatio(true);
-                        setGraphic(imageView);
+                    Image image = new Image(resource.toString());
+                    ImageView imageView = new ImageView(image);
+                    imageView.setFitWidth(20);
+                    imageView.setFitHeight(20);
+                    imageView.setPreserveRatio(true);
+                    setGraphic(imageView);
                 }
             }
 
@@ -71,8 +87,31 @@ public class TourListController {
         colName.setCellValueFactory(new PropertyValueFactory<>("name"));
         colStart.setCellValueFactory(new PropertyValueFactory<>("start"));
         colDestination.setCellValueFactory(new PropertyValueFactory<>("destination"));
-        // colDistance.setCellValueFactory(new PropertyValueFactory<>("distance"));
-        // colTime.setCellValueFactory(new PropertyValueFactory<>("time"));
+        colDistance.setCellValueFactory(new PropertyValueFactory<>("distance"));
+        colDistance.setCellFactory(column -> new TableCell<TourModel, Double>() {
+            @Override
+            protected void updateItem(Double item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    setText(TourViewModel.formatDistance(item));
+                }
+            }
+        });
+
+        colTime.setCellValueFactory(new PropertyValueFactory<>("time"));
+        colTime.setCellFactory(column -> new TableCell<TourModel, Integer>() {
+            @Override
+            protected void updateItem(Integer item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    setText(viewModel.formatTime(item)); // Nutze die formatTime Methode, um das Format zu definieren
+                }
+            }
+        });
 
         colButtons.setCellFactory(column -> new TableCell<TourModel, Void>() {
             private final HBox buttonContainer = new HBox(10);
@@ -122,14 +161,14 @@ public class TourListController {
 
         button.setOnAction(event -> {
             System.out.println("Button clicked for tour ID: " + button.getUserData());
-            switch (iconName){
+            switch (iconName) {
                 case "edit":
                     Platform.runLater(() -> {
                         onEditTourClicked(tourId);
-                        });
+                    });
                     break;
                 case "detail":
-                    // TODO: detail ansicht öffnet sich
+                    onDetailButtonClicked(tourId);
                     break;
                 case "download":
                     // TODO: Tour wird downgeloaded
@@ -144,6 +183,27 @@ public class TourListController {
 
         return button;
     }
+
+    private void onDetailButtonClicked(String tourId) {
+        Platform.runLater(() -> {
+            try {
+                FXMLLoader loader = new FXMLLoader(MainTourPlaner.class.getResource("tour_detail.fxml"));
+                Node detailView = loader.load();
+                TourDetailController detailController = loader.getController();
+                TourModel selectedTour = viewModel.getTourById(tourId);
+                detailController.setTourDetails(selectedTour);
+
+                HomeScreenController homeController = ApplicationContext.getHomeScreenController();
+                homeController.changeMainContent(detailView);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+
+
+
 
     private void onEditTourClicked(String id) {
         try {
@@ -165,9 +225,30 @@ public class TourListController {
     }
 
 
+    public void onAddButtonClicked(ActionEvent actionEvent) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(MainTourPlaner.class.getResource("add_tour.fxml"));
+            Parent root = fxmlLoader.load();
 
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setTitle("Add New Tour");
+            stage.setScene(new Scene(root));
+            stage.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
+    public void onRefreshButtonClicked(ActionEvent actionEvent) {
+        RotateTransition rotateTransition = new RotateTransition(Duration.seconds(1), reloadIcon);
+        rotateTransition.setByAngle(360);
+        rotateTransition.setCycleCount(1);
+        rotateTransition.play();
 
+        initialize();
+
+    }
 }
 
 

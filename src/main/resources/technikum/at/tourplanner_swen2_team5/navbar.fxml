@@ -18,7 +18,7 @@
     <HBox GridPane.columnIndex="0" alignment="CENTER_LEFT" fillHeight="true" spacing="10" styleClass="navbar-container">
         <ImageView fx:id="logo" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" styleClass="logo">
             <image>
-                <Image url="@img/BikerLogoMave.png" />
+                <Image url="@img/logos/BikerLogoMave.png" />
             </image>
          <cursor>
             <Cursor fx:constant="DEFAULT" />
