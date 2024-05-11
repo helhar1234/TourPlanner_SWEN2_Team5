@@ -1,7 +1,11 @@
 package technikum.at.tourplanner_swen2_team5.viewmodels;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
+import java.time.Duration;
+import technikum.at.tourplanner_swen2_team5.models.TourImage;
 import technikum.at.tourplanner_swen2_team5.models.TourModel;
 
 import java.util.UUID;
@@ -12,9 +16,32 @@ public class TourViewModel {
 
     private TourViewModel() {
         // Test Data
-        TourModel tour = new TourModel("Test Tour", "Beschreibung...", "Wien", "Graz", "Bike");
+        int duration = 83;
+        TourModel tour = new TourModel("Test Tour", "Beschreibung...", "Wien", "Graz", "Bike", 100, duration);
         tour.setId(UUID.randomUUID().toString());
+        TourImage map = new TourImage(tour.getId(), "map-placeholder.png");
         tourModels.add(tour);
+
+
+        // TEST DATA 2.0 with delay DELETE LATER!
+        Task<Void> delayTask = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                try {
+                    Thread.sleep(15000); // Warte 15 Sekunden
+                } catch (InterruptedException e) {
+                }
+
+                Platform.runLater(() -> {
+                    TourModel secondTour = new TourModel("Zweite Test Tour", "Weitere Beschreibung...", "Salzburg", "Innsbruck", "Bike", 2755, duration);
+                    secondTour.setId(UUID.randomUUID().toString());
+                    TourImage map = new TourImage(secondTour.getId(), "map-placeholder.png");
+                    tourModels.add(secondTour);
+                });
+                return null;
+            }
+        };
+        new Thread(delayTask).start();
     }
 
     public static TourViewModel getInstance() {
@@ -117,6 +144,23 @@ public class TourViewModel {
             }
         }
         return false; // Name existiert nicht
+    }
+
+    public String formatTime(int minutes) {
+        int hours = minutes / 60;
+        int remainingMinutes = minutes % 60;
+        return String.format("%dh %02dmin", hours, remainingMinutes);
+    }
+
+    public static String formatDistance(double distance) {
+        if (distance < 1.0) {
+            // Umrechnung von Kilometern in Meter, wenn die Distanz kleiner als ein Kilometer ist
+            int meters = (int) (distance * 1000);
+            return String.format("%d m", meters);
+        } else {
+            // Runde auf zwei Dezimalstellen, wenn die Distanz mindestens ein Kilometer ist
+            return String.format("%.2f km", distance);
+        }
     }
 
 

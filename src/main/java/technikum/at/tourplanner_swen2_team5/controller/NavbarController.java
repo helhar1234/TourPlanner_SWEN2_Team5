@@ -27,12 +27,12 @@ public class NavbarController {
             Parent root = fxmlLoader.load();
 
             Stage stage = new Stage();
-            stage.initModality(Modality.APPLICATION_MODAL); // Macht das Fenster modal
+            stage.initModality(Modality.APPLICATION_MODAL);
             stage.setTitle("Add New Tour");
             stage.setScene(new Scene(root));
-            stage.showAndWait(); // Zeigt das Fenster und wartet, bis es geschlossen wird
+            stage.showAndWait();
         } catch (IOException e) {
-            e.printStackTrace(); // Fehler ausgeben, falls etwas schief geht
+            e.printStackTrace();
         }
     }
 

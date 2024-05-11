@@ -1,11 +1,10 @@
 package technikum.at.tourplanner_swen2_team5.models;
 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
+import java.time.Duration;
 import lombok.Getter;
 
 public class TourModel {
-
     @Getter
     private String id;
     private final StringProperty name = new SimpleStringProperty();
@@ -13,17 +12,21 @@ public class TourModel {
     private final StringProperty start = new SimpleStringProperty();
     private final StringProperty destination = new SimpleStringProperty();
     private final StringProperty transportType = new SimpleStringProperty();
+    private final DoubleProperty distance = new SimpleDoubleProperty();
+    private final IntegerProperty time = new SimpleIntegerProperty();
 
     // Standardkonstruktor
     public TourModel() {}
 
     // Konstruktor mit allen Parametern
-    public TourModel(String name, String description, String start, String destination, String transportType) {
+    public TourModel(String name, String description, String start, String destination, String transportType, double distance, int time) {
         this.name.set(name);
         this.description.set(description);
         this.start.set(start);
         this.destination.set(destination);
         this.transportType.set(transportType);
+        this.distance.set(distance);
+        this.time.set(time);
     }
 
     // Getter und Setter
@@ -32,8 +35,10 @@ public class TourModel {
     public StringProperty startProperty() { return start; }
     public StringProperty destinationProperty() { return destination; }
     public StringProperty transportTypeProperty() { return transportType; }
+    public DoubleProperty distanceProperty() { return distance; }
+    public IntegerProperty timeProperty() { return time; }
 
-
+    // Getter & Setter
     public void setId(String id) {
         this.id = id;
     };
@@ -71,4 +76,18 @@ public class TourModel {
         transportTypeProperty().set(transportType);
     }
 
+    public double getDistance() {
+        return distance.get();
+    }
+    public void setDistance(double distance) {
+        this.distance.set(distance);
+    }
+
+    public int getTime() {
+        return time.get();
+    }
+    public void setTime(int time) {
+        this.time.set(time);
+    }
 }
+
