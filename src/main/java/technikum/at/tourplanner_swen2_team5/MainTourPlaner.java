@@ -5,12 +5,11 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import lombok.Getter;
 import technikum.at.tourplanner_swen2_team5.controller.HomeScreenController;
 import technikum.at.tourplanner_swen2_team5.controller.NavbarController;
+import technikum.at.tourplanner_swen2_team5.util.ApplicationContext;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -21,18 +20,21 @@ public class MainTourPlaner extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader homeLoader = new FXMLLoader(MainTourPlaner.class.getResource("home_screen.fxml"));
-        Parent homeRoot = homeLoader.load(); // Laden des Home Screen Root-Elements
-        HomeScreenController homeController = homeLoader.getController(); // Zugriff auf den HomeScreenController
+        FXMLLoader homeLoader = new FXMLLoader(getClass().getResource("home_screen.fxml"));
+        Parent homeRoot = homeLoader.load();
+        HomeScreenController homeController = homeLoader.getController();
 
-        FXMLLoader navbarLoader = new FXMLLoader(MainTourPlaner.class.getResource("navbar.fxml"));
-        Parent navbar = navbarLoader.load(); // Laden der Navbar
-        NavbarController navbarController = navbarLoader.getController(); // Zugriff auf den NavbarController
-        navbarController.setHomeScreenController(homeController); // Setzen der Referenz zum HomeScreenController
+        ApplicationContext.setHomeScreenController(homeController);
 
-        GridPane gridPane = (GridPane) homeRoot; // Annahme, dass homeRoot ein BorderPane ist
-        GridPane.setConstraints(navbar, 0, 0); // 0 steht für die erste Zeile, 0 steht für die erste Spalte
-        gridPane.getChildren().add(navbar); // Setzen der Navbar im BorderPane oben
+        // Übergabe des HomeController an den NavbarController
+        FXMLLoader navbarLoader = new FXMLLoader(getClass().getResource("navbar.fxml"));
+        Parent navbar = navbarLoader.load();
+        NavbarController navbarController = navbarLoader.getController();
+        navbarController.setHomeScreenController(homeController);
+
+        // Zusammenbau des UIs
+        GridPane gridPane = (GridPane) homeRoot;
+        gridPane.add(navbar, 0, 0);
 
         Scene scene = new Scene(homeRoot);
         stage.setScene(scene);
@@ -43,7 +45,9 @@ public class MainTourPlaner extends Application {
     }
 
 
-    public void changeScene(String fxml) throws IOException{
+
+
+    public void changeScene(String fxml) throws IOException {
         stg.getScene().setRoot(FXMLLoader.load(Objects.requireNonNull(getClass().getResource(fxml))));
     }
 

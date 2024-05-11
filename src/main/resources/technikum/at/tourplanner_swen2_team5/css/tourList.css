@@ -6,11 +6,6 @@
     -fx-spacing: 10; /* Abstand zwischen den Elementen im Container */
 }
 
-.list-top-buttons {
-    -fx-alignment: center-left;
-    -fx-padding: 10;
-    -fx-spacing: 15; /* Abstand zwischen Buttons */
-}
 
 .icon-button {
     -fx-background-color: #A4D65E;
