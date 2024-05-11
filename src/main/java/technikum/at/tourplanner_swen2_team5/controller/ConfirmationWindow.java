@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 import java.util.Optional;
 
 public class ConfirmationWindow {
-    private Alert alert;
+    private final Alert alert;
 
     public ConfirmationWindow(Stage parentStage, String title, String header, String content) {
         alert = new Alert(Alert.AlertType.CONFIRMATION);

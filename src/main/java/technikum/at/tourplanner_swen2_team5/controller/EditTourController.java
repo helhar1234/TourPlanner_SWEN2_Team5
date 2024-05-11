@@ -6,7 +6,6 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import technikum.at.tourplanner_swen2_team5.models.TourModel;
 import technikum.at.tourplanner_swen2_team5.viewmodels.TourViewModel;
-import technikum.at.tourplanner_swen2_team5.controller.ConfirmationWindow;
 
 public class EditTourController {
     @FXML
@@ -20,10 +19,13 @@ public class EditTourController {
     @FXML
     private ComboBox<String> transportTypeBox;
 
-    @FXML private Button saveButton;
+    @FXML
+    private Button saveButton;
 
-    @FXML private Button deleteButton;
-    @FXML private Button backButton;
+    @FXML
+    private Button deleteButton;
+    @FXML
+    private Button backButton;
 
     @FXML
     private Label warningLabelName;

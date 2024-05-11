@@ -4,7 +4,6 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
-import java.time.Duration;
 import technikum.at.tourplanner_swen2_team5.models.TourImage;
 import technikum.at.tourplanner_swen2_team5.models.TourModel;
 
@@ -72,7 +71,7 @@ public class TourViewModel {
     }
 
 
-    public TourModel getTourById(String id){
+    public TourModel getTourById(String id) {
         for (TourModel tour : tourModels) {
             if (tour.getId().equalsIgnoreCase(id)) {
                 return tour;

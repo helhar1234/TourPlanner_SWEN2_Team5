@@ -3,6 +3,7 @@ package technikum.at.tourplanner_swen2_team5.controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
@@ -44,7 +45,13 @@ public class NavbarController {
 
     @FXML
     private void onMapPinClicked() {
-        homeScreenController.changeMainContent("tour_list.fxml");
+        try {
+            FXMLLoader loader = new FXMLLoader(MainTourPlaner.class.getResource("tour_list.fxml"));
+            Node tourListView = loader.load();
+            homeScreenController.changeMainContent(tourListView);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 

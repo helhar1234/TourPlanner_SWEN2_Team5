@@ -7,27 +7,38 @@ import javafx.stage.Stage;
 import technikum.at.tourplanner_swen2_team5.models.TourModel;
 import technikum.at.tourplanner_swen2_team5.viewmodels.TourViewModel;
 
-import java.io.IOException;
-
 public class AddTourController {
-    @FXML private TextField nameField;
-    @FXML private TextArea descriptionArea;
-    @FXML private TextField startField;
-    @FXML private TextField destinationField;
-    @FXML private ComboBox<String> transportTypeBox;
+    @FXML
+    private TextField nameField;
+    @FXML
+    private TextArea descriptionArea;
+    @FXML
+    private TextField startField;
+    @FXML
+    private TextField destinationField;
+    @FXML
+    private ComboBox<String> transportTypeBox;
 
-    @FXML private Button saveButton;
-    @FXML private Button deleteButton;
-    @FXML private Button backButton;
+    @FXML
+    private Button saveButton;
+    @FXML
+    private Button deleteButton;
+    @FXML
+    private Button backButton;
 
-    @FXML private Label warningLabelName;
-    @FXML private Label warningLabelDescription;
-    @FXML private Label warningLabelStart;
-    @FXML private Label warningLabelDestination;
-    @FXML private Label warningLabelTransportationType;
+    @FXML
+    private Label warningLabelName;
+    @FXML
+    private Label warningLabelDescription;
+    @FXML
+    private Label warningLabelStart;
+    @FXML
+    private Label warningLabelDestination;
+    @FXML
+    private Label warningLabelTransportationType;
 
     private TourViewModel tourViewModel;
-    private TourModel currentTour = new TourModel();
+    private final TourModel currentTour = new TourModel();
 
     public void initialize() {
         tourViewModel = TourViewModel.getInstance();
