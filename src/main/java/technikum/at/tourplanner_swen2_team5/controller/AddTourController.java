@@ -4,7 +4,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import technikum.at.tourplanner_swen2_team5.models.MapModel;
 import technikum.at.tourplanner_swen2_team5.models.TourModel;
+import technikum.at.tourplanner_swen2_team5.viewmodels.MapViewModel;
 import technikum.at.tourplanner_swen2_team5.viewmodels.TourViewModel;
 
 public class AddTourController {
@@ -38,10 +40,12 @@ public class AddTourController {
     private Label warningLabelTransportationType;
 
     private TourViewModel tourViewModel;
+    private MapViewModel mapViewModel;
     private final TourModel currentTour = new TourModel();
 
     public void initialize() {
         tourViewModel = TourViewModel.getInstance();
+        mapViewModel = MapViewModel.getInstance();
         bindFieldsToModel(currentTour);
         transportTypeBox.getItems().setAll("Hike", "Bike", "Running", "Vacation");
     }
@@ -59,6 +63,7 @@ public class AddTourController {
         if (validateInputs()) {
             updateTourModelFromFields();
             tourViewModel.addTour(currentTour);
+            mapViewModel.addMap(new MapModel(currentTour.getId(), "map-placeholder.png"));
             closeStage();
         }
     }

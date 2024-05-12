@@ -23,8 +23,8 @@ import javafx.util.Duration;
 import technikum.at.tourplanner_swen2_team5.MainTourPlaner;
 import technikum.at.tourplanner_swen2_team5.models.TourModel;
 import technikum.at.tourplanner_swen2_team5.util.ApplicationContext;
+import technikum.at.tourplanner_swen2_team5.viewmodels.MapViewModel;
 import technikum.at.tourplanner_swen2_team5.viewmodels.TourViewModel;
-import technikum.at.tourplanner_swen2_team5.controller.HomeScreenController;
 
 import java.io.IOException;
 import java.net.URL;
@@ -52,11 +52,13 @@ public class TourListController {
     @FXML
     private ImageView reloadIcon;
 
-    private TourViewModel viewModel;
+    private TourViewModel tourViewModel;
+    private MapViewModel mapViewModel;
 
 
     public void initialize() {
-        viewModel = TourViewModel.getInstance();
+        tourViewModel = TourViewModel.getInstance();
+        mapViewModel = MapViewModel.getInstance();
 
         colType.setCellValueFactory(new PropertyValueFactory<>("transportType"));
         colType.setCellFactory(column -> new TableCell<>() {
@@ -108,7 +110,7 @@ public class TourListController {
                 if (empty || item == null) {
                     setText(null);
                 } else {
-                    setText(viewModel.formatTime(item)); // Nutze die formatTime Methode, um das Format zu definieren
+                    setText(tourViewModel.formatTime(item)); // Nutze die formatTime Methode, um das Format zu definieren
                 }
             }
         });
@@ -136,7 +138,7 @@ public class TourListController {
             }
         });
 
-        toursTable.setItems(viewModel.getTours());
+        toursTable.setItems(tourViewModel.getTours());
     }
 
     private Button createButton(String iconName, String baseColor, String hoverColor, boolean isTrashButton, String tourId) {
@@ -175,7 +177,7 @@ public class TourListController {
                     break;
                 case "trash":
                     Platform.runLater(() -> {
-                        viewModel.deleteTourById(tourId);
+                        tourViewModel.deleteTourById(tourId);
                     });
                     break;
             }
@@ -190,7 +192,7 @@ public class TourListController {
                 FXMLLoader loader = new FXMLLoader(MainTourPlaner.class.getResource("tour_detail.fxml"));
                 Node detailView = loader.load();
                 TourDetailController detailController = loader.getController();
-                TourModel selectedTour = viewModel.getTourById(tourId);
+                TourModel selectedTour = tourViewModel.getTourById(tourId);
                 detailController.setTourDetails(selectedTour);
 
                 HomeScreenController homeController = ApplicationContext.getHomeScreenController();
@@ -207,7 +209,7 @@ public class TourListController {
 
     private void onEditTourClicked(String id) {
         try {
-            TourModel tour = viewModel.getTourById(id);
+            TourModel tour = tourViewModel.getTourById(id);
             FXMLLoader fxmlLoader = new FXMLLoader(MainTourPlaner.class.getResource("edit_tour.fxml"));
             Parent root = fxmlLoader.load(); // Lade die FXML und initialisiere den Controller
 
