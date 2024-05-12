@@ -42,6 +42,7 @@ public class MainTourPlaner extends Application {
         stage.show();
         stage.setMinWidth(280);
         stage.setMinHeight(180);
+        stage.setMaximized(true);
     }
 
     public void changeScene(String fxml) throws IOException {

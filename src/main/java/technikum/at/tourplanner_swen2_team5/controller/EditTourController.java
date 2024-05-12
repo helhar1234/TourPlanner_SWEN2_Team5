@@ -2,10 +2,16 @@ package technikum.at.tourplanner_swen2_team5.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import technikum.at.tourplanner_swen2_team5.MainTourPlaner;
 import technikum.at.tourplanner_swen2_team5.models.TourModel;
+import technikum.at.tourplanner_swen2_team5.util.ApplicationContext;
 import technikum.at.tourplanner_swen2_team5.viewmodels.TourViewModel;
+
+import java.io.IOException;
 
 public class EditTourController {
     @FXML
@@ -45,6 +51,7 @@ public class EditTourController {
         tourViewModel = TourViewModel.getInstance();
         transportTypeBox.getItems().setAll("Hike", "Bike", "Running", "Vacation");
     }
+
 
     public void setTour(TourModel tour) {
         //System.out.println(tour.getId());
@@ -86,6 +93,20 @@ public class EditTourController {
             tourViewModel.updateTour(currentTour);
             bindFieldsToModel(currentTour);
             closeStage();
+        }
+
+        gotoListView();
+    }
+
+    private void gotoListView() {
+        try {
+            FXMLLoader loader = new FXMLLoader(MainTourPlaner.class.getResource("tour_list.fxml"));
+            Node listView = loader.load();
+
+            HomeScreenController homeController = ApplicationContext.getHomeScreenController();
+            homeController.changeMainContent(listView);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -139,6 +160,8 @@ public class EditTourController {
             tourViewModel.deleteTourById(currentTour.getId());
             closeStage();
         }
+
+        gotoListView();
     }
 
     public void onBackButtonClicked(ActionEvent actionEvent) {
