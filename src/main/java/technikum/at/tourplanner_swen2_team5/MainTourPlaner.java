@@ -44,9 +44,6 @@ public class MainTourPlaner extends Application {
         stage.setMinHeight(180);
     }
 
-
-
-
     public void changeScene(String fxml) throws IOException {
         stg.getScene().setRoot(FXMLLoader.load(Objects.requireNonNull(getClass().getResource(fxml))));
     }
