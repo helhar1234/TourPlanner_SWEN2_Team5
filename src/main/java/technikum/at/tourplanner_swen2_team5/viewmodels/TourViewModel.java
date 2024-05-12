@@ -4,21 +4,23 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
-import technikum.at.tourplanner_swen2_team5.models.TourImage;
+import technikum.at.tourplanner_swen2_team5.models.MapModel;
 import technikum.at.tourplanner_swen2_team5.models.TourModel;
 
 import java.util.UUID;
 
 public class TourViewModel {
     private static TourViewModel instance;
+    private static MapViewModel mapViewModel; //DELETE LATER -> JUST FOR TEST DATA
     private final ObservableList<TourModel> tourModels = FXCollections.observableArrayList();
 
     private TourViewModel() {
         // Test Data
+        mapViewModel = MapViewModel.getInstance();
         int duration = 83;
         TourModel tour = new TourModel("Test Tour", "Beschreibung...", "Wien", "Graz", "Bike", 100, duration);
         tour.setId(UUID.randomUUID().toString());
-        TourImage map = new TourImage(tour.getId(), "map-placeholder.png");
+        mapViewModel.addMap(new MapModel(tour.getId(), "map-placeholder.png"));
         tourModels.add(tour);
 
 
@@ -34,7 +36,7 @@ public class TourViewModel {
                 Platform.runLater(() -> {
                     TourModel secondTour = new TourModel("Zweite Test Tour", "Weitere Beschreibung...", "Salzburg", "Innsbruck", "Bike", 2755, duration);
                     secondTour.setId(UUID.randomUUID().toString());
-                    TourImage map = new TourImage(secondTour.getId(), "map-placeholder.png");
+                    mapViewModel.addMap(new MapModel(secondTour.getId(), "map-placeholder.png"));
                     tourModels.add(secondTour);
                 });
                 return null;
