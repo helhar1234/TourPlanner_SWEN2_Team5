@@ -31,12 +31,11 @@ public class MapViewModel {
         for (int i = 0; i < mapModels.size(); i++) {
             if (mapModels.get(i).getTourId().equals(map.getTourId())) {
                 mapModels.set(i, map);
-                System.out.println("Tour was updated: " + map.getTourId());
+                System.out.println("Map was updated: " + map.getTourId());
                 break;
             }
         }
     }
-
 
     public MapModel getMapById(String tourId) {
         for (MapModel map : mapModels) {
@@ -49,6 +48,6 @@ public class MapViewModel {
 
     public void deleteMapById(String tourId) {
         mapModels.removeIf(map -> map.getTourId().equals(tourId));
-        System.out.println("Tour was deleted: " + tourId);
+        System.out.println("Map was deleted: " + tourId);
     }
 }

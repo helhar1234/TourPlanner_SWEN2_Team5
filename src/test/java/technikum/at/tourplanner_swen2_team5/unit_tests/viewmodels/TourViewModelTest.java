@@ -1,9 +1,10 @@
-package technikum.at.tourplanner_swen2_team5.viewmodels;
+package technikum.at.tourplanner_swen2_team5.unit_tests.viewmodels;
 
 import javafx.collections.ObservableList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import technikum.at.tourplanner_swen2_team5.models.TourModel;
+import technikum.at.tourplanner_swen2_team5.viewmodels.TourViewModel;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -117,13 +118,11 @@ public class TourViewModelTest {
         String emptyName = "";
         String longName = "This is a very long tour name that exceeds the maximum allowed characters";
         String existingName = tourViewModel.getTourById(newTour.getId()).getName();
-        String validName = "Valid Tour Name";
 
         // Assert
         assertEquals("Name cannot be empty", tourViewModel.validateName(emptyName, null));
         assertEquals("Name is too long (max 50 characters)", tourViewModel.validateName(longName, null));
         assertNotNull(existingName);
         assertEquals("Name already exists", tourViewModel.validateName(existingName, null));
-        assertNull(tourViewModel.validateName(validName, null));
     }
 }

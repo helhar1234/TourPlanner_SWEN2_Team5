@@ -14,7 +14,6 @@ public class HomeScreenController {
     @FXML private VBox mainContentArea;
 
 
-
     public HomeScreenController() {}
 
     @FXML

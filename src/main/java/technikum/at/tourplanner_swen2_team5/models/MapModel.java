@@ -11,7 +11,6 @@ public class MapModel {
         this.filename = filename;
     }
 
-
     public String getTourId() {
         return tourId;
     }
