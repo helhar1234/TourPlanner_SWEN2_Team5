@@ -103,7 +103,6 @@ public class AddTourController {
         }
     }
 
-
     public void onDeleteButtonClicked(ActionEvent actionEvent) {
         ConfirmationWindow dialog = new ConfirmationWindow(
                 (Stage) deleteButton.getScene().getWindow(),
@@ -132,4 +131,3 @@ public class AddTourController {
         }
     }
 }
-
