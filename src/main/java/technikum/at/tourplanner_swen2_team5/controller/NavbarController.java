@@ -53,6 +53,4 @@ public class NavbarController {
             e.printStackTrace();
         }
     }
-
-
 }

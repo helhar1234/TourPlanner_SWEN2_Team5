@@ -1,17 +1,15 @@
-package technikum.at.tourplanner_swen2_team5.ui_tests;
-
-import javafx.application.Application;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.testfx.api.FxToolkit;
+import org.testfx.framework.junit5.ApplicationTest;
 import technikum.at.tourplanner_swen2_team5.MainTourPlaner;
 
 import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.matcher.base.NodeMatchers.isVisible;
 
-public class NavbarTest extends Application {
+public class NavbarTest extends ApplicationTest {
 
     @Override
     public void start(Stage stage) throws Exception {
