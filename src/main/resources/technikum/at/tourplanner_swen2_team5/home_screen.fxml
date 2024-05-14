@@ -5,6 +5,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.scene.control.ScrollPane?>
 <GridPane xmlns:fx="http://javafx.com/fxml/1" stylesheets="@css/homeScreen.css" xmlns="http://javafx.com/javafx/21"
           fx:controller="technikum.at.tourplanner_swen2_team5.controller.HomeScreenController">
     <columnConstraints>
@@ -12,17 +13,20 @@
     </columnConstraints>
     <rowConstraints>
         <RowConstraints maxHeight="590" minHeight="80" prefHeight="80"/>
-        <RowConstraints maxHeight="850" minHeight="300" prefHeight="600"/>
+        <RowConstraints vgrow="ALWAYS"/>
     </rowConstraints>
 
-    <HBox prefHeight="500" GridPane.rowIndex="0" GridPane.columnIndex="0" GridPane.columnSpan="2">
+    <HBox prefHeight="80" GridPane.rowIndex="0" GridPane.columnIndex="0">
         <fx:include source="navbar.fxml"/>
     </HBox>
 
-    <VBox fx:id="mainContentArea" alignment="CENTER" spacing="20" GridPane.rowIndex="1">
-        <ImageView fitHeight="200" fitWidth="200" preserveRatio="true">
-            <Image url="@img/logos/BikerLogoMave.png"/>
+    <ScrollPane styleClass="main-container" fitToWidth="true" GridPane.rowIndex="1" GridPane.columnIndex="0">
+        <VBox fx:id="mainContentArea" alignment="CENTER" spacing="20">
+            <ImageView fitHeight="200" fitWidth="200" preserveRatio="true">
+                <Image url="@img/logos/BikerLogoMave.png"/>
             </ImageView>
-        <Label styleClass="title-label" text="TOURS BY HELENA"/>
-    </VBox>
+            <Label styleClass="title-label" text="TOURS BY HELENA"/>
+        </VBox>
+    </ScrollPane>
 </GridPane>
+

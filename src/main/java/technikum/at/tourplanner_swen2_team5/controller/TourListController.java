@@ -82,8 +82,6 @@ public class TourListController {
                     setGraphic(imageView);
                 }
             }
-
-
         });
 
         colName.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -203,10 +201,6 @@ public class TourListController {
         });
     }
 
-
-
-
-
     private void onEditTourClicked(String id) {
         try {
             TourModel tour = tourViewModel.getTourById(id);
@@ -225,7 +219,6 @@ public class TourListController {
             e.printStackTrace();
         }
     }
-
 
     public void onAddButtonClicked(ActionEvent actionEvent) {
         try {
@@ -249,9 +242,5 @@ public class TourListController {
         rotateTransition.play();
 
         initialize();
-
     }
 }
-
-
-

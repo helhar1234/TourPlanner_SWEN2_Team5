@@ -72,7 +72,6 @@ public class TourViewModel {
         }
     }
 
-
     public TourModel getTourById(String id) {
         for (TourModel tour : tourModels) {
             if (tour.getId().equalsIgnoreCase(id)) {
@@ -86,7 +85,6 @@ public class TourViewModel {
         tourModels.removeIf(tour -> tour.getId().equals(id));
         System.out.println("Tour was deleted: " + id);
     }
-
 
     public String validateName(String name, String currentId) {
         if (name == null || name.trim().isEmpty()) {
@@ -163,7 +161,5 @@ public class TourViewModel {
             return String.format("%.2f km", distance);
         }
     }
-
-
 }
 
