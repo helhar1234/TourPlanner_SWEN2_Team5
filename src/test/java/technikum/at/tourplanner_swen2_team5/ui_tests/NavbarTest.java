@@ -6,12 +6,13 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.testfx.api.FxToolkit;
+import org.testfx.framework.junit5.ApplicationTest;
 import technikum.at.tourplanner_swen2_team5.MainTourPlaner;
 
 import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.matcher.base.NodeMatchers.isVisible;
 
-public class NavbarTest extends Application {
+public class NavbarTest extends ApplicationTest {
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -19,14 +20,15 @@ public class NavbarTest extends Application {
     }
 
     @BeforeEach
-    void setUp() throws Exception {
-        FxToolkit.setupStage(Stage::show);
+    void setUpClass() throws Exception {
+        ApplicationTest.launch(MainTourPlaner.class);
     }
 
-    @AfterEach
+
+    /*@AfterEach
     void tearDown() throws Exception {
-        FxToolkit.cleanupStages();
-    }
+        ApplicationTest.cleanupStages();
+    }*/
 
     @Test
     void testVisibilityOfNavbarButtons() {
