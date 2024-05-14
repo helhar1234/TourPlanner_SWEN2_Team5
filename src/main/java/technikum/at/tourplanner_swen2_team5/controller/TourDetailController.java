@@ -69,7 +69,18 @@ public class TourDetailController {
 
 
     public void onAddLogButtonClicked(ActionEvent actionEvent) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(MainTourPlaner.class.getResource("add_tour_log.fxml"));
+            Parent root = fxmlLoader.load();
 
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setTitle("Add New Tour Log");
+            stage.setScene(new Scene(root));
+            stage.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void onEditButtonClicked(ActionEvent actionEvent) {

@@ -70,7 +70,7 @@
                 <Label styleClass="section-title" text="Tour Logs" />
                 <TextArea text="hier werden später die tour logs angezeigt. mit dem + button kann ein log hinzugefügt werden" />
             </VBox>
-            <Button fx:id="addLogButton" styleClass="icon-button" GridPane.columnIndex="1" GridPane.columnSpan="1" GridPane.rowIndex="1">
+            <Button fx:id="addLogButton" onAction="#onAddLogButtonClicked" styleClass="icon-button" GridPane.columnIndex="1" GridPane.columnSpan="1" GridPane.rowIndex="1">
                 <graphic>
                     <ImageView fitHeight="25.0" fitWidth="25.0" preserveRatio="true">
                         <Image url="@img/icons/plus-icon.png" />
