@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.image.Image?>
-<?import javafx.collections.FXCollections?>
-<?import java.lang.String?>
-<?import javafx.geometry.Insets?>
 
+<?import javafx.collections.FXCollections?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import java.lang.String?>
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="technikum.at.tourplanner_swen2_team5.controller.AddTourLogController"
@@ -32,13 +31,25 @@
         <Label fx:id="warningLabelDate" style="-fx-text-fill: #FF0000FF"/>
         <TextArea fx:id="commentArea" promptText="Comment" styleClass="text-area"/>
         <Label fx:id="warningLabelComment" style="-fx-text-fill: #FF0000FF"/>
-        <Slider fx:id="difficultySlider" styleClass="slider" max="4" value="2"/>
-        <Label fx:id="warningLabelDifficulty" style="-fx-text-fill: #FF0000FF"/>
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label text="Difficulty:"/>
+            <ComboBox fx:id="difficultyBox" styleClass="combo-box">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="Easy"/>
+                        <String fx:value="Moderate"/>
+                        <String fx:value="Challenging"/>
+                        <String fx:value="Difficult"/>
+                    </FXCollections>
+                </items>
+            </ComboBox>
+        </HBox><Label fx:id="warningLabelDifficulty" style="-fx-text-fill: #FF0000FF"/>
         <TextField fx:id="distanceField" promptText="Total distance in km" styleClass="text-field"/>
         <Label fx:id="warningLabelDistance" style="-fx-text-fill: #FF0000FF"/>
         <TextField fx:id="totalTimeField" promptText="Total time in hours and minutes (for example: 1h 23min)" styleClass="text-field"/>
         <Label fx:id="warningLabelTotalTime" style="-fx-text-fill: #FF0000FF"/>
-        <Slider fx:id="ratingSlider" styleClass="slider" max="9" value="4"/>
+        <Label text="Rating (0 = worst, 10 = best):"/>
+        <Slider fx:id="ratingSlider" styleClass="slider" max="10" value="5" blockIncrement="1" majorTickUnit="1" minorTickCount="0" snapToTicks="true" showTickMarks="true" showTickLabels="true"/>
         <Label fx:id="warningLabelRating" style="-fx-text-fill: #FF0000FF"/>
 
         <HBox spacing="10" alignment="CENTER_LEFT">

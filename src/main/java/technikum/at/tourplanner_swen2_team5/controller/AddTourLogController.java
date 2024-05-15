@@ -15,7 +15,7 @@ public class AddTourLogController {
     @FXML
     private TextArea commentArea;
     @FXML
-    private Slider difficultySlider;
+    private ComboBox<String> difficultyBox;
     @FXML
     private TextField distanceField;
     @FXML
@@ -55,7 +55,7 @@ public class AddTourLogController {
         tourViewModel = TourViewModel.getInstance();
         mapViewModel = MapViewModel.getInstance();
         //bindFieldsToModel(currentTour);
-        transportTypeBox.getItems().setAll("Hike", "Bike", "Running", "Vacation");
+        difficultyBox.getItems().setAll("Easy", "Moderate", "Challenging", "Difficult");
     }
 
     /*private void bindFieldsToModel(TourModel tour) {
