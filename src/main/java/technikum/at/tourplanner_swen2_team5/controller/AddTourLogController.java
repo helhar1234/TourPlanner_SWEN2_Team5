@@ -1,5 +1,6 @@
 package technikum.at.tourplanner_swen2_team5.controller;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -15,11 +16,11 @@ public class AddTourLogController {
     @FXML
     private ComboBox<String> difficultyBox;
     @FXML
-    private double distanceField;
+    private TextField distanceField;
     @FXML
     private TextField totalTimeField;
     @FXML
-    private int ratingSlider;
+    private Slider ratingSlider;
     @FXML
     private ComboBox<String> transportTypeBox;
 
@@ -53,13 +54,24 @@ public class AddTourLogController {
         bindFieldsToModel(currentTourLog);
         difficultyBox.getItems().setAll("Easy", "Moderate", "Challenging", "Difficult");
         transportTypeBox.getItems().setAll("Hike", "Bike", "Running", "Vacation");
+        ratingSlider.valueProperty().addListener((obs, oldval, newVal) -> updateSliderFill(newVal));
+        Platform.runLater(() -> updateSliderFill(ratingSlider.getValue()));
+    }
+
+    private void updateSliderFill(Number value) {
+        // Umrechnung des Sliderwerts in Prozent
+        double percentage = (value.doubleValue() - ratingSlider.getMin()) / (ratingSlider.getMax() - ratingSlider.getMin());
+
+        // Erstellen des Stils für den gefüllten und den nicht-gefüllten Track
+        String style = String.format("-fx-background-color: linear-gradient(to right, #A4D65E %.0f%%, white %.0f%%);", percentage * 100, percentage * 100);
+        ratingSlider.lookup(".track").setStyle(style);
     }
 
     private void bindFieldsToModel(TourLogModel tourLog) {
         dateField.valueProperty().bindBidirectional(tourLog.dateProperty());
         commentArea.textProperty().bindBidirectional(tourLog.commentProperty());
         difficultyBox.valueProperty().bindBidirectional(tourLog.difficultyProperty());
-        distanceField.valueProperty().bindBidirectional(tourLog.distanceProperty());
+        distanceField.textProperty().bindBidirectional(tourLog.distanceProperty());
         totalTimeField.textProperty().bindBidirectional(tourLog.totalTimeProperty());
         ratingSlider.valueProperty().bindBidirectional(tourLog.ratingProperty());
         transportTypeBox.valueProperty().bindBidirectional(tourLog.transportTypeProperty());
