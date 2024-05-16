@@ -17,6 +17,7 @@ import technikum.at.tourplanner_swen2_team5.MainTourPlaner;
 import technikum.at.tourplanner_swen2_team5.models.MapModel;
 import technikum.at.tourplanner_swen2_team5.models.TourModel;
 import technikum.at.tourplanner_swen2_team5.util.ApplicationContext;
+import technikum.at.tourplanner_swen2_team5.util.Formatter;
 import technikum.at.tourplanner_swen2_team5.viewmodels.MapViewModel;
 import technikum.at.tourplanner_swen2_team5.viewmodels.TourViewModel;
 
@@ -39,12 +40,14 @@ public class TourDetailController {
 
     private TourViewModel tourViewModel;
     private MapViewModel mapViewModel;
+    private Formatter formatter;
 
     private TourModel currentTour;
 
     public void initialize (){
         tourViewModel = TourViewModel.getInstance();
         mapViewModel = MapViewModel.getInstance();
+        formatter = new Formatter();
     }
 
     public void setTourDetails(TourModel tour) {
@@ -54,8 +57,8 @@ public class TourDetailController {
         tourStart.setText("Start: " + currentTour.getStart());
         tourDestination.setText("Destination: " + currentTour.getDestination());
         tourTransportationType.setText("Transportation Type: " + currentTour.getTransportationType());
-        tourDistance.setText("Distance: " + tourViewModel.formatDistance(currentTour.getDistance()));
-        tourTime.setText("Time: " + tourViewModel.formatTime(currentTour.getTime()));
+        tourDistance.setText("Distance: " + formatter.formatDistance(currentTour.getDistance()));
+        tourTime.setText("Time: " + formatter.formatTime(currentTour.getTime()));
 
         String filename = (mapViewModel.getMapById(currentTour.getId())).getFilename();
         String imageName = "img/maps/" + filename.toLowerCase();

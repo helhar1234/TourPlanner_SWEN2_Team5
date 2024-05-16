@@ -71,7 +71,7 @@ public class AddTourLogController {
         dateField.valueProperty().bindBidirectional(tourLog.dateProperty());
         commentArea.textProperty().bindBidirectional(tourLog.commentProperty());
         difficultyBox.valueProperty().bindBidirectional(tourLog.difficultyProperty());
-        distanceField.textProperty().bindBidirectional(tourLog.distanceProperty());
+        //distanceField.textProperty().bindBidirectional(tourLog.distanceProperty());
         totalTimeField.textProperty().bindBidirectional(tourLog.totalTimeProperty());
         ratingSlider.valueProperty().bindBidirectional(tourLog.ratingProperty());
         transportTypeBox.valueProperty().bindBidirectional(tourLog.transportTypeProperty());
@@ -90,22 +90,22 @@ public class AddTourLogController {
         currentTourLog.setDate(dateField.getValue());
         currentTourLog.setComment(commentArea.getText());
         currentTourLog.setDifficulty(difficultyBox.getValue());
-        currentTourLog.setDistance(distanceField);
+        //currentTourLog.setDistance(distanceField);
         currentTourLog.setTotalTime(totalTimeField.getText());
-        currentTourLog.setRating(ratingSlider);
+        //currentTourLog.setRating(ratingSlider);
         currentTourLog.setTransportType(transportTypeBox.getValue());
     }
 
     private boolean validateInputs() {
         boolean hasError = false;
-        hasError |= setFieldError(dateField, warningLabelDate, tourLogViewModel.validateDate(dateField.getValue(), currentTourLog.getId()));
+        /*hasError |= setFieldError(dateField, warningLabelDate, tourLogViewModel.validateDate(dateField.getValue(), currentTourLog.getId()));
         hasError |= setFieldError(commentArea, warningLabelComment, tourLogViewModel.validateComment(commentArea.getText()));
         hasError |= setFieldError(difficultyBox, warningLabelDifficulty, tourLogViewModel.validateDifficulty(difficultyBox.getValue()));
         hasError |= setFieldError(distanceField, warningLabelDistance, tourLogViewModel.validateDistance(distanceField));
         hasError |= setFieldError(totalTimeField, warningLabelTotalTime, tourLogViewModel.validateTotalTime(totalTimeField.getText()));
         hasError |= setFieldError(ratingSlider, warningLabelRating, tourLogViewModel.validateRating(ratingSlider));
         hasError |= setFieldError(transportTypeBox, warningLabelTransportationType, tourLogViewModel.validateTransportationType(transportTypeBox.getValue()));
-        return !hasError;
+        */return !hasError;
     }
 
     private void closeStage() {
