@@ -3,10 +3,12 @@ package technikum.at.tourplanner_swen2_team5.models;
 import javafx.beans.property.*;
 import lombok.Getter;
 
+import java.time.LocalDate;
+
 public class TourLogModel {
     @Getter
     private String id;
-    private final StringProperty date = new SimpleStringProperty();
+    private final ObjectProperty<LocalDate> date = new SimpleObjectProperty<>();
     private final StringProperty comment = new SimpleStringProperty();
     private final StringProperty difficulty = new SimpleStringProperty();
     private final DoubleProperty distance = new SimpleDoubleProperty();
@@ -17,7 +19,7 @@ public class TourLogModel {
     public TourLogModel() {
     }
 
-    public TourLogModel(String id, String date, String comment, String difficulty, Double distance, String totalTime, Integer rating, String transportType) {
+    public TourLogModel(String id, LocalDate date, String comment, String difficulty, Double distance, String totalTime, Integer rating, String transportType) {
         this.date.set(date);
         this.comment.set(comment);
         this.difficulty.set(difficulty);
@@ -27,7 +29,7 @@ public class TourLogModel {
         this.transportType.set(transportType);
     }
 
-    public StringProperty dateProperty() {
+    public ObjectProperty<LocalDate> dateProperty() {
         return date;
     }
 
@@ -56,20 +58,15 @@ public class TourLogModel {
     }
 
     // Getter und Setter
-
-    public String getId() {
-        return id;
-    }
-
     public void setId(String id) {
         this.id = id;
     }
 
-    public String getDate() {
+    public LocalDate getDate() {
         return date.get();
     }
 
-    public void setDate(String date) {
+    public void setDate(LocalDate date) {
         this.date.set(date);
     }
 

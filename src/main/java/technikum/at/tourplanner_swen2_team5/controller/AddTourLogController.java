@@ -4,10 +4,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import technikum.at.tourplanner_swen2_team5.models.MapModel;
-import technikum.at.tourplanner_swen2_team5.models.TourModel;
-import technikum.at.tourplanner_swen2_team5.viewmodels.MapViewModel;
-import technikum.at.tourplanner_swen2_team5.viewmodels.TourViewModel;
+import technikum.at.tourplanner_swen2_team5.models.TourLogModel;
+import technikum.at.tourplanner_swen2_team5.viewmodels.TourLogViewModel;
 
 public class AddTourLogController {
     @FXML
@@ -17,11 +15,11 @@ public class AddTourLogController {
     @FXML
     private ComboBox<String> difficultyBox;
     @FXML
-    private TextField distanceField;
+    private double distanceField;
     @FXML
     private TextField totalTimeField;
     @FXML
-    private Slider ratingSlider;
+    private int ratingSlider;
     @FXML
     private ComboBox<String> transportTypeBox;
 
@@ -47,50 +45,54 @@ public class AddTourLogController {
     @FXML
     private Label warningLabelTransportationType;
 
-    private TourViewModel tourViewModel;
-    private MapViewModel mapViewModel;
-    private final TourModel currentTour = new TourModel();
+    private TourLogViewModel tourLogViewModel;
+    private final TourLogModel currentTourLog = new TourLogModel();
 
     public void initialize() {
-        tourViewModel = TourViewModel.getInstance();
-        mapViewModel = MapViewModel.getInstance();
-        //bindFieldsToModel(currentTour);
+        tourLogViewModel = TourLogViewModel.getInstance();
+        bindFieldsToModel(currentTourLog);
         difficultyBox.getItems().setAll("Easy", "Moderate", "Challenging", "Difficult");
+        transportTypeBox.getItems().setAll("Hike", "Bike", "Running", "Vacation");
     }
 
-    /*private void bindFieldsToModel(TourModel tour) {
-        nameField.textProperty().bindBidirectional(tour.nameProperty());
-        descriptionArea.textProperty().bindBidirectional(tour.descriptionProperty());
-        startField.textProperty().bindBidirectional(tour.startProperty());
-        destinationField.textProperty().bindBidirectional(tour.destinationProperty());
-        transportTypeBox.valueProperty().bindBidirectional(tour.transportTypeProperty());
-    }*/
+    private void bindFieldsToModel(TourLogModel tourLog) {
+        dateField.valueProperty().bindBidirectional(tourLog.dateProperty());
+        commentArea.textProperty().bindBidirectional(tourLog.commentProperty());
+        difficultyBox.valueProperty().bindBidirectional(tourLog.difficultyProperty());
+        distanceField.valueProperty().bindBidirectional(tourLog.distanceProperty());
+        totalTimeField.textProperty().bindBidirectional(tourLog.totalTimeProperty());
+        ratingSlider.valueProperty().bindBidirectional(tourLog.ratingProperty());
+        transportTypeBox.valueProperty().bindBidirectional(tourLog.transportTypeProperty());
+    }
 
     @FXML
     private void onSaveButtonClicked() {
-        /*if (validateInputs()) {
+        if (validateInputs()) {
             updateTourModelFromFields();
-            tourViewModel.addTour(currentTour);
-            mapViewModel.addMap(new MapModel(currentTour.getId(), "map-placeholder.png"));
+            tourLogViewModel.addTourLog(currentTourLog);
             closeStage();
-        }*/
+        }
     }
 
-    /*private void updateTourModelFromFields() {
-        currentTour.setName(nameField.getText());
-        currentTour.setDescription(descriptionArea.getText());
-        currentTour.setStart(startField.getText());
-        currentTour.setDestination(destinationField.getText());
-        currentTour.setTransportType(transportTypeBox.getValue());
+    private void updateTourModelFromFields() {
+        currentTourLog.setDate(dateField.getValue());
+        currentTourLog.setComment(commentArea.getText());
+        currentTourLog.setDifficulty(difficultyBox.getValue());
+        currentTourLog.setDistance(distanceField);
+        currentTourLog.setTotalTime(totalTimeField.getText());
+        currentTourLog.setRating(ratingSlider);
+        currentTourLog.setTransportType(transportTypeBox.getValue());
     }
 
     private boolean validateInputs() {
         boolean hasError = false;
-        hasError |= setFieldError(nameField, warningLabelName, tourViewModel.validateName(nameField.getText(), currentTour.getId()));
-        hasError |= setFieldError(descriptionArea, warningLabelDescription, tourViewModel.validateDescription(descriptionArea.getText()));
-        hasError |= setFieldError(startField, warningLabelStart, tourViewModel.validateStart(startField.getText()));
-        hasError |= setFieldError(destinationField, warningLabelDestination, tourViewModel.validateDestination(destinationField.getText()));
-        hasError |= setFieldError(transportTypeBox, warningLabelTransportationType, tourViewModel.validateTransportationType(transportTypeBox.getValue()));
+        hasError |= setFieldError(dateField, warningLabelDate, tourLogViewModel.validateDate(dateField.getValue(), currentTourLog.getId()));
+        hasError |= setFieldError(commentArea, warningLabelComment, tourLogViewModel.validateComment(commentArea.getText()));
+        hasError |= setFieldError(difficultyBox, warningLabelDifficulty, tourLogViewModel.validateDifficulty(difficultyBox.getValue()));
+        hasError |= setFieldError(distanceField, warningLabelDistance, tourLogViewModel.validateDistance(distanceField));
+        hasError |= setFieldError(totalTimeField, warningLabelTotalTime, tourLogViewModel.validateTotalTime(totalTimeField.getText()));
+        hasError |= setFieldError(ratingSlider, warningLabelRating, tourLogViewModel.validateRating(ratingSlider));
+        hasError |= setFieldError(transportTypeBox, warningLabelTransportationType, tourLogViewModel.validateTransportationType(transportTypeBox.getValue()));
         return !hasError;
     }
 
@@ -109,33 +111,33 @@ public class AddTourLogController {
             field.setStyle(""); // Setzt den Stil zurück
             return false;
         }
-    }*/
+    }
 
     public void onDeleteButtonClicked(ActionEvent actionEvent) {
         ConfirmationWindow dialog = new ConfirmationWindow(
                 (Stage) deleteButton.getScene().getWindow(),
-                "Delete Tour",
+                "Delete TourLog",
                 "Deletion Confirmation",
-                "Do you want to delete this tour?"
+                "Do you want to delete this tourlog?"
         );
 
         // Überprüfe die Benutzerantwort
         if (dialog.showAndWait()) {
-            //closeStage();
+            closeStage();
         }
     }
 
     public void onBackButtonClicked(ActionEvent actionEvent) {
         ConfirmationWindow dialog = new ConfirmationWindow(
                 (Stage) backButton.getScene().getWindow(),
-                "Return to Tour Planner",
-                "Return to Tour Planner",
-                "If you go back now, your Tour will not be saved!"
+                "Return to Tour",
+                "Return to Tour",
+                "If you go back now, your TourLog will not be saved!"
         );
 
         // Überprüfe die Benutzerantwort
         if (dialog.showAndWait()) {
-            //closeStage();
+            closeStage();
         }
     }
 }
