@@ -9,10 +9,10 @@
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="technikum.at.tourplanner_swen2_team5.controller.AddTourLogController"
-      spacing="10" alignment="TOP_CENTER" stylesheets="@css/addTour.css" fillWidth="true">
+      spacing="10" alignment="TOP_CENTER" stylesheets="@css/addTourLogs.css" fillWidth="true">
 
     <padding>
-        <Insets top="30" right="30" bottom="30" left="30"/> <!-- Erhöhtes Padding für den gesamten VBox-Container -->
+        <Insets top="30" right="30" bottom="30" left="30"/>
     </padding>
 
     <HBox alignment="TOP_LEFT" spacing="10">
@@ -27,7 +27,7 @@
 
 
     <VBox spacing="10" fillWidth="true">
-        <DatePicker fx:id="dateField" promptText="Date" styleClass="text-field"/>
+        <DatePicker fx:id="dateField" promptText="Pick a date.." styleClass="date-picker"/>
         <Label fx:id="warningLabelDate" style="-fx-text-fill: #FF0000FF"/>
         <TextArea fx:id="commentArea" promptText="Comment" styleClass="text-area"/>
         <Label fx:id="warningLabelComment" style="-fx-text-fill: #FF0000FF"/>

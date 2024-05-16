@@ -1,5 +1,6 @@
 package technikum.at.tourplanner_swen2_team5.controller;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -56,6 +57,18 @@ public class AddTourLogController {
         mapViewModel = MapViewModel.getInstance();
         //bindFieldsToModel(currentTour);
         difficultyBox.getItems().setAll("Easy", "Moderate", "Challenging", "Difficult");
+
+        ratingSlider.valueProperty().addListener((obs, oldval, newVal) -> updateSliderFill(newVal));
+        Platform.runLater(() -> updateSliderFill(ratingSlider.getValue()));
+    }
+
+    private void updateSliderFill(Number value) {
+        // Umrechnung des Sliderwerts in Prozent
+        double percentage = (value.doubleValue() - ratingSlider.getMin()) / (ratingSlider.getMax() - ratingSlider.getMin());
+
+        // Erstellen des Stils für den gefüllten und den nicht-gefüllten Track
+        String style = String.format("-fx-background-color: linear-gradient(to right, #A4D65E %.0f%%, white %.0f%%);", percentage * 100, percentage * 100);
+        ratingSlider.lookup(".track").setStyle(style);
     }
 
     /*private void bindFieldsToModel(TourModel tour) {
