@@ -70,7 +70,6 @@ public class TourDetailController {
 
     }
 
-
     public void onAddLogButtonClicked(ActionEvent actionEvent) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(MainTourPlaner.class.getResource("add_tour_log.fxml"));

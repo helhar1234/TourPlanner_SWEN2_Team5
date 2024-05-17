@@ -19,6 +19,10 @@ public class TourLogViewModel {
         return instance;
     }
 
+    public ObservableList<TourLogModel> getTourLogs() {
+        return tourLogModels;
+    }
+
     public void addTourLog(TourLogModel tourLog) {
         tourLog.setId(UUID.randomUUID().toString());
         tourLogModels.add(tourLog);

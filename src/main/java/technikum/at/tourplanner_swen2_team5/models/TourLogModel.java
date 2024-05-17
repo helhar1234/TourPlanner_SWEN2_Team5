@@ -11,7 +11,7 @@ public class TourLogModel {
     private final ObjectProperty<LocalDate> date = new SimpleObjectProperty<>();
     private final StringProperty comment = new SimpleStringProperty();
     private final StringProperty difficulty = new SimpleStringProperty();
-    private final DoubleProperty distance = new SimpleDoubleProperty();
+    private final StringProperty distance = new SimpleStringProperty();
     private final StringProperty totalTime = new SimpleStringProperty();
     private final IntegerProperty rating = new SimpleIntegerProperty();
     private final StringProperty transportType = new SimpleStringProperty();
@@ -19,7 +19,7 @@ public class TourLogModel {
     public TourLogModel() {
     }
 
-    public TourLogModel(String id, LocalDate date, String comment, String difficulty, Double distance, String totalTime, Integer rating, String transportType) {
+    public TourLogModel(String id, LocalDate date, String comment, String difficulty, String distance, String totalTime, Integer rating, String transportType) {
         this.date.set(date);
         this.comment.set(comment);
         this.difficulty.set(difficulty);
@@ -41,7 +41,7 @@ public class TourLogModel {
         return difficulty;
     }
 
-    public DoubleProperty distanceProperty() {
+    public StringProperty distanceProperty() {
         return distance;
     }
 
@@ -86,11 +86,11 @@ public class TourLogModel {
         this.difficulty.set(difficulty);
     }
 
-    public double getDistance() {
+    public String getDistance() {
         return distance.get();
     }
 
-    public void setDistance(double distance) {
+    public void setDistance(String distance) {
         this.distance.set(distance);
     }
 

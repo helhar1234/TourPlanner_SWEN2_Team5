@@ -71,7 +71,7 @@ public class AddTourLogController {
         dateField.valueProperty().bindBidirectional(tourLog.dateProperty());
         commentArea.textProperty().bindBidirectional(tourLog.commentProperty());
         difficultyBox.valueProperty().bindBidirectional(tourLog.difficultyProperty());
-        //distanceField.textProperty().bindBidirectional(tourLog.distanceProperty());
+        distanceField.textProperty().bindBidirectional(tourLog.distanceProperty());
         totalTimeField.textProperty().bindBidirectional(tourLog.totalTimeProperty());
         ratingSlider.valueProperty().bindBidirectional(tourLog.ratingProperty());
         transportTypeBox.valueProperty().bindBidirectional(tourLog.transportTypeProperty());
@@ -90,9 +90,9 @@ public class AddTourLogController {
         currentTourLog.setDate(dateField.getValue());
         currentTourLog.setComment(commentArea.getText());
         currentTourLog.setDifficulty(difficultyBox.getValue());
-        //currentTourLog.setDistance(distanceField);
+        currentTourLog.setDistance(distanceField.getText());
         currentTourLog.setTotalTime(totalTimeField.getText());
-        //currentTourLog.setRating(ratingSlider);
+        currentTourLog.setRating((int) ratingSlider.getValue());
         currentTourLog.setTransportType(transportTypeBox.getValue());
     }
 
