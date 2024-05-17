@@ -119,4 +119,3 @@ public class TourModel {
         this.time.set(time);
     }
 }
-

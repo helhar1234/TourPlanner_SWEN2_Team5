@@ -23,6 +23,7 @@ import javafx.util.Duration;
 import technikum.at.tourplanner_swen2_team5.MainTourPlaner;
 import technikum.at.tourplanner_swen2_team5.models.TourModel;
 import technikum.at.tourplanner_swen2_team5.util.ApplicationContext;
+import technikum.at.tourplanner_swen2_team5.util.Formatter;
 import technikum.at.tourplanner_swen2_team5.viewmodels.MapViewModel;
 import technikum.at.tourplanner_swen2_team5.viewmodels.TourViewModel;
 
@@ -54,11 +55,13 @@ public class TourListController {
 
     private TourViewModel tourViewModel;
     private MapViewModel mapViewModel;
+    private Formatter formatter;
 
 
     public void initialize() {
         tourViewModel = TourViewModel.getInstance();
         mapViewModel = MapViewModel.getInstance();
+        formatter = new Formatter();
 
         colType.setCellValueFactory(new PropertyValueFactory<>("transportType"));
         colType.setCellFactory(column -> new TableCell<>() {
@@ -95,7 +98,7 @@ public class TourListController {
                 if (empty || item == null) {
                     setText(null);
                 } else {
-                    setText(TourViewModel.formatDistance(item));
+                    setText(formatter.formatDistance(item));
                 }
             }
         });
@@ -108,7 +111,7 @@ public class TourListController {
                 if (empty || item == null) {
                     setText(null);
                 } else {
-                    setText(tourViewModel.formatTime(item)); // Nutze die formatTime Methode, um das Format zu definieren
+                    setText(formatter.formatTime(item)); // Nutze die formatTime Methode, um das Format zu definieren
                 }
             }
         });
