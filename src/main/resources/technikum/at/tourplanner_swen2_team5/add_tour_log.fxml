@@ -5,8 +5,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-<?import java.lang.String?>
-
+<?import java.lang.*?>
 <ScrollPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="technikum.at.tourplanner_swen2_team5.controller.AddTourLogController"
@@ -48,7 +47,8 @@
                 </ComboBox>
             </HBox>
             <Label fx:id="warningLabelDifficulty" style="-fx-text-fill: #FF0000FF"/>
-            <TextField fx:id="distanceField" promptText="Total distance in km (for example: 12.3)" styleClass="text-field"/>
+            <TextField fx:id="distanceField" promptText="Total distance in km (for example: 12.3)"
+                       styleClass="text-field"/>
             <Label fx:id="warningLabelDistance" style="-fx-text-fill: #FF0000FF"/>
             <TextField fx:id="totalTimeField" promptText="Total time in hours and minutes (for example: 1h 23min)"
                        styleClass="text-field"/>

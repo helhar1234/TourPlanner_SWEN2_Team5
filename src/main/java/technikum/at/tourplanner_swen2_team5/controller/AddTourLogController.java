@@ -7,7 +7,6 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import technikum.at.tourplanner_swen2_team5.models.TourLogModel;
-import technikum.at.tourplanner_swen2_team5.models.TourModel;
 import technikum.at.tourplanner_swen2_team5.viewmodels.TourLogViewModel;
 
 import java.time.LocalDate;

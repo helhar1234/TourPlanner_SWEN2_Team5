@@ -11,7 +11,6 @@ import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import technikum.at.tourplanner_swen2_team5.MainTourPlaner;
-import technikum.at.tourplanner_swen2_team5.controller.HomeScreenController;
 
 import java.io.IOException;
 

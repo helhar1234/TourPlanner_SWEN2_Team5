@@ -3,7 +3,6 @@ package technikum.at.tourplanner_swen2_team5.viewmodels;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import technikum.at.tourplanner_swen2_team5.models.TourLogModel;
-import technikum.at.tourplanner_swen2_team5.models.TourModel;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -11,7 +10,9 @@ import java.util.UUID;
 public class TourLogViewModel {
     private static TourLogViewModel instance;
     private final ObservableList<TourLogModel> tourLogModels = FXCollections.observableArrayList();
-    private TourLogViewModel() {}
+
+    private TourLogViewModel() {
+    }
 
     public static TourLogViewModel getInstance() {
         if (instance == null) {
@@ -87,7 +88,7 @@ public class TourLogViewModel {
     }
 
     public String validateDistance(String distance) {
-        if(distance == null || distance.isEmpty()) {
+        if (distance == null || distance.isEmpty()) {
             return "Please enter the distance";
         } else if (!distance.matches("^-?\\d+(?:[.]\\d{1,2})?")) {
             return "Distance must be entered in the correct format (for example: 12.4)";
@@ -96,7 +97,7 @@ public class TourLogViewModel {
     }
 
     public String validateTotalTime(String totalTime) {
-        if(totalTime == null || totalTime.isEmpty()) {
+        if (totalTime == null || totalTime.isEmpty()) {
             return "Please enter the total time spent on the tour";
         } else if (!totalTime.matches("^(\\d+h)?(0?[0-9]|[1-5][0-9]|60)min")) {
             return "Total time must be entered in the correct format (for example: 1h23min)";

@@ -20,7 +20,6 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import technikum.at.tourplanner_swen2_team5.MainTourPlaner;
 import technikum.at.tourplanner_swen2_team5.models.TourLogModel;
-import technikum.at.tourplanner_swen2_team5.models.TourModel;
 import technikum.at.tourplanner_swen2_team5.util.Formatter;
 import technikum.at.tourplanner_swen2_team5.viewmodels.TourLogViewModel;
 
@@ -52,6 +51,7 @@ public class TourLogListController {
 
     private TourLogViewModel tourLogViewModel;
     private Formatter formatter;
+
     public void initialize() {
         tourLogViewModel = TourLogViewModel.getInstance();
         formatter = new Formatter();

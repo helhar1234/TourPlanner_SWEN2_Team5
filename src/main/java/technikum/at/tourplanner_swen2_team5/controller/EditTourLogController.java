@@ -3,19 +3,12 @@ package technikum.at.tourplanner_swen2_team5.controller;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import technikum.at.tourplanner_swen2_team5.MainTourPlaner;
 import technikum.at.tourplanner_swen2_team5.models.TourLogModel;
-import technikum.at.tourplanner_swen2_team5.models.TourModel;
-import technikum.at.tourplanner_swen2_team5.util.ApplicationContext;
 import technikum.at.tourplanner_swen2_team5.viewmodels.TourLogViewModel;
-import technikum.at.tourplanner_swen2_team5.viewmodels.TourViewModel;
 
-import java.io.IOException;
 import java.time.LocalDate;
 
 public class EditTourLogController {

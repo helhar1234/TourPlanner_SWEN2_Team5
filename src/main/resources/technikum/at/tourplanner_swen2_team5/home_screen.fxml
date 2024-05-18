@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
-
-<?import javafx.scene.control.ScrollPane?>
 <GridPane xmlns:fx="http://javafx.com/fxml/1" stylesheets="@css/homeScreen.css" xmlns="http://javafx.com/javafx/21"
           fx:controller="technikum.at.tourplanner_swen2_team5.controller.HomeScreenController">
     <columnConstraints>

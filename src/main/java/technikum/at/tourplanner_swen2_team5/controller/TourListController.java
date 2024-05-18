@@ -100,7 +100,7 @@ public class TourListController {
                 if (empty || item == null) {
                     setText(null);
                 } else {
-                    setText(formatter.formatDistance(item));
+                    setText(Formatter.formatDistance(item));
                 }
             }
         });

@@ -1,20 +1,18 @@
 package technikum.at.tourplanner_swen2_team5.controller;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.layout.VBox;
-import technikum.at.tourplanner_swen2_team5.MainTourPlaner;
-
-import java.io.IOException;
 
 public class HomeScreenController {
     private static HomeScreenController instance;
 
-    @FXML private VBox mainContentArea;
+    @FXML
+    private VBox mainContentArea;
 
 
-    public HomeScreenController() {}
+    public HomeScreenController() {
+    }
 
     @FXML
     private void initialize() {

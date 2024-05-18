@@ -8,7 +8,8 @@ public class MapViewModel {
     private static MapViewModel instance;
     private final ObservableList<MapModel> mapModels = FXCollections.observableArrayList();
 
-    private MapViewModel() {}
+    private MapViewModel() {
+    }
 
     public static MapViewModel getInstance() {
         if (instance == null) {

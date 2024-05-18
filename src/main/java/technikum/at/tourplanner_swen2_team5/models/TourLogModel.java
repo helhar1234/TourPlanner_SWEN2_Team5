@@ -34,6 +34,7 @@ public class TourLogModel {
     public ObjectProperty<LocalDate> dateProperty() {
         return date;
     }
+
     public StringProperty timeProperty() {
         return time;
     }
