@@ -7,18 +7,17 @@
 <?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
+<ScrollPane xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="technikum.at.tourplanner_swen2_team5.controller.AddTourController"
       stylesheets="@css/addTour.css">
 
-    <children>
-        <VBox fx:id="rootVBox" spacing="10" alignment="TOP_CENTER" AnchorPane.topAnchor="100.0" AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="0.0">
+        <VBox spacing="10" alignment="TOP_CENTER">
             <padding>
                 <Insets top="30" right="30" bottom="30" left="30"/> <!-- Erhöhtes Padding für den gesamten VBox-Container -->
             </padding>
 
-            <HBox alignment="TOP_LEFT" spacing="10">
+            <HBox spacing="10">
                 <Button fx:id="backButton" styleClass="icon-button" onAction="#onBackButtonClicked">
                     <graphic>
                         <ImageView fitHeight="25" fitWidth="25" preserveRatio="true">
@@ -29,7 +28,7 @@
             </HBox>
 
 
-            <VBox spacing="10" fillWidth="true">
+            <VBox spacing="10">
                 <TextField fx:id="nameField" promptText="Tour Name" styleClass="text-field"/>
                 <Label fx:id="warningLabelName" style="-fx-text-fill: #FF0000FF"/>
                 <TextArea fx:id="descriptionArea" promptText="Tour Description" styleClass="text-area"/>
@@ -73,5 +72,4 @@
                 </HBox>
             </VBox>
         </VBox>
-    </children>
-</AnchorPane>
+</ScrollPane>

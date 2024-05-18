@@ -3,16 +3,22 @@ package technikum.at.tourplanner_swen2_team5.controller;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import technikum.at.tourplanner_swen2_team5.MainTourPlaner;
 import technikum.at.tourplanner_swen2_team5.models.TourLogModel;
 import technikum.at.tourplanner_swen2_team5.models.TourModel;
+import technikum.at.tourplanner_swen2_team5.util.ApplicationContext;
 import technikum.at.tourplanner_swen2_team5.viewmodels.TourLogViewModel;
+import technikum.at.tourplanner_swen2_team5.viewmodels.TourViewModel;
 
+import java.io.IOException;
 import java.time.LocalDate;
 
-public class AddTourLogController {
+public class EditTourLogController {
     @FXML
     private DatePicker dateField;
     @FXML
@@ -55,12 +61,12 @@ public class AddTourLogController {
     private Label warningLabelTransportationType;
 
     private TourLogViewModel tourLogViewModel;
-    private final TourLogModel currentTourLog = new TourLogModel();
+    private TourLogModel currentTourLog = new TourLogModel();
 
     public void initialize() {
         tourLogViewModel = TourLogViewModel.getInstance();
         bindFieldsToModel(currentTourLog);
-        dateField.setDayCellFactory(new Callback<DatePicker, DateCell>() {
+        dateField.setDayCellFactory(new Callback<>() {
             @Override
             public DateCell call(final DatePicker datePicker) {
                 return new DateCell() {
@@ -83,6 +89,25 @@ public class AddTourLogController {
         Platform.runLater(() -> updateSliderFill(ratingSlider.getValue()));
     }
 
+    public void setTourLog(TourLogModel tourLog) {
+        this.currentTourLog = tourLog;
+        if (currentTourLog != null) {
+            unbindFieldsToModel();
+            loadTourLogDetails();
+        }
+    }
+
+    private void loadTourLogDetails() {
+        dateField.setValue(currentTourLog.getDate());
+        timeField.setText(currentTourLog.getTime());
+        commentArea.setText(currentTourLog.getComment());
+        difficultyBox.setValue(currentTourLog.getDifficulty());
+        distanceField.setText(currentTourLog.getDistance());
+        totalTimeField.setText(currentTourLog.getTotalTime());
+        ratingSlider.setValue(currentTourLog.getRating());
+        transportTypeBox.setValue(currentTourLog.getTransportType());
+    }
+
     private void updateSliderFill(Number value) {
         // Umrechnung des Sliderwerts in Prozent
         double percentage = (value.doubleValue() - ratingSlider.getMin()) / (ratingSlider.getMax() - ratingSlider.getMin());
@@ -103,11 +128,22 @@ public class AddTourLogController {
         transportTypeBox.valueProperty().bindBidirectional(tourLog.transportTypeProperty());
     }
 
+    private void unbindFieldsToModel() {
+        dateField.valueProperty().unbind();
+        timeField.textProperty().unbind();
+        commentArea.textProperty().unbind();
+        difficultyBox.valueProperty().unbind();
+        distanceField.textProperty().unbind();
+        totalTimeField.textProperty().unbind();
+        ratingSlider.valueProperty().unbind();
+        transportTypeBox.valueProperty().unbind();
+    }
+
     @FXML
     private void onSaveButtonClicked() {
         if (validateInputs()) {
             updateTourLogModelFromFields();
-            tourLogViewModel.addTourLog(currentTourLog);
+            bindFieldsToModel(currentTourLog);
             closeStage();
         }
     }

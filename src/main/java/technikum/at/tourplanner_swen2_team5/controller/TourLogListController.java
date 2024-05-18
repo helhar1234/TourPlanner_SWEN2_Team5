@@ -4,6 +4,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -15,9 +16,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import technikum.at.tourplanner_swen2_team5.MainTourPlaner;
 import technikum.at.tourplanner_swen2_team5.models.TourLogModel;
+import technikum.at.tourplanner_swen2_team5.models.TourModel;
 import technikum.at.tourplanner_swen2_team5.util.Formatter;
 import technikum.at.tourplanner_swen2_team5.viewmodels.TourLogViewModel;
 
@@ -30,6 +33,8 @@ public class TourLogListController {
 
     @FXML
     private TableColumn<TourLogModel, String> colDate;
+    @FXML
+    private TableColumn<TourLogModel, String> colTime;
     @FXML
     private TableColumn<TourLogModel, String> colComment;
     @FXML
@@ -45,14 +50,10 @@ public class TourLogListController {
     @FXML
     private TableColumn<TourLogModel, Void> colButtons;
 
-    @FXML
-    private ImageView reloadIcon;
-
     private TourLogViewModel tourLogViewModel;
     private Formatter formatter;
     public void initialize() {
         tourLogViewModel = TourLogViewModel.getInstance();
-        tourLogsTable = new TableView<>();
         formatter = new Formatter();
 
         colTransportType.setCellValueFactory(new PropertyValueFactory<>("transportType"));
@@ -80,33 +81,12 @@ public class TourLogListController {
         });
 
         colDate.setCellValueFactory(new PropertyValueFactory<>("date"));
+        colTime.setCellValueFactory(new PropertyValueFactory<>("time"));
         colComment.setCellValueFactory(new PropertyValueFactory<>("comment"));
         colDifficulty.setCellValueFactory(new PropertyValueFactory<>("difficulty"));
         colDistance.setCellValueFactory(new PropertyValueFactory<>("distance"));
-        colDistance.setCellFactory(column -> new TableCell<TourLogModel, Double>() {
-            @Override
-            protected void updateItem(Double item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null) {
-                    setText(null);
-                } else {
-                    setText(formatter.formatDistance(item));
-                }
-            }
-        });
-
-        colTotalTime.setCellValueFactory(new PropertyValueFactory<>("total time"));
-        /*colTotalTime.setCellFactory(column -> new TableCell<TourLogModel, Integer>() {
-            @Override
-            protected void updateItem(Integer item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null) {
-                    setText(null);
-                } else {
-                    setText(formatter.formatTime(item)); // Nutze die formatTime Methode, um das Format zu definieren
-                }
-            }
-        });*/
+        colTotalTime.setCellValueFactory(new PropertyValueFactory<>("totalTime"));
+        colRating.setCellValueFactory(new PropertyValueFactory<>("rating"));
 
         colButtons.setCellFactory(column -> new TableCell<TourLogModel, Void>() {
             private final HBox buttonContainer = new HBox(10);
@@ -178,16 +158,28 @@ public class TourLogListController {
     private void onEditTourLogClicked(String id) {
         try {
             TourLogModel tourLog = tourLogViewModel.getTourLogById(id);
-            FXMLLoader fxmlLoader = new FXMLLoader(MainTourPlaner.class.getResource("edit_tour.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(MainTourPlaner.class.getResource("edit_tour_log.fxml"));
             Parent root = fxmlLoader.load(); // Lade die FXML und initialisiere den Controller
 
-            EditTourController controller = fxmlLoader.getController();
-            //controller.setTourLog(tourLog);
+            EditTourLogController controller = fxmlLoader.getController();
+            controller.setTourLog(tourLog);
+
+            // Bildschirmgröße ermitteln
+            Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+            double width = screenBounds.getWidth() * 0.8;
+            double height = screenBounds.getHeight() * 0.8;
 
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setTitle("Edit Tour");
-            stage.setScene(new Scene(root));
+            stage.setTitle("Edit Tour Log");
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+
+            // Fenstergröße relativ zur Bildschirmgröße setzen
+            stage.setWidth(width);
+            stage.setHeight(height);
+
+            stage.showAndWait();
             stage.showAndWait(); // Zeige das Fenster und warte, bis es geschlossen wird
         } catch (IOException e) {
             e.printStackTrace();

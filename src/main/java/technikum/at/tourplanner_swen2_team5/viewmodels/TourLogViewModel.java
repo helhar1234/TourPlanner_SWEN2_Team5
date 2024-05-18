@@ -33,7 +33,7 @@ public class TourLogViewModel {
         for (int i = 0; i < tourLogModels.size(); i++) {
             if (tourLogModels.get(i).getId().equals(tourLog.getId())) {
                 tourLogModels.set(i, tourLog);
-                System.out.println("Tour was updated: " + tourLog.getId());
+                System.out.println("Tour Log was updated: " + tourLog.getId());
                 break;
             }
         }

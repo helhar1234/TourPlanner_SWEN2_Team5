@@ -3,6 +3,7 @@ package technikum.at.tourplanner_swen2_team5.controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -12,6 +13,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import technikum.at.tourplanner_swen2_team5.MainTourPlaner;
 import technikum.at.tourplanner_swen2_team5.models.MapModel;
@@ -75,10 +77,21 @@ public class TourDetailController {
             FXMLLoader fxmlLoader = new FXMLLoader(MainTourPlaner.class.getResource("add_tour_log.fxml"));
             Parent root = fxmlLoader.load();
 
+            // Bildschirmgröße ermitteln
+            Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+            double width = screenBounds.getWidth() * 0.8;
+            double height = screenBounds.getHeight() * 0.8;
+
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setTitle("Add New Tour Log");
-            stage.setScene(new Scene(root));
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+
+            // Fenstergröße relativ zur Bildschirmgröße setzen
+            stage.setWidth(width);
+            stage.setHeight(height);
+
             stage.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();
