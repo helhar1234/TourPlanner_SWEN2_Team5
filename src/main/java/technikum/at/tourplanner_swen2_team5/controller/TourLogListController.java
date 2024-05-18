@@ -179,7 +179,6 @@ public class TourLogListController {
             stage.setWidth(width);
             stage.setHeight(height);
 
-            stage.showAndWait();
             stage.showAndWait(); // Zeige das Fenster und warte, bis es geschlossen wird
         } catch (IOException e) {
             e.printStackTrace();

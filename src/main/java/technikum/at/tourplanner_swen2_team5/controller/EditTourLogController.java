@@ -85,8 +85,16 @@ public class EditTourLogController {
         });
         difficultyBox.getItems().setAll("Easy", "Moderate", "Challenging", "Difficult");
         transportTypeBox.getItems().setAll("Hike", "Bike", "Running", "Vacation");
-        ratingSlider.valueProperty().addListener((obs, oldval, newVal) -> updateSliderFill(newVal));
-        Platform.runLater(() -> updateSliderFill(ratingSlider.getValue()));
+        Platform.runLater(() -> {
+            if (ratingSlider.lookup(".track") != null) {
+                updateSliderFill(ratingSlider.getValue());
+            }
+        });
+        ratingSlider.valueProperty().addListener((obs, oldval, newVal) -> {
+            if (ratingSlider.lookup(".track") != null) {
+                updateSliderFill(newVal);
+            }
+        });
     }
 
     public void setTourLog(TourLogModel tourLog) {
@@ -162,7 +170,7 @@ public class EditTourLogController {
     private boolean validateInputs() {
         boolean hasError = false;
         hasError |= setFieldError(dateField, warningLabelDate, tourLogViewModel.validateDate(dateField.getValue()));
-        hasError |= setFieldError(timeField, warningLabelComment, tourLogViewModel.validateTime(timeField.getText()));
+        hasError |= setFieldError(timeField, warningLabelTime, tourLogViewModel.validateTime(timeField.getText()));
         hasError |= setFieldError(commentArea, warningLabelComment, tourLogViewModel.validateComment(commentArea.getText()));
         hasError |= setFieldError(difficultyBox, warningLabelDifficulty, tourLogViewModel.validateDifficulty(difficultyBox.getValue()));
         hasError |= setFieldError(distanceField, warningLabelDistance, tourLogViewModel.validateDistance(distanceField.getText()));

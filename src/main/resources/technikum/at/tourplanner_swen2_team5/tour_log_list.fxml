@@ -21,7 +21,7 @@
             <TableColumn fx:id="colDate" text="Date"/>
             <TableColumn fx:id="colTime" text="Time"/>
             <TableColumn fx:id="colComment" text="Comment" />
-            <TableColumn fx:id="colDifficulty" text="Start" />
+            <TableColumn fx:id="colDifficulty" text="Difficulty" />
             <TableColumn fx:id="colDistance" prefWidth="90.0" text="Distance in km" />
             <TableColumn fx:id="colTotalTime" prefWidth="70.0" text="Total Time" />
             <TableColumn fx:id="colRating" text="Rating out of 10" />
