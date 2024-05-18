@@ -125,15 +125,14 @@ public class AddTourLogController {
 
     private boolean validateInputs() {
         boolean hasError = false;
-        /*hasError |= setFieldError(dateField, warningLabelDate, tourLogViewModel.validateDate(dateField.getValue(), currentTourLog.getId()));
+        hasError |= setFieldError(dateField, warningLabelDate, tourLogViewModel.validateDate(dateField.getValue()));
         hasError |= setFieldError(timeField, warningLabelComment, tourLogViewModel.validateTime(timeField.getText()));
         hasError |= setFieldError(commentArea, warningLabelComment, tourLogViewModel.validateComment(commentArea.getText()));
         hasError |= setFieldError(difficultyBox, warningLabelDifficulty, tourLogViewModel.validateDifficulty(difficultyBox.getValue()));
-        hasError |= setFieldError(distanceField, warningLabelDistance, tourLogViewModel.validateDistance(distanceField));
+        hasError |= setFieldError(distanceField, warningLabelDistance, tourLogViewModel.validateDistance(distanceField.getText()));
         hasError |= setFieldError(totalTimeField, warningLabelTotalTime, tourLogViewModel.validateTotalTime(totalTimeField.getText()));
-        hasError |= setFieldError(ratingSlider, warningLabelRating, tourLogViewModel.validateRating(ratingSlider));
         hasError |= setFieldError(transportTypeBox, warningLabelTransportationType, tourLogViewModel.validateTransportationType(transportTypeBox.getValue()));
-        */return !hasError;
+        return !hasError;
     }
 
     private void closeStage() {

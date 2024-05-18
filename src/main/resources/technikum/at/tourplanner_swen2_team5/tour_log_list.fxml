@@ -22,12 +22,11 @@
             <TableColumn fx:id="colTime" text="Time"/>
             <TableColumn fx:id="colComment" text="Comment" />
             <TableColumn fx:id="colDifficulty" text="Start" />
-            <TableColumn fx:id="colDistance" prefWidth="90.0" text="Distance" />
+            <TableColumn fx:id="colDistance" prefWidth="90.0" text="Distance in km" />
             <TableColumn fx:id="colTotalTime" prefWidth="70.0" text="Total Time" />
-            <TableColumn fx:id="colRating" text="Rating" />
+            <TableColumn fx:id="colRating" text="Rating out of 10" />
             <TableColumn fx:id="colTransportType" text="Transport Type" />
             <TableColumn fx:id="colButtons"/>
-
         </columns>
     </TableView>
 
