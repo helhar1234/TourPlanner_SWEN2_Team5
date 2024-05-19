@@ -213,6 +213,7 @@ public class EditTourLogController {
 
         // Überprüfe die Benutzerantwort
         if (dialog.showAndWait()) {
+            tourLogViewModel.deleteTourLogById(currentTourLog.getId());
             closeStage();
         }
     }

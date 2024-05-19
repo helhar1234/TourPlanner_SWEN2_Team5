@@ -82,6 +82,10 @@ public class AddTourLogController {
         Platform.runLater(() -> updateSliderFill(ratingSlider.getValue()));
     }
 
+    public void setTourLogTourId(String tourId) {
+        this.currentTourLog.setTourId(tourId);
+    }
+
     private void updateSliderFill(Number value) {
         // Umrechnung des Sliderwerts in Prozent
         double percentage = (value.doubleValue() - ratingSlider.getMin()) / (ratingSlider.getMax() - ratingSlider.getMin());

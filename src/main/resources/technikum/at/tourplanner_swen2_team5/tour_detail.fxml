@@ -70,7 +70,7 @@
         <GridPane>
             <VBox GridPane.columnIndex="0" GridPane.rowIndex="0">
                 <Label styleClass="section-title" text="Tour Logs"/>
-                <fx:include source="tour_log_list.fxml"/>
+                <fx:include source="tour_log_list.fxml" fx:id="tourLogListView"/>
             </VBox>
             <Button fx:id="addLogButton" onAction="#onAddLogButtonClicked" styleClass="icon-button"
                     GridPane.columnIndex="1" GridPane.columnSpan="1" GridPane.rowIndex="1">

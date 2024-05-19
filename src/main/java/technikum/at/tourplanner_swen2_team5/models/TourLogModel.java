@@ -8,6 +8,8 @@ import java.time.LocalDate;
 public class TourLogModel {
     @Getter
     private String id;
+    @Getter
+    private String tourId;
     private final ObjectProperty<LocalDate> date = new SimpleObjectProperty<>();
     private final StringProperty time = new SimpleStringProperty();
     private final StringProperty comment = new SimpleStringProperty();
@@ -20,7 +22,9 @@ public class TourLogModel {
     public TourLogModel() {
     }
 
-    public TourLogModel(String id, LocalDate date, String time, String comment, String difficulty, String distance, String totalTime, Integer rating, String transportType) {
+    public TourLogModel(String id, String tourId, LocalDate date, String time, String comment, String difficulty, String distance, String totalTime, Integer rating, String transportType) {
+        this.id = id;
+        this.tourId = tourId;
         this.date.set(date);
         this.time.set(time);
         this.comment.set(comment);
@@ -66,6 +70,10 @@ public class TourLogModel {
     // Getter und Setter
     public void setId(String id) {
         this.id = id;
+    }
+
+    public void setTourId(String tourId) {
+        this.tourId = tourId;
     }
 
     public LocalDate getDate() {

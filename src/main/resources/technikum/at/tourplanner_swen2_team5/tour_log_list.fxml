@@ -28,5 +28,4 @@
             <TableColumn fx:id="colButtons"/>
         </columns>
     </TableView>
-
 </GridPane>

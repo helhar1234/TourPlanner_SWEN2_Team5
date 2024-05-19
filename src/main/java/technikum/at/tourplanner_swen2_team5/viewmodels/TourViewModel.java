@@ -30,6 +30,7 @@ public class TourViewModel {
         tourLogViewModel = TourLogViewModel.getInstance();
         TourLogModel tourLog = new TourLogModel(
                 UUID.randomUUID().toString(),
+                tour.getId(),
                 LocalDate.of(2024, 5, 18),
                 "15:30",
                 "Comment..",

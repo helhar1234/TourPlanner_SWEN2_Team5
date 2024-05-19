@@ -41,10 +41,11 @@ public class TourDetailController {
     private Label tourDistance;
     @FXML
     private Label tourTime;
-
     @FXML
     private ImageView mapImage;
 
+    @FXML
+    private TourLogListController tourLogListViewController;
 
     private TourViewModel tourViewModel;
     private MapViewModel mapViewModel;
@@ -76,12 +77,18 @@ public class TourDetailController {
         mapImage.setPreserveRatio(true);
         mapImage.setImage(map);
 
+        // Set the tourId in the TourLogListController
+        tourLogListViewController.setTourId(currentTour.getId());
     }
 
     public void onAddLogButtonClicked(ActionEvent actionEvent) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(MainTourPlaner.class.getResource("add_tour_log.fxml"));
             Parent root = fxmlLoader.load();
+
+            AddTourLogController addTourLogController = fxmlLoader.getController();
+            TourModel currentTour = this.currentTour;
+            addTourLogController.setTourLogTourId(currentTour.getId());
 
             // Bildschirmgröße ermitteln
             Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();

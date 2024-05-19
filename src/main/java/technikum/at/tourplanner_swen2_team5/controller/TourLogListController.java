@@ -1,6 +1,7 @@
 package technikum.at.tourplanner_swen2_team5.controller;
 
 import javafx.application.Platform;
+import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -51,6 +52,7 @@ public class TourLogListController {
 
     private TourLogViewModel tourLogViewModel;
     private Formatter formatter;
+    private String tourId;
 
     public void initialize() {
         tourLogViewModel = TourLogViewModel.getInstance();
@@ -109,8 +111,17 @@ public class TourLogListController {
                 }
             }
         });
+    }
 
-        tourLogsTable.setItems(tourLogViewModel.getTourLogs());
+    public void setTourId(String tourId) {
+        this.tourId = tourId;
+        loadTourLogs();
+    }
+
+    private void loadTourLogs() {
+        FilteredList<TourLogModel> filteredList = new FilteredList<>(tourLogViewModel.getTourLogs());
+        filteredList.setPredicate(tourLog -> tourLog.getTourId().equals(tourId));
+        tourLogsTable.setItems(filteredList);
     }
 
     private Button createButton(String iconName, String baseColor, String hoverColor, boolean isTrashButton, String tourLogId) {
