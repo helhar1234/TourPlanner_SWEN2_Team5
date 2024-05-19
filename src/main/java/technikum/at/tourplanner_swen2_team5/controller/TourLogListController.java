@@ -58,6 +58,7 @@ public class TourLogListController {
 
     private void populateTourLogs(List<TourLogModel> tourLogs) {
         tourLogsContainer.getChildren().clear();
+        boolean first = true; // Variable to track the first element
         for (TourLogModel log : tourLogs) {
             try {
                 FXMLLoader loader = new FXMLLoader(MainTourPlaner.class.getResource("tour_log_entry.fxml"));
@@ -94,9 +95,13 @@ public class TourLogListController {
                 Button trashButton = (Button) logEntry.lookup("#deleteButton");
                 trashButton.setOnAction(event -> tourLogViewModel.deleteTourLogById(log.getId()));
 
-                Separator separator = new Separator();
-                separator.setPadding(new Insets(10, 0, 10, 0));
-                tourLogsContainer.getChildren().add(separator);
+                if (!first) { // Only add separator if it's not the first element
+                    Separator separator = new Separator();
+                    separator.setPadding(new Insets(10, 0, 10, 0));
+                    tourLogsContainer.getChildren().add(separator);
+                } else {
+                    first = false;
+                }
 
                 tourLogsContainer.getChildren().add(logEntry);
 
