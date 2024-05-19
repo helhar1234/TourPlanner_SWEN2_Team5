@@ -30,6 +30,14 @@
     -fx-background-color: #395C37;
 }
 
+#deleteButton {
+    -fx-background-color: #F44336; /* Rot für den Löschen-Button */
+}
+
+#deleteButton:hover {
+    -fx-background-color: #bb1b11;
+}
+
 .list-title {
     -fx-font-size: 36px;
     -fx-font-weight: bold;
@@ -81,3 +89,4 @@
 .table-view .cell {
     -fx-font-size: 13px;
 }
+
