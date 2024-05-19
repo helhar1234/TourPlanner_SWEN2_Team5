@@ -12,8 +12,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Screen;
@@ -24,6 +24,7 @@ import technikum.at.tourplanner_swen2_team5.util.Formatter;
 import technikum.at.tourplanner_swen2_team5.viewmodels.TourLogViewModel;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.List;
 
 public class TourLogListController {
@@ -57,58 +58,65 @@ public class TourLogListController {
 
     private void populateTourLogs(List<TourLogModel> tourLogs) {
         tourLogsContainer.getChildren().clear();
-        for (int i = 0; i < tourLogs.size(); i++) {
-            TourLogModel log = tourLogs.get(i);
+        for (TourLogModel log : tourLogs) {
             try {
                 FXMLLoader loader = new FXMLLoader(MainTourPlaner.class.getResource("tour_log_entry.fxml"));
-                GridPane logEntry = loader.load();
+                VBox logEntry = loader.load();
 
-                Label dateLabel = (Label) logEntry.lookup("#dateLabel");
-                dateLabel.setText("Date: " + log.getDate());
+                // Image setup
+                String imageName = "img/icons/" + log.getTransportType().toLowerCase() + "-icon.png";
+                URL resource = MainTourPlaner.class.getResource(imageName);
+                if (resource != null) {
+                    Image transportIcon = new Image(resource.toString());
+                    ImageView transportIconView = (ImageView) logEntry.lookup("#transportTypeIcon");
+                    transportIconView.setFitWidth(30);
+                    transportIconView.setFitHeight(30);
+                    transportIconView.setPreserveRatio(true);
+                    transportIconView.setImage(transportIcon);
+                } else {
+                    System.out.println("Image not found: " + imageName);
+                }
 
-                Label timeLabel = (Label) logEntry.lookup("#timeLabel");
-                timeLabel.setText("Time: " + log.getTime());
 
-                Label commentLabel = (Label) logEntry.lookup("#commentLabel");
-                commentLabel.setText("Comment: " + log.getComment());
+                // Set labels
+                ((Label) logEntry.lookup("#dateLabel")).setText((log.getDate()).toString());
+                ((Label) logEntry.lookup("#ratingLabel")).setText(log.getRating() + "/10");
+                ((Label) logEntry.lookup("#detailsLabel")).setText("Time: " + log.getTime() + " | Difficulty: " + log.getDifficulty() +
+                        " | Distance: " + log.getDistance() + " km | Total Time: " + log.getTotalTime());
+                ((Label) logEntry.lookup("#commentLabel")).setText(log.getComment());
 
-                Label difficultyLabel = (Label) logEntry.lookup("#difficultyLabel");
-                difficultyLabel.setText("Difficulty: " + log.getDifficulty());
-
-                Label distanceLabel = (Label) logEntry.lookup("#distanceLabel");
-                distanceLabel.setText("Distance: " + log.getDistance());
-
-                Label totalTimeLabel = (Label) logEntry.lookup("#totalTimeLabel");
-                totalTimeLabel.setText("Total Time: " + log.getTotalTime());
-
-                Label ratingLabel = (Label) logEntry.lookup("#ratingLabel");
-                ratingLabel.setText("Rating: " + log.getRating());
-
-                Label transportTypeLabel = (Label) logEntry.lookup("#transportTypeLabel");
-                transportTypeLabel.setText("Transport Type: " + log.getTransportType());
-
+                // Buttons setup
                 Button editButton = (Button) logEntry.lookup("#editButton");
                 editButton.setOnAction(event -> onEditTourLogClicked(log.getId()));
 
                 Button downloadButton = (Button) logEntry.lookup("#downloadButton");
-                // TODO: Implement download functionality
 
-                Button trashButton = (Button) logEntry.lookup("#trashButton");
+                Button trashButton = (Button) logEntry.lookup("#deleteButton");
                 trashButton.setOnAction(event -> tourLogViewModel.deleteTourLogById(log.getId()));
+
+                Separator separator = new Separator();
+                separator.setPadding(new Insets(10, 0, 10, 0));
+                tourLogsContainer.getChildren().add(separator);
 
                 tourLogsContainer.getChildren().add(logEntry);
 
-                // Add a separator between entries, but not after the last one
-                if (i < tourLogs.size() - 1) {
-                    Separator separator = new Separator();
-                    separator.setPadding(new Insets(10, 0, 10, 0));
-                    tourLogsContainer.getChildren().add(separator);
+                Label ratingLabel = (Label) logEntry.lookup("#ratingLabel");
+                int rating = log.getRating();
+                ratingLabel.setText(rating + "/10");
+                if (rating >= 6) {
+                    ratingLabel.setStyle("-fx-text-fill: green;");
+                } else if (rating >= 3) {
+                    ratingLabel.setStyle("-fx-text-fill: orange;");
+                } else {
+                    ratingLabel.setStyle("-fx-text-fill: red;");
                 }
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
+
 
     private void onEditTourLogClicked(String id) {
         try {
