@@ -4,7 +4,6 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-
 <GridPane xmlns:fx="http://javafx.com/fxml/1" id="gridPaneRoot" styleClass="navbar" stylesheets="@css/navbar.css"
           xmlns="http://javafx.com/javafx/21"
           fx:controller="technikum.at.tourplanner_swen2_team5.controller.NavbarController">
@@ -16,19 +15,20 @@
     </rowConstraints>
 
     <HBox GridPane.columnIndex="0" alignment="CENTER_LEFT" fillHeight="true" spacing="10" styleClass="navbar-container">
-        <ImageView fx:id="logo" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" styleClass="logo">
+        <ImageView fx:id="logo" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true"
+                   styleClass="logo">
             <image>
-                <Image url="@img/logos/BikerLogoMave.png" />
+                <Image url="@img/logos/BikerLogoMave.png"/>
             </image>
-         <cursor>
-            <Cursor fx:constant="DEFAULT" />
-         </cursor>
+            <cursor>
+                <Cursor fx:constant="DEFAULT"/>
+            </cursor>
         </ImageView>
 
         <Button fx:id="mapButton" styleClass="icon-button" onAction="#onMapPinClicked">
             <graphic>
                 <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                    <Image url="@img/icons/map-icon.png" />
+                    <Image url="@img/icons/map-icon.png"/>
                 </ImageView>
             </graphic>
         </Button>
@@ -36,30 +36,31 @@
         <Button fx:id="plusButton" onAction="#onAddTourClicked" styleClass="icon-button">
             <graphic>
                 <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                    <Image url="@img/icons/plus-icon.png" />
+                    <Image url="@img/icons/plus-icon.png"/>
                 </ImageView>
             </graphic>
         </Button>
     </HBox>
     <HBox GridPane.columnIndex="1" alignment="CENTER_RIGHT" fillHeight="true" spacing="10"
           styleClass="navbar-container">
-              <HBox styleClass="search-container">
-               <TextField fx:id="searchBar" maxHeight="36.0" prefHeight="36.0" prefWidth="160.0" promptText="Search..." styleClass="search-bar" />
-               <Button fx:id="searchButton" styleClass="search-button">
-                   <graphic>
-                       <ImageView fitHeight="20" fitWidth="20" pickOnBounds="true" preserveRatio="true">
-                           <Image url="@img/icons/search-icon.png" />
-                       </ImageView>
-                   </graphic>
-               </Button>
-           </HBox>
+        <HBox styleClass="search-container">
+            <TextField fx:id="searchBar" maxHeight="36.0" prefHeight="36.0" prefWidth="160.0" promptText="Search..."
+                       styleClass="search-bar"/>
+            <Button fx:id="searchButton" styleClass="search-button">
+                <graphic>
+                    <ImageView fitHeight="20" fitWidth="20" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@img/icons/search-icon.png"/>
+                    </ImageView>
+                </graphic>
+            </Button>
+        </HBox>
 
-              <Button fx:id="settingsButton" styleClass="icon-button">
-               <graphic>
-                   <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                       <Image url="@img/icons/settings-icon.png" />
-                   </ImageView>
-               </graphic>
-           </Button>
-   </HBox>
+        <Button fx:id="settingsButton" styleClass="icon-button">
+            <graphic>
+                <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@img/icons/settings-icon.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+    </HBox>
 </GridPane>

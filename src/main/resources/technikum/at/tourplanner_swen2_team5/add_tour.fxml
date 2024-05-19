@@ -1,73 +1,75 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.image.Image?>
+
 <?import javafx.collections.FXCollections?>
-<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import java.lang.String?>
+<ScrollPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="technikum.at.tourplanner_swen2_team5.controller.AddTourController"
+            stylesheets="@css/addTour.css" fitToWidth="true">
 
-<VBox xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="technikum.at.tourplanner_swen2_team5.controller.AddTourController"
-      spacing="10" alignment="TOP_CENTER" stylesheets="@css/addTour.css" fillWidth="true">
+    <VBox spacing="10" alignment="TOP_CENTER" fillWidth="true">
+        <padding>
+            <Insets top="30" right="30" bottom="30"
+                    left="30"/> <!-- Erhöhtes Padding für den gesamten VBox-Container -->
+        </padding>
 
-    <padding>
-        <Insets top="30" right="30" bottom="30" left="30"/> <!-- Erhöhtes Padding für den gesamten VBox-Container -->
-    </padding>
-
-    <HBox alignment="TOP_LEFT" spacing="10">
-        <Button fx:id="backButton" styleClass="icon-button" onAction="#onBackButtonClicked">
-            <graphic>
-                <ImageView fitHeight="25" fitWidth="25" preserveRatio="true">
-                    <Image url="@img/icons/arrow-icon.png"/>
-                </ImageView>
-            </graphic>
-        </Button>
-    </HBox>
-
-
-    <VBox spacing="10" fillWidth="true">
-        <TextField fx:id="nameField" promptText="Tour Name" styleClass="text-field"/>
-        <Label fx:id="warningLabelName" style="-fx-text-fill: #FF0000FF"/>
-        <TextArea fx:id="descriptionArea" promptText="Tour Description" styleClass="text-area"/>
-        <Label fx:id="warningLabelDescription" style="-fx-text-fill: #FF0000FF"/>
-        <TextField fx:id="startField" promptText="From" styleClass="text-field"/>
-        <Label fx:id="warningLabelStart" style="-fx-text-fill: #FF0000FF"/>
-        <TextField fx:id="destinationField" promptText="To" styleClass="text-field"/>
-        <Label fx:id="warningLabelDestination" style="-fx-text-fill: #FF0000FF"/>
-
-        <HBox spacing="10" alignment="CENTER_LEFT">
-            <Label text="Transport Type:"/>
-            <ComboBox fx:id="transportTypeBox" styleClass="combo-box">
-                <items>
-                    <FXCollections fx:factory="observableArrayList">
-                        <String fx:value="Hike"/>
-                        <String fx:value="Bike"/>
-                        <String fx:value="Running"/>
-                        <String fx:value="Vacation"/>
-                    </FXCollections>
-                </items>
-            </ComboBox>
-        </HBox>
-
-        <Label fx:id="warningLabelTransportationType" style="-fx-text-fill: #FF0000FF"/>
-
-        <HBox spacing="10" alignment="CENTER_RIGHT">
-            <Button fx:id="saveButton" styleClass="icon-button" onAction="#onSaveButtonClicked">
+        <HBox spacing="10">
+            <Button fx:id="backButton" styleClass="icon-button" onAction="#onBackButtonClicked">
                 <graphic>
                     <ImageView fitHeight="25" fitWidth="25" preserveRatio="true">
-                        <Image url="@img/icons/check-icon.png"/>
-                    </ImageView>
-                </graphic>
-            </Button>
-            <Button fx:id="deleteButton" styleClass="icon-button" onAction="#onDeleteButtonClicked">
-                <graphic>
-                    <ImageView fitHeight="25" fitWidth="25" preserveRatio="true">
-                        <Image url="@img/icons/trash-icon.png"/>
+                        <Image url="@img/icons/arrow-icon.png"/>
                     </ImageView>
                 </graphic>
             </Button>
         </HBox>
+
+
+        <VBox spacing="10">
+            <TextField fx:id="nameField" promptText="Tour Name" styleClass="text-field"/>
+            <Label fx:id="warningLabelName" style="-fx-text-fill: #FF0000FF"/>
+            <TextArea fx:id="descriptionArea" promptText="Tour Description" styleClass="text-area"/>
+            <Label fx:id="warningLabelDescription" style="-fx-text-fill: #FF0000FF"/>
+            <TextField fx:id="startField" promptText="From" styleClass="text-field"/>
+            <Label fx:id="warningLabelStart" style="-fx-text-fill: #FF0000FF"/>
+            <TextField fx:id="destinationField" promptText="To" styleClass="text-field"/>
+            <Label fx:id="warningLabelDestination" style="-fx-text-fill: #FF0000FF"/>
+
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Transport Type:"/>
+                <ComboBox fx:id="transportTypeBox" styleClass="combo-box">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <String fx:value="Hike"/>
+                            <String fx:value="Bike"/>
+                            <String fx:value="Running"/>
+                            <String fx:value="Vacation"/>
+                        </FXCollections>
+                    </items>
+                </ComboBox>
+            </HBox>
+
+            <Label fx:id="warningLabelTransportationType" style="-fx-text-fill: #FF0000FF"/>
+
+            <HBox spacing="10" alignment="CENTER_RIGHT">
+                <Button fx:id="saveButton" styleClass="icon-button" onAction="#onSaveButtonClicked">
+                    <graphic>
+                        <ImageView fitHeight="25" fitWidth="25" preserveRatio="true">
+                            <Image url="@img/icons/check-icon.png"/>
+                        </ImageView>
+                    </graphic>
+                </Button>
+                <Button fx:id="deleteButton" styleClass="icon-button" onAction="#onDeleteButtonClicked">
+                    <graphic>
+                        <ImageView fitHeight="25" fitWidth="25" preserveRatio="true">
+                            <Image url="@img/icons/trash-icon.png"/>
+                        </ImageView>
+                    </graphic>
+                </Button>
+            </HBox>
+        </VBox>
     </VBox>
-</VBox>
+</ScrollPane>

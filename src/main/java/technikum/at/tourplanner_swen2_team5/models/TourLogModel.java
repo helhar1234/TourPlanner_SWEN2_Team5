@@ -8,10 +8,13 @@ import java.time.LocalDate;
 public class TourLogModel {
     @Getter
     private String id;
+    @Getter
+    private String tourId;
     private final ObjectProperty<LocalDate> date = new SimpleObjectProperty<>();
+    private final StringProperty time = new SimpleStringProperty();
     private final StringProperty comment = new SimpleStringProperty();
     private final StringProperty difficulty = new SimpleStringProperty();
-    private final DoubleProperty distance = new SimpleDoubleProperty();
+    private final StringProperty distance = new SimpleStringProperty();
     private final StringProperty totalTime = new SimpleStringProperty();
     private final IntegerProperty rating = new SimpleIntegerProperty();
     private final StringProperty transportType = new SimpleStringProperty();
@@ -19,8 +22,11 @@ public class TourLogModel {
     public TourLogModel() {
     }
 
-    public TourLogModel(String id, LocalDate date, String comment, String difficulty, Double distance, String totalTime, Integer rating, String transportType) {
+    public TourLogModel(String id, String tourId, LocalDate date, String time, String comment, String difficulty, String distance, String totalTime, Integer rating, String transportType) {
+        this.id = id;
+        this.tourId = tourId;
         this.date.set(date);
+        this.time.set(time);
         this.comment.set(comment);
         this.difficulty.set(difficulty);
         this.distance.set(distance);
@@ -33,6 +39,10 @@ public class TourLogModel {
         return date;
     }
 
+    public StringProperty timeProperty() {
+        return time;
+    }
+
     public StringProperty commentProperty() {
         return comment;
     }
@@ -41,7 +51,7 @@ public class TourLogModel {
         return difficulty;
     }
 
-    public DoubleProperty distanceProperty() {
+    public StringProperty distanceProperty() {
         return distance;
     }
 
@@ -62,12 +72,24 @@ public class TourLogModel {
         this.id = id;
     }
 
+    public void setTourId(String tourId) {
+        this.tourId = tourId;
+    }
+
     public LocalDate getDate() {
         return date.get();
     }
 
     public void setDate(LocalDate date) {
         this.date.set(date);
+    }
+
+    public String getTime() {
+        return time.get();
+    }
+
+    public void setTime(String time) {
+        this.time.set(time);
     }
 
     public String getComment() {
@@ -86,11 +108,11 @@ public class TourLogModel {
         this.difficulty.set(difficulty);
     }
 
-    public double getDistance() {
+    public String getDistance() {
         return distance.get();
     }
 
-    public void setDistance(double distance) {
+    public void setDistance(String distance) {
         this.distance.set(distance);
     }
 

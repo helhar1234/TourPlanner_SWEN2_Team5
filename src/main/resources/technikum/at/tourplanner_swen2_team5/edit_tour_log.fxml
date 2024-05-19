@@ -5,18 +5,18 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-<?import java.lang.String?>
+<?import java.lang.*?>
 <ScrollPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="technikum.at.tourplanner_swen2_team5.controller.EditTourController"
-            stylesheets="@css/addTour.css" fitToWidth="true">
-    <VBox spacing="10" alignment="TOP_CENTER" fillWidth="true">
+            fx:controller="technikum.at.tourplanner_swen2_team5.controller.EditTourLogController"
+            fitToWidth="true">
+    <VBox spacing="10" alignment="TOP_CENTER" stylesheets="@css/addTourLogs.css">
 
         <padding>
             <Insets top="30" right="30" bottom="30" left="30"/>
         </padding>
 
-        <HBox alignment="TOP_LEFT" spacing="10">
+        <HBox spacing="10">
             <Button fx:id="backButton" styleClass="icon-button" onAction="#onBackButtonClicked">
                 <graphic>
                     <ImageView fitHeight="25" fitWidth="25" preserveRatio="true">
@@ -26,16 +26,37 @@
             </Button>
         </HBox>
 
-
-        <VBox spacing="10" fillWidth="true">
-            <TextField fx:id="nameField" promptText="Tour Name" styleClass="text-field"/>
-            <Label fx:id="warningLabelName" style="-fx-text-fill: #FF0000FF"/>
-            <TextArea fx:id="descriptionArea" promptText="Tour Description" styleClass="text-area"/>
-            <Label fx:id="warningLabelDescription" style="-fx-text-fill: #FF0000FF"/>
-            <TextField fx:id="startField" promptText="From" styleClass="text-field"/>
-            <Label fx:id="warningLabelStart" style="-fx-text-fill: #FF0000FF"/>
-            <TextField fx:id="destinationField" promptText="To" styleClass="text-field"/>
-            <Label fx:id="warningLabelDestination" style="-fx-text-fill: #FF0000FF"/>
+        <VBox spacing="10">
+            <DatePicker fx:id="dateField" promptText="Pick a date.." styleClass="date-picker"/>
+            <Label fx:id="warningLabelDate" style="-fx-text-fill: #FF0000FF"/>
+            <TextField fx:id="timeField" promptText="Enter your starttime (hh:mm)"/>
+            <Label fx:id="warningLabelTime" style="-fx-text-fill: #FF0000FF"/>
+            <TextArea fx:id="commentArea" promptText="Comment" styleClass="text-area"/>
+            <Label fx:id="warningLabelComment" style="-fx-text-fill: #FF0000FF"/>
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Difficulty:"/>
+                <ComboBox fx:id="difficultyBox" styleClass="combo-box">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <String fx:value="Easy"/>
+                            <String fx:value="Moderate"/>
+                            <String fx:value="Challenging"/>
+                            <String fx:value="Difficult"/>
+                        </FXCollections>
+                    </items>
+                </ComboBox>
+            </HBox>
+            <Label fx:id="warningLabelDifficulty" style="-fx-text-fill: #FF0000FF"/>
+            <TextField fx:id="distanceField" promptText="Total distance in km (for example: 12.3)"
+                       styleClass="text-field"/>
+            <Label fx:id="warningLabelDistance" style="-fx-text-fill: #FF0000FF"/>
+            <TextField fx:id="totalTimeField" promptText="Total time in hours and minutes (for example: 1h 23min)"
+                       styleClass="text-field"/>
+            <Label fx:id="warningLabelTotalTime" style="-fx-text-fill: #FF0000FF"/>
+            <Label text="Rating (0 = worst, 10 = best):"/>
+            <Slider fx:id="ratingSlider" styleClass="slider" max="10" value="5" blockIncrement="1" majorTickUnit="1"
+                    minorTickCount="0" snapToTicks="true" showTickMarks="true" showTickLabels="true"/>
+            <Label fx:id="warningLabelRating" style="-fx-text-fill: #FF0000FF"/>
 
             <HBox spacing="10" alignment="CENTER_LEFT">
                 <Label text="Transport Type:"/>

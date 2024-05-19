@@ -11,7 +11,7 @@ import technikum.at.tourplanner_swen2_team5.viewmodels.TourLogViewModel;
 
 import java.time.LocalDate;
 
-public class AddTourLogController {
+public class EditTourLogController {
     @FXML
     private DatePicker dateField;
     @FXML
@@ -54,12 +54,12 @@ public class AddTourLogController {
     private Label warningLabelTransportationType;
 
     private TourLogViewModel tourLogViewModel;
-    private final TourLogModel currentTourLog = new TourLogModel();
+    private TourLogModel currentTourLog = new TourLogModel();
 
     public void initialize() {
         tourLogViewModel = TourLogViewModel.getInstance();
         bindFieldsToModel(currentTourLog);
-        dateField.setDayCellFactory(new Callback<DatePicker, DateCell>() {
+        dateField.setDayCellFactory(new Callback<>() {
             @Override
             public DateCell call(final DatePicker datePicker) {
                 return new DateCell() {
@@ -78,12 +78,35 @@ public class AddTourLogController {
         });
         difficultyBox.getItems().setAll("Easy", "Moderate", "Challenging", "Difficult");
         transportTypeBox.getItems().setAll("Hike", "Bike", "Running", "Vacation");
-        ratingSlider.valueProperty().addListener((obs, oldval, newVal) -> updateSliderFill(newVal));
-        Platform.runLater(() -> updateSliderFill(ratingSlider.getValue()));
+        Platform.runLater(() -> {
+            if (ratingSlider.lookup(".track") != null) {
+                updateSliderFill(ratingSlider.getValue());
+            }
+        });
+        ratingSlider.valueProperty().addListener((obs, oldval, newVal) -> {
+            if (ratingSlider.lookup(".track") != null) {
+                updateSliderFill(newVal);
+            }
+        });
     }
 
-    public void setTourLogTourId(String tourId) {
-        this.currentTourLog.setTourId(tourId);
+    public void setTourLog(TourLogModel tourLog) {
+        this.currentTourLog = tourLog;
+        if (currentTourLog != null) {
+            unbindFieldsToModel();
+            loadTourLogDetails();
+        }
+    }
+
+    private void loadTourLogDetails() {
+        dateField.setValue(currentTourLog.getDate());
+        timeField.setText(currentTourLog.getTime());
+        commentArea.setText(currentTourLog.getComment());
+        difficultyBox.setValue(currentTourLog.getDifficulty());
+        distanceField.setText(currentTourLog.getDistance());
+        totalTimeField.setText(currentTourLog.getTotalTime());
+        ratingSlider.setValue(currentTourLog.getRating());
+        transportTypeBox.setValue(currentTourLog.getTransportType());
     }
 
     private void updateSliderFill(Number value) {
@@ -106,11 +129,22 @@ public class AddTourLogController {
         transportTypeBox.valueProperty().bindBidirectional(tourLog.transportTypeProperty());
     }
 
+    private void unbindFieldsToModel() {
+        dateField.valueProperty().unbind();
+        timeField.textProperty().unbind();
+        commentArea.textProperty().unbind();
+        difficultyBox.valueProperty().unbind();
+        distanceField.textProperty().unbind();
+        totalTimeField.textProperty().unbind();
+        ratingSlider.valueProperty().unbind();
+        transportTypeBox.valueProperty().unbind();
+    }
+
     @FXML
     private void onSaveButtonClicked() {
         if (validateInputs()) {
             updateTourLogModelFromFields();
-            tourLogViewModel.addTourLog(currentTourLog);
+            bindFieldsToModel(currentTourLog);
             closeStage();
         }
     }
@@ -179,6 +213,7 @@ public class AddTourLogController {
 
         // Überprüfe die Benutzerantwort
         if (dialog.showAndWait()) {
+            tourLogViewModel.deleteTourLogById(currentTourLog.getId());
             closeStage();
         }
     }

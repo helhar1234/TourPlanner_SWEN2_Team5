@@ -3,18 +3,17 @@ package technikum.at.tourplanner_swen2_team5.controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import technikum.at.tourplanner_swen2_team5.MainTourPlaner;
-import technikum.at.tourplanner_swen2_team5.models.MapModel;
 import technikum.at.tourplanner_swen2_team5.models.TourModel;
 import technikum.at.tourplanner_swen2_team5.util.ApplicationContext;
 import technikum.at.tourplanner_swen2_team5.util.Formatter;
@@ -26,17 +25,27 @@ import java.net.URL;
 
 public class TourDetailController {
 
-    @FXML private Label titleLabel;
-    @FXML private Label tourDescription;
-    @FXML private Label tourName;
-    @FXML private Label tourStart;
-    @FXML private Label tourDestination;
-    @FXML private Label tourTransportationType;
-    @FXML private Label tourDistance;
-    @FXML private Label tourTime;
+    @FXML
+    private Label titleLabel;
+    @FXML
+    private Label tourDescription;
+    @FXML
+    private Label tourName;
+    @FXML
+    private Label tourStart;
+    @FXML
+    private Label tourDestination;
+    @FXML
+    private Label tourTransportationType;
+    @FXML
+    private Label tourDistance;
+    @FXML
+    private Label tourTime;
+    @FXML
+    private ImageView mapImage;
 
-    @FXML private ImageView mapImage;
-
+    @FXML
+    private TourLogListController tourLogListViewController;
 
     private TourViewModel tourViewModel;
     private MapViewModel mapViewModel;
@@ -44,7 +53,7 @@ public class TourDetailController {
 
     private TourModel currentTour;
 
-    public void initialize (){
+    public void initialize() {
         tourViewModel = TourViewModel.getInstance();
         mapViewModel = MapViewModel.getInstance();
         formatter = new Formatter();
@@ -57,7 +66,7 @@ public class TourDetailController {
         tourStart.setText("Start: " + currentTour.getStart());
         tourDestination.setText("Destination: " + currentTour.getDestination());
         tourTransportationType.setText("Transportation Type: " + currentTour.getTransportationType());
-        tourDistance.setText("Distance: " + formatter.formatDistance(currentTour.getDistance()));
+        tourDistance.setText("Distance: " + Formatter.formatDistance(currentTour.getDistance()));
         tourTime.setText("Time: " + formatter.formatTime(currentTour.getTime()));
 
         String filename = (mapViewModel.getMapById(currentTour.getId())).getFilename();
@@ -68,18 +77,34 @@ public class TourDetailController {
         mapImage.setPreserveRatio(true);
         mapImage.setImage(map);
 
+        // Set the tourId in the TourLogListController
+        tourLogListViewController.setTourId(currentTour.getId());
     }
-
 
     public void onAddLogButtonClicked(ActionEvent actionEvent) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(MainTourPlaner.class.getResource("add_tour_log.fxml"));
             Parent root = fxmlLoader.load();
 
+            AddTourLogController addTourLogController = fxmlLoader.getController();
+            TourModel currentTour = this.currentTour;
+            addTourLogController.setTourLogTourId(currentTour.getId());
+
+            // Bildschirmgröße ermitteln
+            Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+            double width = screenBounds.getWidth() * 0.8;
+            double height = screenBounds.getHeight() * 0.8;
+
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setTitle("Add New Tour Log");
-            stage.setScene(new Scene(root));
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+
+            // Fenstergröße relativ zur Bildschirmgröße setzen
+            stage.setWidth(width);
+            stage.setHeight(height);
+
             stage.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();

@@ -54,7 +54,6 @@ public class EditTourController {
 
 
     public void setTour(TourModel tour) {
-        //System.out.println(tour.getId());
         this.currentTour = tour;
         if (currentTour != null) {
             unbindFieldsToModel(currentTour);

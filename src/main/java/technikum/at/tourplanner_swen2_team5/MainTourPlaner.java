@@ -3,9 +3,11 @@ package technikum.at.tourplanner_swen2_team5;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import technikum.at.tourplanner_swen2_team5.controller.HomeScreenController;
 import technikum.at.tourplanner_swen2_team5.controller.NavbarController;
@@ -37,11 +39,17 @@ public class MainTourPlaner extends Application {
         gridPane.add(navbar, 0, 0);
 
         Scene scene = new Scene(homeRoot);
+
+        // Bildschirmgröße ermitteln
+        Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+        double width = screenBounds.getWidth();
+        double height = screenBounds.getHeight();
+
         stage.setScene(scene);
         stage.setTitle("Tours By Helena");
         stage.show();
-        stage.setMinWidth(280);
-        stage.setMinHeight(180);
+        stage.setMinWidth(width);
+        stage.setMinHeight(height);
         stage.setMaximized(true);
     }
 

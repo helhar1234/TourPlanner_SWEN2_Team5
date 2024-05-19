@@ -5,13 +5,16 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import technikum.at.tourplanner_swen2_team5.models.MapModel;
+import technikum.at.tourplanner_swen2_team5.models.TourLogModel;
 import technikum.at.tourplanner_swen2_team5.models.TourModel;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 public class TourViewModel {
     private static TourViewModel instance;
     private static MapViewModel mapViewModel; //DELETE LATER -> JUST FOR TEST DATA
+    private static TourLogViewModel tourLogViewModel; //DELETE LATER -> JUST FOR TEST DATA
     private final ObservableList<TourModel> tourModels = FXCollections.observableArrayList();
 
     private TourViewModel() {
@@ -22,6 +25,22 @@ public class TourViewModel {
         tour.setId(UUID.randomUUID().toString());
         mapViewModel.addMap(new MapModel(tour.getId(), "map-placeholder.png"));
         tourModels.add(tour);
+
+        // add test tour log
+        tourLogViewModel = TourLogViewModel.getInstance();
+        TourLogModel tourLog = new TourLogModel(
+                UUID.randomUUID().toString(),
+                tour.getId(),
+                LocalDate.of(2024, 5, 18),
+                "15:30",
+                "Comment..",
+                "Easy",
+                "12",
+                "1h30min",
+                4,
+                "Bike"
+        );
+        tourLogViewModel.addTourLog(tourLog);
 
 
         // TEST DATA 2.0 with delay DELETE LATER!
