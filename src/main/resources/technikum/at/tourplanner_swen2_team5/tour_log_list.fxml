@@ -1,31 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <GridPane xmlns="http://javafx.com/javafx"
-          xmlns:fx="http://javafx.com/fxml"
-          fx:controller="technikum.at.tourplanner_swen2_team5.controller.TourLogListController"
-          styleClass="list-container" stylesheets="@css/tourList.css">
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="technikum.at.tourplanner_swen2_team5.controller.TourLogListController"
+      styleClass="list-container" stylesheets="@css/tourList.css">
 
-    <columnConstraints>
-        <ColumnConstraints hgrow="ALWAYS"/>
-    </columnConstraints>
-    <rowConstraints>
-        <RowConstraints prefHeight="70.0" vgrow="SOMETIMES"/>
-        <RowConstraints vgrow="SOMETIMES"/>
-        <RowConstraints vgrow="ALWAYS"/>
-    </rowConstraints>
-    <TableView fx:id="tourLogsTable" GridPane.columnIndex="0" GridPane.rowIndex="2" VBox.vgrow="ALWAYS">
-        <columns>
-            <TableColumn fx:id="colDate" text="Date"/>
-            <TableColumn fx:id="colTime" text="Time"/>
-            <TableColumn fx:id="colComment" text="Comment"/>
-            <TableColumn fx:id="colDifficulty" text="Difficulty"/>
-            <TableColumn fx:id="colDistance" prefWidth="90.0" text="Distance in km"/>
-            <TableColumn fx:id="colTotalTime" prefWidth="70.0" text="Total Time"/>
-            <TableColumn fx:id="colRating" text="Rating out of 10"/>
-            <TableColumn fx:id="colTransportType" text="Transport Type"/>
-            <TableColumn fx:id="colButtons"/>
-        </columns>
-    </TableView>
+    <VBox fx:id="tourLogsContainer" fillWidth="true"/>
+
 </GridPane>

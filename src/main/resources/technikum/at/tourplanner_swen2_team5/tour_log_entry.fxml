@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<GridPane xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      stylesheets="@css/tourList.css">
+
+    <VBox spacing="5" GridPane.columnIndex="0">
+        <Label fx:id="dateLabel" styleClass="log-date-label"/>
+        <Label fx:id="timeLabel" styleClass="log-time-label"/>
+        <Label fx:id="commentLabel" styleClass="log-comment-label"/>
+        <Label fx:id="difficultyLabel" styleClass="log-difficulty-label"/>
+        <Label fx:id="distanceLabel" styleClass="log-distance-label"/>
+        <Label fx:id="totalTimeLabel" styleClass="log-total-time-label"/>
+        <Label fx:id="ratingLabel" styleClass="log-rating-label"/>
+        <Label fx:id="transportTypeLabel" styleClass="log-transport-type-label"/>
+    </VBox>
+    <HBox spacing="5" alignment="CENTER_RIGHT" GridPane.columnIndex="1">
+        <Button fx:id="editButton" text="Edit"/>
+        <Button fx:id="downloadButton" text="Download"/>
+        <Button fx:id="trashButton" text="Delete"/>
+    </HBox>
+</GridPane>
