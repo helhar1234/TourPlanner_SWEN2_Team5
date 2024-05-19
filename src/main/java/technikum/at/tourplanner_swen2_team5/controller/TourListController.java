@@ -47,7 +47,7 @@ public class TourListController {
 
     private void addTourEntry(TourModel tour) {
         try {
-            FXMLLoader loader = new FXMLLoader(MainTourPlaner.class.getResource("tour-list-entry.fxml"));
+            FXMLLoader loader = new FXMLLoader(MainTourPlaner.class.getResource("tour_list_entry.fxml"));
             HBox tourEntry = loader.load();
             TourEntryController entryController = loader.getController();
 
