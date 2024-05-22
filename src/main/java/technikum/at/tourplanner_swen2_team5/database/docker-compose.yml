@@ -1,0 +1,16 @@
+version: '3.8'
+services:
+  db:
+    build: .
+    image: helhar1234/tour_planner_g5
+    environment:
+      POSTGRES_DB: tour_planner_g5
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+volumes:
+  pgdata:

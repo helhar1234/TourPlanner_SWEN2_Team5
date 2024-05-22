@@ -16,4 +16,8 @@ COPY ./backup.sql /docker-entrypoint-initdb.d/
 # docker login
 # docker push helhar1234/tour_planner_g5
 
+# start container
+#docker run --name mein_tour_planner -e POSTGRES_DB=dbname -e POSTGRES_USER=user -e POSTGRES_PASSWORD=password -d -p 5432:5432 helhar1234/tour_planner_g5
+
+
 
