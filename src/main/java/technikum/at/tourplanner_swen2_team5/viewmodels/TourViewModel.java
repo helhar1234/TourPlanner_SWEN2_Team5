@@ -42,26 +42,10 @@ public class TourViewModel {
         );
         tourLogViewModel.addTourLog(tourLog);
 
-
-        // TEST DATA 2.0 with delay DELETE LATER!
-        Task<Void> delayTask = new Task<Void>() {
-            @Override
-            protected Void call() throws Exception {
-                try {
-                    Thread.sleep(15000); // Warte 15 Sekunden
-                } catch (InterruptedException e) {
-                }
-
-                Platform.runLater(() -> {
-                    TourModel secondTour = new TourModel("Zweite Test Tour", "Weitere Beschreibung...", "Salzburg", "Innsbruck", "Bike", 2755, duration);
-                    secondTour.setId(UUID.randomUUID().toString());
-                    mapViewModel.addMap(new MapModel(secondTour.getId(), "map-placeholder.png"));
-                    tourModels.add(secondTour);
-                });
-                return null;
-            }
-        };
-        new Thread(delayTask).start();
+        TourModel secondTour = new TourModel("Zweite Test Tour", "Weitere Beschreibung...", "Salzburg", "Innsbruck", "Bike", 2755, duration);
+        secondTour.setId(UUID.randomUUID().toString());
+        mapViewModel.addMap(new MapModel(secondTour.getId(), "map-placeholder.png"));
+        tourModels.add(secondTour);
     }
 
     public static TourViewModel getInstance() {
