@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <GridPane xmlns:fx="http://javafx.com/fxml/1" id="gridPaneRoot" styleClass="navbar" stylesheets="@css/navbar.css"
           xmlns="http://javafx.com/javafx/21"
-          fx:controller="technikum.at.tourplanner_swen2_team5.controller.NavbarController">
+          fx:controller="technikum.at.tourplanner_swen2_team5.View.controllers.NavbarController">
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" prefWidth="800.0"/>
     </columnConstraints>
