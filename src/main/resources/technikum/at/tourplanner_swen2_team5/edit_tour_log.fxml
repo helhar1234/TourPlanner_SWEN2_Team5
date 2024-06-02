@@ -8,7 +8,7 @@
 <?import java.lang.*?>
 <ScrollPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="technikum.at.tourplanner_swen2_team5.controller.EditTourLogController"
+            fx:controller="technikum.at.tourplanner_swen2_team5.View.controllers.EditTourLogController"
             fitToWidth="true">
     <VBox spacing="10" alignment="TOP_CENTER" stylesheets="@css/addTourLogs.css">
 
@@ -27,7 +27,7 @@
         </HBox>
 
         <VBox spacing="10">
-            <DatePicker fx:id="dateField" promptText="Pick a date.." styleClass="date-picker"/>
+            <DatePicker fx:id="dateField" promptText="DD.MM.YYYY" styleClass="date-picker"/>
             <Label fx:id="warningLabelDate" style="-fx-text-fill: #FF0000FF"/>
             <TextField fx:id="timeField" promptText="Enter your starttime (hh:mm)"/>
             <Label fx:id="warningLabelTime" style="-fx-text-fill: #FF0000FF"/>

@@ -4,7 +4,7 @@ import javafx.collections.ObservableList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import technikum.at.tourplanner_swen2_team5.models.TourModel;
-import technikum.at.tourplanner_swen2_team5.viewmodels.TourViewModel;
+import technikum.at.tourplanner_swen2_team5.View.viewmodels.TourViewModel;
 
 import static org.junit.jupiter.api.Assertions.*;
 

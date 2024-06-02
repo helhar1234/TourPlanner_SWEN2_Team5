@@ -8,7 +8,7 @@
 <?import java.lang.String?>
 <ScrollPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="technikum.at.tourplanner_swen2_team5.controller.EditTourController"
+            fx:controller="technikum.at.tourplanner_swen2_team5.View.controllers.EditTourController"
             stylesheets="@css/addTour.css" fitToWidth="true">
     <VBox spacing="10" alignment="TOP_CENTER" fillWidth="true">
 
