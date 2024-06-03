@@ -33,6 +33,20 @@ CREATE TABLE public.difficulties (
 ALTER TABLE public.difficulties OWNER TO postgres;
 
 --
+-- Name: hibernate_sequence; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.hibernate_sequence
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.hibernate_sequence OWNER TO postgres;
+
+--
 -- Name: maps; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -120,6 +134,15 @@ COPY public.maps (tourid_fk, filename, id) FROM stdin;
 --
 
 COPY public.tourlogs (tourlogid, tourid_fk, date, "time", comment, difficultyid, distance, totaltime, rating, transporttypeid_fk) FROM stdin;
+bae6d53c-df84-4768-96f3-cc3af3c7c5ad	b1f3cb88-8c7e-47f9-a6fc-4ea4fa2b6a22	null	00:00	jwebckwjdb	4	kdjcn	0h 0min	3	2
+1435063f-d1bd-4167-b34f-f52edca3f08a	b1f3cb88-8c7e-47f9-a6fc-4ea4fa2b6a22	29.05.2024	14:00	dkcnfked\ndjcbsd vjcs	3	1	0h 0min	5	3
+9ee7b8a4-60a6-45c1-9142-2d909b912578	b1f3cb88-8c7e-47f9-a6fc-4ea4fa2b6a22	29.05.2024	14:00	dkcefkmv	2	2	0h 0min	5	3
+3e229611-2ad5-4cdb-9390-7459ef7a4afd	b1f3cb88-8c7e-47f9-a6fc-4ea4fa2b6a22	30.05.2024	14:00	kdmf	3	3	1h 0min	5	2
+acfa0c68-1ccc-451f-9813-ab4f77837c56	c2e8db77-7d5d-4cfb-9efb-3d849f3c1a33	06.03.2024	04:12	lfkvkdc\nasdkvnfjv	4	23	0h 0min	9	2
+2a54bb23-4b24-4644-90d5-e02b0d09896a	252a70d2-d6c5-4a9c-9abc-6b2bc8103efa	27.05.2024	15:00	kf vjc	2	13	1h 4min	5	2
+7f310205-451d-4272-b78e-459bade55191	252a70d2-d6c5-4a9c-9abc-6b2bc8103efa	28.05.2024	14:00	jv jlef4evkicfejl	2	3	1h 0min	5	2
+c904e605-25fa-4beb-b06f-94a8c88513f0	252a70d2-d6c5-4a9c-9abc-6b2bc8103efa	30.05.2024	14:00	jdks dls	2	5	0h 5min	5	3
+251b9677-eb79-4d1a-8de4-c7f25e363e9a	b1f3cb88-8c7e-47f9-a6fc-4ea4fa2b6a22	27.05.2024	23:00	ldkvm├Âskm	2	7.3	0h 4min	10	4
 \.
 
 
@@ -128,12 +151,12 @@ COPY public.tourlogs (tourlogid, tourid_fk, date, "time", comment, difficultyid,
 --
 
 COPY public.tours (tourid, name, description, start, destination, transporttypeid_fk, distance, "time") FROM stdin;
-a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11	Tour 1	description...	Start Location 1	Destination 1	1	10	60
 b1f3cb88-8c7e-47f9-a6fc-4ea4fa2b6a22	Tour 2	description...	Start Location 2	Destination 2	2	20	120
 c2e8db77-7d5d-4cfb-9efb-3d849f3c1a33	Tour 3	description...	Start Location 3	Destination 3	3	30	180
 d3f1ec66-6e4c-40eb-8dfb-2c839e2b2b44	Tour 4	description...	Start Location 4	Destination 4	4	40	240
-e4f0fc55-5d3b-3dfa-8ceb-1c739d1b1c55	Tour 5	description...	Start Location 5	Destination 5	1	50	300
 252a70d2-d6c5-4a9c-9abc-6b2bc8103efa	test test	jhabcjksd\nasdja sv\nash	Wien	Graz	2	0	0
+212cb6aa-5429-4eca-b095-c695d2c39d2a	Tour 1.1	adbcsjbd\navujbadjv\najsbvja	Wien	Graz	3	0	0
+0e433d30-e706-4644-aa1e-1e5e4f22eee4	hdcnkj	dksvb	kjdbvk	jhsdvb	4	0	0
 \.
 
 
@@ -150,6 +173,13 @@ COPY public.transporttypes (transporttypeid, name) FROM stdin;
 
 
 --
+-- Name: hibernate_sequence; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.hibernate_sequence', 12, true);
+
+
+--
 -- Name: difficulties difficulties_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -163,14 +193,6 @@ ALTER TABLE ONLY public.difficulties
 
 ALTER TABLE ONLY public.maps
     ADD CONSTRAINT maps_pkey PRIMARY KEY (id);
-
-
---
--- Name: tourlogs tourlogs_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.tourlogs
-    ADD CONSTRAINT tourlogs_pkey PRIMARY KEY (tourlogid);
 
 
 --
