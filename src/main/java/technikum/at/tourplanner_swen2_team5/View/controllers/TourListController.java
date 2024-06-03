@@ -57,6 +57,12 @@ public class TourListController {
 
             entryController.setTourData(tour);
 
+            tourEntry.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2) {
+                    entryController.onDetailButtonClicked(tour.getId());
+                }
+            });
+
             tourEntry.setStyle("-fx-padding: 10; -fx-border-style: solid inside; -fx-border-width: 0 0 1 0; -fx-border-color: lightgray;");
             tourEntry.setOnMouseEntered(e -> tourEntry.setStyle("-fx-background-color: #e6e6e6; -fx-padding: 10;"));
             tourEntry.setOnMouseExited(e -> tourEntry.setStyle("-fx-background-color: transparent; -fx-padding: 10; -fx-border-style: solid inside; -fx-border-width: 0 0 1 0; -fx-border-color: lightgray;"));

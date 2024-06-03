@@ -5,6 +5,8 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import technikum.at.tourplanner_swen2_team5.MainTourPlaner;
@@ -14,6 +16,9 @@ import java.net.URL;
 public class HomeScreenController {
     @FXML
     private VBox mainContentArea;
+
+    @FXML
+    private StackPane stackpane;
 
     public void changeMainContent(Node content) {
         if (mainContentArea != null) {
@@ -47,4 +52,13 @@ public class HomeScreenController {
         // Setze den neuen Inhalt im Hauptinhaltbereich
         changeMainContent(content);
     }
+
+    public VBox getMainContentArea() {
+        return mainContentArea;
+    }
+
+    public StackPane getContentPane() {
+        return stackpane;
+    }
+
 }

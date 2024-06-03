@@ -20,12 +20,14 @@
     </HBox>
 
     <ScrollPane styleClass="main-container" fitToWidth="true" GridPane.rowIndex="1" GridPane.columnIndex="0">
+        <StackPane fx:id="stackpane">
         <VBox fx:id="mainContentArea" alignment="CENTER" spacing="20">
             <ImageView fitHeight="200" fitWidth="200" preserveRatio="true">
                 <Image url="@img/logos/BikerLogoMave.png"/>
             </ImageView>
             <Label styleClass="title-label" text="TOURS BY HELENA"/>
         </VBox>
+        </StackPane>
     </ScrollPane>
 </GridPane>
 
