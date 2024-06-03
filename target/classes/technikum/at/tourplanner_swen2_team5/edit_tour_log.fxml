@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.collections.FXCollections?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import java.lang.*?>
+<ScrollPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="technikum.at.tourplanner_swen2_team5.View.controllers.EditTourLogController"
+            fitToWidth="true">
+    <VBox spacing="10" alignment="TOP_CENTER" stylesheets="@css/addTourLogs.css">
+
+        <padding>
+            <Insets top="30" right="30" bottom="30" left="30"/>
+        </padding>
+
+        <HBox spacing="10">
+            <Button fx:id="backButton" styleClass="icon-button" onAction="#onBackButtonClicked">
+                <graphic>
+                    <ImageView fitHeight="25" fitWidth="25" preserveRatio="true">
+                        <Image url="@img/icons/arrow-icon.png"/>
+                    </ImageView>
+                </graphic>
+            </Button>
+        </HBox>
+
+        <VBox spacing="10">
+            <DatePicker fx:id="dateField" promptText="DD.MM.YYYY" styleClass="date-picker"/>
+            <Label fx:id="warningLabelDate" style="-fx-text-fill: #FF0000FF"/>
+            <TextField fx:id="timeField" promptText="Enter your starttime (hh:mm)"/>
+            <Label fx:id="warningLabelTime" style="-fx-text-fill: #FF0000FF"/>
+            <TextArea fx:id="commentArea" promptText="Comment" styleClass="text-area"/>
+            <Label fx:id="warningLabelComment" style="-fx-text-fill: #FF0000FF"/>
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Difficulty:"/>
+                <ComboBox fx:id="difficultyBox" styleClass="combo-box">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <String fx:value="Easy"/>
+                            <String fx:value="Moderate"/>
+                            <String fx:value="Challenging"/>
+                            <String fx:value="Difficult"/>
+                        </FXCollections>
+                    </items>
+                </ComboBox>
+            </HBox>
+            <Label fx:id="warningLabelDifficulty" style="-fx-text-fill: #FF0000FF"/>
+            <TextField fx:id="distanceField" promptText="Total distance in km (for example: 12.3)"
+                       styleClass="text-field"/>
+            <Label fx:id="warningLabelDistance" style="-fx-text-fill: #FF0000FF"/>
+            <TextField fx:id="totalTimeField" promptText="Total time in hours and minutes (for example: 1h 23min)"
+                       styleClass="text-field"/>
+            <Label fx:id="warningLabelTotalTime" style="-fx-text-fill: #FF0000FF"/>
+            <Label text="Rating (0 = worst, 10 = best):"/>
+            <Slider fx:id="ratingSlider" styleClass="slider" max="10" value="5" blockIncrement="1" majorTickUnit="1"
+                    minorTickCount="0" snapToTicks="true" showTickMarks="true" showTickLabels="true"/>
+            <Label fx:id="warningLabelRating" style="-fx-text-fill: #FF0000FF"/>
+
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Transport Type:"/>
+                <ComboBox fx:id="transportTypeBox" styleClass="combo-box">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <String fx:value="Hike"/>
+                            <String fx:value="Bike"/>
+                            <String fx:value="Running"/>
+                            <String fx:value="Vacation"/>
+                        </FXCollections>
+                    </items>
+                </ComboBox>
+            </HBox>
+
+            <Label fx:id="warningLabelTransportationType" style="-fx-text-fill: #FF0000FF"/>
+
+            <HBox spacing="10" alignment="CENTER_RIGHT">
+                <Button fx:id="saveButton" styleClass="icon-button" onAction="#onSaveButtonClicked">
+                    <graphic>
+                        <ImageView fitHeight="25" fitWidth="25" preserveRatio="true">
+                            <Image url="@img/icons/check-icon.png"/>
+                        </ImageView>
+                    </graphic>
+                </Button>
+                <Button fx:id="deleteButton" styleClass="icon-button" onAction="#onDeleteButtonClicked">
+                    <graphic>
+                        <ImageView fitHeight="25" fitWidth="25" preserveRatio="true">
+                            <Image url="@img/icons/trash-icon.png"/>
+                        </ImageView>
+                    </graphic>
+                </Button>
+            </HBox>
+        </VBox>
+    </VBox>
+</ScrollPane>

@@ -8,6 +8,7 @@ module technikum.at.tourplanner_swen2_team5 {
     requires org.hibernate.orm.core;
     requires java.persistence;
     requires java.naming;
+    requires jdk.compiler;
 
     exports technikum.at.tourplanner_swen2_team5;
     exports technikum.at.tourplanner_swen2_team5.util;

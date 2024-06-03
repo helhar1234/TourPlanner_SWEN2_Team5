@@ -1,0 +1,61 @@
+.root {
+    -fx-font-family: 'Arial';
+    -fx-font-size: 14px;
+}
+
+.icon-button {
+    -fx-background-color: #A4D65E;
+    -fx-background-radius: 50;
+    -fx-min-width: 40px;
+    -fx-min-height: 40px;
+    -fx-max-width: 40px;
+    -fx-max-height: 40px;
+    -fx-border-color: black;
+    -fx-border-width: 2;
+    -fx-border-radius: 50;
+    -fx-cursor: hand;
+}
+
+.icon-button:hover {
+    -fx-background-color: #395C37;
+}
+
+.text-field, .text-area {
+    -fx-background-radius: 15;
+    -fx-border-radius: 15;
+    -fx-border-color: #A4D65E;
+    -fx-border-width: 2;
+    -fx-padding: 4;
+    -fx-background-color: white;
+    -fx-background-insets: 0; /* Setzt die Hintergrundabstände auf 0 */
+}
+
+.text-area .content {
+    -fx-background-color: white;
+    -fx-background-insets: 0;
+}
+
+.combo-box {
+    -fx-background-color: white;
+    -fx-border-color: #A4D65E;
+    -fx-border-width: 2;
+    -fx-background-radius: 15;
+    -fx-border-radius: 15;
+}
+
+/* Stil für die spezifischen Buttons */
+#saveButton {
+    -fx-background-color: #A4D65E; /* Grün für den Speichern-Button */
+}
+
+#saveButton:hover {
+    -fx-background-color: #395C37;
+}
+
+#deleteButton {
+    -fx-background-color: #F44336; /* Rot für den Löschen-Button */
+}
+
+#deleteButton:hover {
+    -fx-background-color: #bb1b11;
+}

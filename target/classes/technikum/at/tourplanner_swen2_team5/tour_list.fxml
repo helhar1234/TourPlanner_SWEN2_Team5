@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="technikum.at.tourplanner_swen2_team5.View.controllers.TourListController"
+      styleClass="list-container" stylesheets="@css/tourList.css">
+    <HBox spacing="10" styleClass="header-row">
+        <Button fx:id="backButton" styleClass="icon-button" onAction="#onBackButtonClicked">
+            <graphic>
+                <ImageView fitHeight="25.0" fitWidth="25.0" preserveRatio="true">
+                    <Image url="@img/icons/arrow-icon.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button fx:id="refreshButton" styleClass="icon-button" onAction="#onRefreshButtonClicked">
+            <graphic>
+                <ImageView fx:id="reloadIcon" fitHeight="25.0" fitWidth="25.0" preserveRatio="true">
+                    <Image url="@img/icons/reload-icon.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Pane HBox.hgrow="ALWAYS"/>
+        <Button fx:id="uploadButton" styleClass="icon-button">
+            <graphic>
+                <ImageView fitHeight="25.0" fitWidth="25.0" preserveRatio="true">
+                    <Image url="@img/icons/upload-icon.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button fx:id="addButton" styleClass="icon-button" onAction="#onAddButtonClicked">
+            <graphic>
+                <ImageView fitHeight="25.0" fitWidth="25.0" preserveRatio="true">
+                    <Image url="@img/icons/plus-icon.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+    </HBox>
+
+    <Label text="TOURS" styleClass="list-title" alignment="CENTER" maxWidth="1.7976931348623157E308"/>
+
+    <!-- Column Headings -->
+    <HBox styleClass="column-headers">
+        <Label minWidth="35" prefWidth="35" maxWidth="35" text=""/> <!-- Placeholder for icon -->
+        <Label text="Name" minWidth="350" prefWidth="350"/>
+        <Label text="Start" minWidth="105" prefWidth="105" maxWidth="105"/>
+        <Label text="Destination" minWidth="105" prefWidth="105" maxWidth="105"/>
+        <Label text="Distance" minWidth="105" prefWidth="105" maxWidth="105"/>
+        <Label text="Time" minWidth="105" prefWidth="105" maxWidth="105"/>
+        <Pane HBox.hgrow="ALWAYS"/>
+        <Label text=""/> <!-- Placeholder for Buttons -->
+    </HBox>
+
+    <!-- Dynamic content container -->
+    <VBox fx:id="tourEntryContainer" fillWidth="true"/>
+</VBox>

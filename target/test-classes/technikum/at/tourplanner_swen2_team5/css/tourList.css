@@ -1,0 +1,76 @@
+.list-container {
+    -fx-background-radius: 15;
+    -fx-padding: 20;
+    -fx-background-color: #F5F5F5;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.1), 10, 0, 0, 10);
+    -fx-spacing: 10;
+}
+
+.icon-button {
+    -fx-background-color: #A4D65E;
+    -fx-background-radius: 50;
+    -fx-min-width: 40px;
+    -fx-min-height: 40px;
+    -fx-max-width: 40px;
+    -fx-max-height: 40px;
+    -fx-cursor: hand;
+    -fx-border-radius: 50;
+    -fx-border-color: #202020;
+    -fx-border-width: 2;
+}
+
+.icon-button .graphic {
+    -fx-fit-height: true;
+    -fx-fit-width: true;
+    -fx-max-height: 20;
+    -fx-max-width: 20;
+}
+
+.icon-button:hover {
+    -fx-background-color: #395C37;
+}
+
+#deleteButton {
+    -fx-background-color: #F44336;
+}
+
+#deleteButton:hover {
+    -fx-background-color: #bb1b11;
+}
+
+.list-title {
+    -fx-font-size: 36px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #202020;
+    -fx-alignment: center;
+}
+
+.column-headers {
+    -fx-spacing: 15;
+    -fx-background-color: #f0f0f0;
+    -fx-border-color: transparent transparent grey transparent;
+    -fx-border-width: 0 0 1 0;
+}
+
+.column-headers Label {
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-padding: 5;
+}
+
+/* Reset padding and margin for labels and HBoxes */
+.column-headers Label, .tourEntryContainer HBox Label {
+    -fx-padding: 5 0;
+    -fx-margin: 0;
+    -fx-label-padding: 0;
+
+}
+
+.column-headers, .tourEntryContainer HBox {
+    -fx-spacing: 10;
+}
+
+
+
+
+

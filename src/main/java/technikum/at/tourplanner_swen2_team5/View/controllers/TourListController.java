@@ -1,16 +1,18 @@
 package technikum.at.tourplanner_swen2_team5.View.controllers;
 
+import com.sun.tools.javac.Main;
 import javafx.animation.RotateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
-import javafx.scene.Node;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -20,7 +22,9 @@ import technikum.at.tourplanner_swen2_team5.BL.models.TourModel;
 import technikum.at.tourplanner_swen2_team5.View.viewmodels.TourViewModel;
 import technikum.at.tourplanner_swen2_team5.util.ApplicationContext;
 
+import java.awt.*;
 import java.io.IOException;
+import java.net.URL;
 import java.util.List;
 
 public class TourListController {
@@ -104,14 +108,7 @@ public class TourListController {
     }
 
     public void onBackButtonClicked(ActionEvent actionEvent) {
-        try {
-            FXMLLoader loader = new FXMLLoader(MainTourPlaner.class.getResource("home_screen.fxml"));
-            Node listView = loader.load();
-
-            HomeScreenController homeController = ApplicationContext.getHomeScreenController();
-            homeController.changeMainContent(listView);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        HomeScreenController homeScreenController = ApplicationContext.getHomeScreenController();
+        homeScreenController.gotoHomeScreen();
     }
 }

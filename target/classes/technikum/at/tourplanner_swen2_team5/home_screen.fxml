@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<GridPane xmlns:fx="http://javafx.com/fxml/1" stylesheets="@css/homeScreen.css" xmlns="http://javafx.com/javafx/21"
+          fx:controller="technikum.at.tourplanner_swen2_team5.View.controllers.HomeScreenController">
+    <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" prefWidth="800.0"/>
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints maxHeight="590" minHeight="80" prefHeight="80"/>
+        <RowConstraints vgrow="ALWAYS"/>
+    </rowConstraints>
+
+    <HBox prefHeight="80" GridPane.rowIndex="0" GridPane.columnIndex="0">
+        <fx:include source="navbar.fxml"/>
+    </HBox>
+
+    <ScrollPane styleClass="main-container" fitToWidth="true" GridPane.rowIndex="1" GridPane.columnIndex="0">
+        <VBox fx:id="mainContentArea" alignment="CENTER" spacing="20">
+            <ImageView fitHeight="200" fitWidth="200" preserveRatio="true">
+                <Image url="@img/logos/BikerLogoMave.png"/>
+            </ImageView>
+            <Label styleClass="title-label" text="TOURS BY HELENA"/>
+        </VBox>
+    </ScrollPane>
+</GridPane>
+

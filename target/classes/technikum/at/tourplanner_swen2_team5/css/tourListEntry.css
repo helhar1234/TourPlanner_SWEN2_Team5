@@ -1,0 +1,40 @@
+
+.icon-button {
+    -fx-background-color: #A4D65E;
+    -fx-background-radius: 50;
+    -fx-min-width: 30px;
+    -fx-min-height: 30px;
+    -fx-max-width: 30px;
+    -fx-max-height: 30px;
+    -fx-cursor: hand;
+    -fx-border-radius: 50;
+    -fx-border-color: #202020;
+    -fx-border-width: 2;
+}
+
+.icon-button .graphic {
+    -fx-fit-height: true;
+    -fx-fit-width: true;
+    -fx-max-height: 20;
+    -fx-max-width: 20;
+}
+
+.icon-button:hover {
+    -fx-background-color: #395C37;
+}
+
+#deleteButton {
+    -fx-background-color: #F44336; /* Rot für den Löschen-Button */
+}
+
+#deleteButton:hover {
+    -fx-background-color: #bb1b11;
+}
+
+
+/* Labels within the row */
+.root Label {
+    -fx-font-size: 12px;
+    -fx-text-fill: #333;
+    -fx-alignment: center-left;
+}
