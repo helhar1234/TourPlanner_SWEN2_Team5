@@ -1,2 +1,0 @@
-Create Account on https://www.mapbox.com/
-and paste Default public token here instead of text!
