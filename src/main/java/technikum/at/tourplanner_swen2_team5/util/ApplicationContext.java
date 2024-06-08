@@ -24,7 +24,7 @@ public class ApplicationContext {
     }
 
     public static String getApiKey(String filename) {
-        String apiKeyFilePath = "src/" + filename; // Pfad zur API_KEY.txt
+        String apiKeyFilePath = System.getProperty("user.home") + "/TourPlanner/" + filename; // Pfad zur API_KEY.txt
         try (BufferedReader reader = new BufferedReader(new FileReader(apiKeyFilePath))) {
             return reader.readLine().trim(); // Nimmt an, dass der API-Schlüssel in der ersten Zeile steht
         } catch (IOException e) {
