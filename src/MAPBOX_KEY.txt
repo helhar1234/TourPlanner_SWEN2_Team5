@@ -1,2 +1,4 @@
 create an account at: https://www.mapbox.com/
 and paste Default public token here instead of text
+then untrack file:
+git rm --cached src/API_KEY.txt
