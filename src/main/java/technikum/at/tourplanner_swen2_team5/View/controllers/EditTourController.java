@@ -5,12 +5,17 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
+import technikum.at.tourplanner_swen2_team5.BL.validation.TourMapValidationService;
 import technikum.at.tourplanner_swen2_team5.BL.validation.TourValidationService;
 import technikum.at.tourplanner_swen2_team5.BL.models.TourModel;
 import technikum.at.tourplanner_swen2_team5.BL.models.TransportTypeModel;
 import technikum.at.tourplanner_swen2_team5.BL.services.TransportTypeService;
+import technikum.at.tourplanner_swen2_team5.View.viewmodels.MapViewModel;
 import technikum.at.tourplanner_swen2_team5.View.viewmodels.TourViewModel;
+import technikum.at.tourplanner_swen2_team5.util.ApplicationContext;
+import technikum.at.tourplanner_swen2_team5.util.EventHandler;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -43,12 +48,14 @@ public class EditTourController {
     private Label warningLabelTransportationType;
 
     private TourViewModel tourViewModel;
+    private MapViewModel mapViewModel;
     private TourValidationService validationService;
     private TransportTypeService transportTypeService;
     private TourModel currentTour;
 
     public void initialize() {
         tourViewModel = TourViewModel.getInstance();
+        mapViewModel = MapViewModel.getInstance();
         validationService = new TourValidationService();
         transportTypeService = new TransportTypeService();
         loadTransportTypes();
@@ -87,12 +94,29 @@ public class EditTourController {
     }
 
     @FXML
-    private void onSaveButtonClicked() {
-        if (validateInputs()) {
+    private void onSaveButtonClicked() throws IOException {
+        if (validateInputs() && validateRoute()) {
             updateTourModelFromFields();
             tourViewModel.updateTour(currentTour);
+            mapViewModel.updateMap(currentTour);
             closeStage();
+            EventHandler.showMapPinContent(ApplicationContext.getHomeScreenController());
         }
+    }
+
+    private boolean validateRoute() {
+
+        boolean validStart = TourMapValidationService.isValidLocation(currentTour.getStart());
+        boolean validDestination = TourMapValidationService.isValidLocation(currentTour.getDestination());
+
+        if (!validStart) {
+            setFieldError(startField, warningLabelStart, "Invalid Start Location");
+        }
+        if (!validDestination) {
+            setFieldError(destinationField, warningLabelDestination, "Invalid Destination Location");
+        }
+
+        return validStart && validDestination;
     }
 
     private boolean validateInputs() {
@@ -134,7 +158,7 @@ public class EditTourController {
     }
 
     @FXML
-    private void onDeleteButtonClicked(ActionEvent actionEvent) {
+    private void onDeleteButtonClicked(ActionEvent actionEvent) throws IOException {
         ConfirmationWindow dialog = new ConfirmationWindow(
                 (Stage) deleteButton.getScene().getWindow(),
                 "Delete Tour",

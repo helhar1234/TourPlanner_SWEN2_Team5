@@ -9,6 +9,7 @@
     -fx-border-color: #202020;
     -fx-border-radius: 30;
     -fx-border-width: 2;
+    -fx-cursor: hand;
 }
 
 .icon-button:hover {
@@ -40,6 +41,35 @@
     -fx-border-radius: 10;
     -fx-border-width: 2;
 }
+
+.mapContainer {
+    -fx-background-radius: 10;
+    -fx-padding: 10;
+    -fx-border-insets: 10;
+    -fx-background-insets: 10;
+    -fx-background-color: #F5F5F5;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.36), 10, 0, 0, 10);
+    -fx-border-color: rgba(108, 107, 107, 0.49);
+    -fx-border-radius: 10;
+    -fx-border-width: 2;
+    -fx-alignment: center; /* Align center */
+}
+
+.mapView {
+    -fx-background-radius: 10;
+    -fx-background-color: #F5F5F5;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.36), 10, 0, 0, 10);
+    -fx-border-color: rgba(108, 107, 107, 0.49);
+    -fx-border-radius: 10;
+    -fx-border-width: 2;
+    -fx-preserve-ratio: true;
+}
+
+.mapView:hover {
+    -fx-cursor: hand;
+    -fx-opacity: 0.6; /* Add a white-transparent overlay */
+}
+
 
 .section-title {
     -fx-font-size: 24px;

@@ -164,6 +164,7 @@ public class TourEntryController {
         transition.play();
     }
 
+
     private void onDeleteButtonTour(String tourId) {
         TourModel tour = tourViewModel.getTourById(tourId);
         ConfirmationWindow dialog = new ConfirmationWindow(
@@ -174,7 +175,11 @@ public class TourEntryController {
         );
 
         if (tour != null && dialog.showAndWait()) {
-            tourViewModel.deleteTour(tour);
+            try {
+                tourViewModel.deleteTour(tour);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             tourListController.onRefreshButtonClicked();
         }
     }
