@@ -1,5 +1,0 @@
-create an account at: https://openrouteservice.org/
-create a new api key
-and paste it here instead of text
-then untrack file:
-git rm --cached src/API_KEY.txt
