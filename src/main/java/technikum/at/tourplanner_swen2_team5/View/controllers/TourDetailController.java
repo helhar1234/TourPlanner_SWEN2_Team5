@@ -1,6 +1,9 @@
 package technikum.at.tourplanner_swen2_team5.View.controllers;
 
+import javafx.application.Platform;
+import javafx.concurrent.Worker;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
@@ -10,6 +13,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -19,9 +25,15 @@ import technikum.at.tourplanner_swen2_team5.util.ApplicationContext;
 import technikum.at.tourplanner_swen2_team5.util.Formatter;
 import technikum.at.tourplanner_swen2_team5.View.viewmodels.MapViewModel;
 import technikum.at.tourplanner_swen2_team5.View.viewmodels.TourViewModel;
+import technikum.at.tourplanner_swen2_team5.util.MapRequester;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 public class TourDetailController {
 
@@ -42,7 +54,8 @@ public class TourDetailController {
     @FXML
     private Label tourTime;
     @FXML
-    private ImageView mapImage;
+    private ImageView mapView;
+
 
     @FXML
     private TourLogListController tourLogListViewController;
@@ -69,18 +82,27 @@ public class TourDetailController {
         tourDistance.setText("Distance: " + Formatter.formatDistance(currentTour.getDistance()));
         tourTime.setText("Time: " + formatter.formatTime(currentTour.getTime()));
 
-        //String filename = (mapViewModel.getMapById(currentTour.getId())).getFilename();
-        String filename = "map-placeholder.png";
-        String imageName = "img/maps/" + filename.toLowerCase();
-        URL resource = MainTourPlaner.class.getResource(imageName);
+        try {
+            String filename = tour.getId() + "_map.png";
+            File mapFile = new File(System.getProperty("user.home") + "/TourPlanner/maps", filename);
 
-        Image map = new Image(resource.toString());
-        mapImage.setPreserveRatio(true);
-        mapImage.setImage(map);
+            if (!mapFile.exists()) {
+                filename = MapRequester.fetchMapImage(tour);
+                mapFile = new File(System.getProperty("user.home") + "/TourPlanner/maps", filename);
+            }
+
+            Image map = new Image(mapFile.toURI().toString());
+            mapView.setPreserveRatio(true);
+            mapView.setImage(map);
+            mapView.setOnMouseClicked(event -> MapRequester.openMapInBrowser(currentTour.getStart(), currentTour.getDestination()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         // Set the tourId in the TourLogListController
         tourLogListViewController.setTourId(currentTour.getId());
     }
+
 
 
     public void onAddLogButtonClicked(ActionEvent actionEvent) {

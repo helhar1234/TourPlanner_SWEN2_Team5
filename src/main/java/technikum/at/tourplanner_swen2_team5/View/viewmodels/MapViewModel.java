@@ -1,17 +1,16 @@
 package technikum.at.tourplanner_swen2_team5.View.viewmodels;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import technikum.at.tourplanner_swen2_team5.BL.models.TourMapModel;
+import technikum.at.tourplanner_swen2_team5.BL.models.TourModel;
 import technikum.at.tourplanner_swen2_team5.BL.services.MapService;
+
+import java.io.IOException;
 
 public class MapViewModel {
     private static MapViewModel instance;
-    private final ObservableList<TourMapModel> mapModels = FXCollections.observableArrayList();
-    private final MapService mapService = new MapService();
+    private final MapService mapService;
 
     private MapViewModel() {
-        loadMaps();
+        this.mapService = new MapService();
     }
 
     public static MapViewModel getInstance() {
@@ -21,33 +20,24 @@ public class MapViewModel {
         return instance;
     }
 
-    public ObservableList<TourMapModel> getMaps() {
-        return mapModels;
+    public void addMap(TourModel tour) {
+        try {
+            if (mapService.deleteExistingMaps(tour.getId())) {
+                mapService.saveMap(tour);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    private void loadMaps() {
-        mapModels.setAll(mapService.getAllMaps());
-    }
-
-    public void addMap(TourMapModel map) {
-        mapService.addMap(map);
-        loadMaps();
-        System.out.println("Map was created: " + map.getTourId());
-    }
-
-    public void updateMap(TourMapModel map) {
-        mapService.updateMap(map);
-        loadMaps();
-        System.out.println("Map was updated: " + map.getTourId());
-    }
-
-    public TourMapModel getMapById(String tourId) {
-        return mapService.getMapByTourId(tourId);
-    }
-
-    public void deleteMapById(String tourId) {
-        mapService.deleteMapByTourId(tourId);
-        loadMaps();
-        System.out.println("Map was deleted: " + tourId);
+    public void updateMap(TourModel tour) {
+        try {
+            if (mapService.deleteExistingMaps(tour.getId())) {
+                mapService.updateMap(tour);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
+

@@ -10,7 +10,7 @@ public class TourMapModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long id;
+    private int id;
 
     @Column(name = "tourid_fk", nullable = false)
     private String tourId;

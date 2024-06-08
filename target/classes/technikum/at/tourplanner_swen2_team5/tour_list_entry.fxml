@@ -4,7 +4,7 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
-<HBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+<HBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="technikum.at.tourplanner_swen2_team5.View.controllers.TourEntryController"
       stylesheets="@css/tourListEntry.css"
       spacing="10" alignment="CENTER_LEFT" fillHeight="true">
