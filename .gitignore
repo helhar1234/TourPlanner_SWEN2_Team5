@@ -44,6 +44,3 @@ build/
 ### Mac OS ###
 .DS_Store
 
-## API KEYS ##
-src/API_KEY.txt
-src/MAPBOX_KEY.txt
