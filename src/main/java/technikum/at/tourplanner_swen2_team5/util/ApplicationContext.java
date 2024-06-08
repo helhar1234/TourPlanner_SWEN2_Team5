@@ -3,6 +3,7 @@ package technikum.at.tourplanner_swen2_team5.util;
 import technikum.at.tourplanner_swen2_team5.View.controllers.HomeScreenController;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
@@ -24,6 +25,13 @@ public class ApplicationContext {
     }
 
     public static String getApiKey(String filename) {
+        // Create the directory if it does not exist
+        String userDir = System.getProperty("user.home") + "/TourPlanner/";
+        File dir = new File(userDir);
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
+
         String apiKeyFilePath = System.getProperty("user.home") + "/TourPlanner/" + filename; // Pfad zur API_KEY.txt
         try (BufferedReader reader = new BufferedReader(new FileReader(apiKeyFilePath))) {
             return reader.readLine().trim(); // Nimmt an, dass der API-Schlüssel in der ersten Zeile steht
