@@ -26,7 +26,9 @@ public class EditTourLogController {
     @FXML
     private DatePicker dateField;
     @FXML
-    private TextField timeField;
+    private ComboBox<Integer> timeFieldHours;
+    @FXML
+    private ComboBox<Integer> timeFieldMinutes;
     @FXML
     private TextArea commentArea;
     @FXML
@@ -91,7 +93,8 @@ public class EditTourLogController {
 
     private void loadTourLogDetails() {
         dateField.setValue(LocalDate.parse(formatter.formatDateReverse(currentTourLog.getDate())));
-        timeField.setText(currentTourLog.getTime());
+        currentTourLog.setTimeHours(currentTourLog.getTimeHours());
+        currentTourLog.setTimeMinutes(currentTourLog.getTimeMinutes());
         commentArea.setText(currentTourLog.getComment());
         difficultyBox.setValue(currentTourLog.getDifficulty());
         distanceField.setText(currentTourLog.getDistance());
@@ -163,7 +166,8 @@ public class EditTourLogController {
         boolean hasError = !errors.isEmpty();
 
         setFieldError(dateField, warningLabelDate, errors.get("date"));
-        setFieldError(timeField, warningLabelTime, errors.get("time"));
+        setFieldError(timeFieldHours, warningLabelTime, errors.get("time"));
+        setFieldError(timeFieldMinutes, warningLabelTime, errors.get("time"));
         setFieldError(commentArea, warningLabelComment, errors.get("comment"));
         setFieldError(distanceField, warningLabelDistance, errors.get("distance"));
         setFieldError(totalTimeField, warningLabelTotalTime, errors.get("totalTime"));
@@ -186,7 +190,8 @@ public class EditTourLogController {
 
     private void updateTourLogModelFromFields() {
         currentTourLog.setDate(formatter.formatDate(String.valueOf(dateField.getValue())));
-        currentTourLog.setTime(formatter.formatTime_hhmm(timeField.getText()));
+        currentTourLog.setTimeHours(timeFieldHours.getValue());
+        currentTourLog.setTimeMinutes(timeFieldMinutes.getValue());
         currentTourLog.setComment(commentArea.getText());
         currentTourLog.setDifficulty(difficultyBox.getValue());
         currentTourLog.setDistance(distanceField.getText());

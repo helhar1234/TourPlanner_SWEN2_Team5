@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.collections.FXCollections?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-<?import java.lang.*?>
+
 <ScrollPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="technikum.at.tourplanner_swen2_team5.View.controllers.AddTourLogController"
@@ -29,8 +28,12 @@
         <VBox spacing="10">
             <DatePicker fx:id="dateField" promptText="DD.MM.YYYY" styleClass="date-picker"/>
             <Label fx:id="warningLabelDate" style="-fx-text-fill: #FF0000FF"/>
-            <TextField fx:id="timeField" promptText="Enter your starttime (hh:mm)"/>
-            <Label fx:id="warningLabelTime" style="-fx-text-fill: #FF0000FF"/>
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Enter your start time:"/>
+                <ComboBox fx:id="timeFieldHours" promptText="hours" styleClass="combo-box"/>
+                <ComboBox fx:id="timeFieldMinutes" promptText="minutes" styleClass="combo-box"/>
+                <Label fx:id="warningLabelTime" style="-fx-text-fill: #FF0000FF"/>
+            </HBox>
             <TextArea fx:id="commentArea" promptText="Comment" styleClass="text-area"/>
             <Label fx:id="warningLabelComment" style="-fx-text-fill: #FF0000FF"/>
             <HBox spacing="10" alignment="CENTER_LEFT">

@@ -19,8 +19,11 @@ public class TourLogModel {
     @Column(name = "date", nullable = false)
     private String date;
 
-    @Column(name = "time")
-    private String time;
+    @Column(name = "timeHours")
+    private int timeHours;
+
+    @Column(name = "timeMinutes")
+    private int timeMinutes;
 
     @Column(name = "comment")
     private String comment;
@@ -47,11 +50,12 @@ public class TourLogModel {
     }
 
     // Konstruktor mit allen Parametern
-    public TourLogModel(String id, TourModel tour, String date, String time, String comment, DifficultyModel difficulty, String distance, String totalTime, int rating, TransportTypeModel transportType) {
+    public TourLogModel(String id, TourModel tour, String date, int timeHours, int timeMinutes, String comment, DifficultyModel difficulty, String distance, String totalTime, int rating, TransportTypeModel transportType) {
         this.id = id;
         this.tour = tour;
         this.date = date;
-        this.time = time;
+        this.timeHours = timeHours;
+        this.timeMinutes = timeMinutes;
         this.comment = comment;
         this.difficulty = difficulty;
         this.distance = distance;

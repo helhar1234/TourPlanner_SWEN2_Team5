@@ -3,7 +3,6 @@ package technikum.at.tourplanner_swen2_team5;
 import javafx.application.Application;
 import javafx.application.HostServices;
 import javafx.stage.Stage;
-import technikum.at.tourplanner_swen2_team5.util.MapRequester;
 import technikum.at.tourplanner_swen2_team5.util.ScreenManager;
 
 import java.io.File;
@@ -37,6 +36,4 @@ public class MainTourPlaner extends Application {
         File leafletHtmlFile = new File(userDir, "leaflet.html");
         hostServices.showDocument(leafletHtmlFile.toURI().toString());
     }
-
-
 }

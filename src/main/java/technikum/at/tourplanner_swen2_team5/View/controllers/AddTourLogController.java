@@ -22,12 +22,16 @@ import technikum.at.tourplanner_swen2_team5.util.Formatter;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class AddTourLogController {
     @FXML
     private DatePicker dateField;
     @FXML
-    private TextField timeField;
+    private ComboBox<Integer> timeFieldHours;
+    @FXML
+    private ComboBox<Integer> timeFieldMinutes;
     @FXML
     private TextArea commentArea;
     @FXML
@@ -79,6 +83,8 @@ public class AddTourLogController {
         transportTypeService = new TransportTypeService();
         validationService = new TourLogValidationService();
         formatter = new Formatter();
+        loadTimeHours();
+        loadTimeMinutes();
         loadDifficultyTypes();
         loadTransportTypes();
         dateField.setDayCellFactory(getDayCellFactory());
@@ -108,6 +114,16 @@ public class AddTourLogController {
                 }
             }
         };
+    }
+
+    private void loadTimeHours() {
+        List<Integer> hours = IntStream.rangeClosed(0, 23).boxed().collect(Collectors.toList());
+        timeFieldHours.setItems(FXCollections.observableArrayList(hours));
+    }
+
+    private void loadTimeMinutes() {
+        List<Integer> minutes = IntStream.rangeClosed(0, 59).boxed().collect(Collectors.toList());
+        timeFieldMinutes.setItems(FXCollections.observableArrayList(minutes));
     }
 
     private void loadDifficultyTypes() {
@@ -153,8 +169,12 @@ public class AddTourLogController {
     }
 
     private void updateTourLogModelFromFields() {
+        Integer timeHours = (timeFieldHours.getValue() != null) ? timeFieldHours.getValue() : null;
+        Integer timeMinutes = (timeFieldMinutes.getValue() != null) ? timeFieldMinutes.getValue() : null;
+
         currentTourLog.setDate(formatter.formatDate(String.valueOf(dateField.getValue())));
-        currentTourLog.setTime(formatter.formatTime_hhmm(timeField.getText()));
+        currentTourLog.setTimeHours(timeHours != null ? timeHours : 0);
+        currentTourLog.setTimeMinutes(timeMinutes != null ? timeMinutes : 0);
         currentTourLog.setComment(commentArea.getText());
         currentTourLog.setDifficulty(difficultyBox.getValue());
         currentTourLog.setDistance(distanceField.getText());
@@ -168,7 +188,8 @@ public class AddTourLogController {
         boolean hasError = false;
 
         hasError |= setFieldError(dateField, warningLabelDate, errors.get("date"));
-        hasError |= setFieldError(timeField, warningLabelTime, errors.get("time"));
+        hasError |= setFieldError(timeFieldHours, warningLabelTime, errors.get("time"));
+        hasError |= setFieldError(timeFieldMinutes, warningLabelTime, errors.get("time"));
         hasError |= setFieldError(commentArea, warningLabelComment, errors.get("comment"));
         hasError |= setFieldError(difficultyBox, warningLabelDifficulty, errors.get("difficulty"));
         hasError |= setFieldError(distanceField, warningLabelDistance, errors.get("distance"));

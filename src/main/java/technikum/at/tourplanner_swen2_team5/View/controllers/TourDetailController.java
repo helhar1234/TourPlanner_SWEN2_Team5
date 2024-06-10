@@ -80,7 +80,7 @@ public class TourDetailController {
         tourDestination.setText("Destination: " + currentTour.getDestination());
         tourTransportationType.setText("Transportation Type: " + currentTour.getTransportType().getName());
         tourDistance.setText("Distance: " + Formatter.formatDistance(currentTour.getDistance()));
-        tourTime.setText("Time: " + formatter.formatTime(currentTour.getTime()));
+        tourTime.setText("Time: " + formatter.formatTime(0, currentTour.getTime()));
 
         try {
             String filename = tour.getId() + "_map.png";
