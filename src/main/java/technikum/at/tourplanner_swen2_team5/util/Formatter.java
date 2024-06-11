@@ -6,10 +6,10 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 public class Formatter {
-    public String formatTime(int minutes) {
-        int hours = minutes / 60;
-        int remainingMinutes = minutes % 60;
-        return String.format("%dh %02dmin", hours, remainingMinutes);
+    public String formatTime(int hours, int minutes) {
+        hours = hours + (minutes / 60);
+        minutes = minutes % 60;
+        return String.format("%dh %02dmin", hours, minutes);
     }
 
     public static String formatDistance(double distance) {
@@ -127,8 +127,4 @@ public class Formatter {
             return false;
         }
     }
-
-
-
-
 }

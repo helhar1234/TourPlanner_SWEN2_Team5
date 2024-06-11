@@ -3,7 +3,6 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.web.WebView?>
 <GridPane styleClass="detail-container" stylesheets="@css/tourDetail.css" xmlns="http://javafx.com/javafx/17"
           xmlns:fx="http://javafx.com/fxml/1"
           fx:controller="technikum.at.tourplanner_swen2_team5.View.controllers.TourDetailController">

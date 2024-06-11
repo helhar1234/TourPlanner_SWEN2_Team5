@@ -60,7 +60,7 @@ public class TourEntryController {
         startLabel.setText(tour.getStart());
         destinationLabel.setText(tour.getDestination());
         distanceLabel.setText(formatter.formatDistance(tour.getDistance()));
-        timeLabel.setText(formatter.formatTime(tour.getTime()));
+        timeLabel.setText(formatter.formatTime(0, tour.getTime()));
 
         editButton.setOnAction(e -> onEditButtonClicked(tour.getId()));
         detailButton.setOnAction(e -> onDetailButtonClicked(tour.getId()));

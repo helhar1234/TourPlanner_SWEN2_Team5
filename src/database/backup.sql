@@ -89,13 +89,14 @@ CREATE TABLE public.tourlogs (
     tourlogid character varying(255) NOT NULL,
     tourid_fk character varying(255) NOT NULL,
     date character varying(255) NOT NULL,
-    "time" character varying(255),
     comment character varying(255),
     difficultyid integer DEFAULT 0,
     distance character varying(255),
     totaltime character varying(255),
     rating integer DEFAULT 0,
-    transporttypeid_fk integer DEFAULT 0
+    transporttypeid_fk integer DEFAULT 0,
+    timehours integer DEFAULT 0,
+    timeminutes integer DEFAULT 0
 );
 
 
@@ -155,6 +156,8 @@ COPY public.difficulties (difficultyid, difficulty) FROM stdin;
 --
 
 COPY public.maps (tourid_fk, filename, id) FROM stdin;
+76615c12-a3b7-4125-9e53-78bc40245f51	76615c12-a3b7-4125-9e53-78bc40245f51_map.png	24
+bdf077c7-f715-498a-9b38-2ec9a8a95cb9	bdf077c7-f715-498a-9b38-2ec9a8a95cb9_map.png	25
 \.
 
 
@@ -162,7 +165,9 @@ COPY public.maps (tourid_fk, filename, id) FROM stdin;
 -- Data for Name: tourlogs; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.tourlogs (tourlogid, tourid_fk, date, "time", comment, difficultyid, distance, totaltime, rating, transporttypeid_fk) FROM stdin;
+COPY public.tourlogs (tourlogid, tourid_fk, date, comment, difficultyid, distance, totaltime, rating, transporttypeid_fk, timehours, timeminutes) FROM stdin;
+356b9cc3-e07f-497f-8b68-d25521993405	76615c12-a3b7-4125-9e53-78bc40245f51	05.06.2024	It was very nice!	2	1521	25h 21min	10	4	0	0
+e6540083-d9e7-45b8-83a0-0e4f2748e4de	bdf077c7-f715-498a-9b38-2ec9a8a95cb9	05.06.2024	It was awesome!	2	576	38h 24min	10	2	2	54
 \.
 
 
@@ -171,6 +176,8 @@ COPY public.tourlogs (tourlogid, tourid_fk, date, "time", comment, difficultyid,
 --
 
 COPY public.tours (tourid, name, description, start, destination, transporttypeid_fk, distance, "time") FROM stdin;
+76615c12-a3b7-4125-9e53-78bc40245f51	Tour 1	Description	Wien	London	4	1521	1521
+bdf077c7-f715-498a-9b38-2ec9a8a95cb9	Tour 2	Nice Tour	Berlin	Köln	2	576	2304
 \.
 
 
@@ -197,7 +204,7 @@ SELECT pg_catalog.setval('public.hibernate_sequence', 12, true);
 -- Name: maps_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.maps_id_seq', 23, true);
+SELECT pg_catalog.setval('public.maps_id_seq', 25, true);
 
 
 --

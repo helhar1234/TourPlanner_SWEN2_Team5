@@ -79,7 +79,7 @@ public class TourLogListController {
 
                 ((Label) logEntry.lookup("#dateLabel")).setText(log.getDate().toString());
                 ((Label) logEntry.lookup("#ratingLabel")).setText(log.getRating() + "/10");
-                ((Label) logEntry.lookup("#detailsLabel")).setText("Time: " + log.getTime() + " | Difficulty: " + log.getDifficulty().getDifficulty() +
+                ((Label) logEntry.lookup("#detailsLabel")).setText("Time: " + log.getTimeHours() + ":" + log.getTimeMinutes() + " | Difficulty: " + log.getDifficulty().getDifficulty() +
                         " | Distance: " + log.getDistance() + " km | Total Time: " + log.getTotalTime());
                 ((Label) logEntry.lookup("#commentLabel")).setText(log.getComment());
 

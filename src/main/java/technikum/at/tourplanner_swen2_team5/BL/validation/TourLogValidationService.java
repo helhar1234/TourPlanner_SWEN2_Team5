@@ -19,8 +19,8 @@ public class TourLogValidationService {
             errors.put("date", "Invalid or empty date!");
         }
 
-        if (!isValidTime(tourLog.getTime())) {
-            errors.put("time", "Invalid or empty time. Time must be in hh:mm format");
+        if (!isValidTime(tourLog.getTimeHours(), tourLog.getTimeMinutes())) {
+            errors.put("time", "Invalid or empty time.");
         }
 
         if (!isValidComment(tourLog.getComment())) {
@@ -67,18 +67,9 @@ public class TourLogValidationService {
     }
 
 
-    private boolean isValidTime(String time) {
-        if (time == null || time.trim().isEmpty()) {
-            return false;
-        }
-        String[] parts = time.split(":");
-        if (parts.length != 2) {
-            return false;
-        }
+    private boolean isValidTime(int timeHours, int timeMinutes) {
         try {
-            int hours = Integer.parseInt(parts[0]);
-            int minutes = Integer.parseInt(parts[1]);
-            return hours >= 0 && hours < 24 && minutes >= 0 && minutes < 60;
+            return timeHours >= 0 && timeHours < 24 && timeMinutes >= 0 && timeMinutes < 60 && (timeHours != 0 || timeMinutes != 0);
         } catch (NumberFormatException e) {
             return false;
         }
