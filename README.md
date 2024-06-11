@@ -1,1 +1,1 @@
-This is our tourplanner.
+This is our TourPlanner.
