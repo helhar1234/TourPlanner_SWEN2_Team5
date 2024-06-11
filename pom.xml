@@ -17,6 +17,7 @@
         <javafx.maven.plugin.version>0.0.8</javafx.maven.plugin.version>
         <maven.compiler.plugin.version>3.10.1</maven.compiler.plugin.version>
         <jacoco.version>0.8.8</jacoco.version>
+        <itext.version>8.0.4</itext.version>
     </properties>
     <dependencies>
         <dependency>
@@ -92,8 +93,62 @@
             <artifactId>json</artifactId>
             <version>20210307</version>
         </dependency>
-
+        <!-- always needed -->
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>kernel</artifactId>
+            <version>${itext.version}</version>
+        </dependency>
+        <!-- always needed -->
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>io</artifactId>
+            <version>${itext.version}</version>
+        </dependency>
+        <!-- always needed -->
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>layout</artifactId>
+            <version>${itext.version}</version>
+        </dependency>
+        <!-- only needed for forms -->
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>forms</artifactId>
+            <version>${itext.version}</version>
+        </dependency>
+        <!-- only needed for PDF/A -->
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>pdfa</artifactId>
+            <version>${itext.version}</version>
+        </dependency>
+        <!-- only needed for digital signatures -->
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>sign</artifactId>
+            <version>${itext.version}</version>
+        </dependency>
+        <!-- only needed for barcodes -->
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>barcodes</artifactId>
+            <version>${itext.version}</version>
+        </dependency>
+        <!-- only needed for Asian fonts -->
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>font-asian</artifactId>
+            <version>${itext.version}</version>
+        </dependency>
+        <!-- only needed for hyphenation -->
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>hyph</artifactId>
+            <version>${itext.version}</version>
+        </dependency>
     </dependencies>
+
     <build>
         <testResources>
             <testResource>
