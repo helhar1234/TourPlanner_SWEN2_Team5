@@ -69,7 +69,7 @@ public class TourEntryController {
         downloadButton.setOnAction(e -> {
             try {
                 onDownloadButtonClicked(tour.getId());
-            } catch (FileNotFoundException ex) {
+            } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
         });
@@ -192,7 +192,7 @@ public class TourEntryController {
         }
     }
 
-    private void onDownloadButtonClicked(String tourId) throws FileNotFoundException {
+    private void onDownloadButtonClicked(String tourId) throws IOException {
         PDFGenerator generator = new PDFGenerator();
         generator.generateTourReport(tourViewModel.getTourById(tourId));
     }
