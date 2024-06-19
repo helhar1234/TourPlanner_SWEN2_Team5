@@ -8,6 +8,7 @@ import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.properties.UnitValue;
 import javafx.collections.transformation.FilteredList;
 import javafx.stage.FileChooser;
+import lombok.extern.slf4j.Slf4j;
 import technikum.at.tourplanner_swen2_team5.BL.models.TourLogModel;
 import technikum.at.tourplanner_swen2_team5.BL.models.TourModel;
 import technikum.at.tourplanner_swen2_team5.BL.services.TourLogService;
@@ -23,6 +24,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
+@Slf4j
 public class PDFGenerator {
 
     public void generateTourReport(TourModel tour) {
@@ -31,8 +33,9 @@ public class PDFGenerator {
             Path pdfPath = getPdfPath(tour.getName());
             byte[] pdfContent = Files.readAllBytes(pdfPath);
             downloadAndShowPDF(pdfContent, tour);
+            log.info("Successfully generated tour report");
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Failed to generate tour report of tour with id {}", tour.getId(), e);
         }
     }
 
@@ -44,14 +47,20 @@ public class PDFGenerator {
 
         String fileName = tourName + ".pdf";
         Path filePath = relativePath.resolve(fileName);
-
-        return filePath.toAbsolutePath().normalize();
+        Path absolutePath = filePath.toAbsolutePath().normalize();
+        if(Files.exists(absolutePath)) {
+            return filePath.toAbsolutePath().normalize();
+        } else {
+            log.error("Failed to resolve path for tour report");
+            throw new RuntimeException("Failed to resolve path for tour report");
+        }
     }
 
     private void writeTourReport(TourModel tour) throws IOException {
         String dest = getPdfPath(tour.getName()).toString();
 
         try {
+
             PdfWriter writer = new PdfWriter(dest);
             PdfDocument pdf = new PdfDocument(writer);
             Document document = new Document(pdf);
@@ -83,7 +92,7 @@ public class PDFGenerator {
 
             document.close();
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            log.error("Failed to write pdf to tour report", e);
         }
     }
 
@@ -104,7 +113,7 @@ public class PDFGenerator {
                 // PDF anzeigen
                 showPDF(file);
             } catch (IOException e) {
-                e.printStackTrace();
+                log.error("Failed to save tour report for tour id {}", tour.getId(), e);
             }
         }
     }
@@ -115,10 +124,10 @@ public class PDFGenerator {
             if (Desktop.isDesktopSupported()) {
                 Desktop.getDesktop().open(file);
             } else {
-                System.out.println("Desktop is not supported, unable to open the PDF automatically.");
+                log.warn("Desktop is not supported, unable to open the PDF automatically.");
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Failed to open the PDF automatically", e);
         }
     }
 }

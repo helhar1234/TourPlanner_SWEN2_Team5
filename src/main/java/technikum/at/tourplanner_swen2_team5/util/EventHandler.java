@@ -8,9 +8,11 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.geometry.Rectangle2D;
 import javafx.stage.Screen;
+import lombok.extern.slf4j.Slf4j;
 import technikum.at.tourplanner_swen2_team5.View.controllers.ConfirmationWindow;
 import technikum.at.tourplanner_swen2_team5.View.controllers.HomeScreenController;
 
+@Slf4j
 public class EventHandler {
 
     public static void openAddTourWindow() {
@@ -30,7 +32,7 @@ public class EventHandler {
             stage.setHeight(height);
             stage.showAndWait();
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Failed to open Add Tour Window", e);
         }
     }
 
@@ -40,13 +42,18 @@ public class EventHandler {
             Node tourListView = loader.load();
             homeScreenController.changeMainContent(tourListView);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Failed to open Tour List View", e);
         }
     }
 
     public static boolean confirmBack(Stage stage, String title, String header, String content) {
-        ConfirmationWindow dialog = new ConfirmationWindow(stage, title, header, content);
-        return dialog.showAndWait();
+        try {
+            ConfirmationWindow dialog = new ConfirmationWindow(stage, title, header, content);
+            return dialog.showAndWait();
+        } catch (Exception e) {
+            log.error("Failed to confirm back", e);
+            return false;
+        }
     }
 }
 
