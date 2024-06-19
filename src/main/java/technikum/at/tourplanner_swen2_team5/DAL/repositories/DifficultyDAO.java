@@ -1,5 +1,6 @@
 package technikum.at.tourplanner_swen2_team5.DAL.repositories;
 
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
 import technikum.at.tourplanner_swen2_team5.BL.models.DifficultyModel;
 import technikum.at.tourplanner_swen2_team5.BL.models.TransportTypeModel;

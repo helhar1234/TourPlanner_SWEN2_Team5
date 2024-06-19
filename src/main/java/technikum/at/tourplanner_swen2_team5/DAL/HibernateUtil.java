@@ -1,11 +1,13 @@
 package technikum.at.tourplanner_swen2_team5.DAL;
 
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.*;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import technikum.at.tourplanner_swen2_team5.BL.models.*;
 
+@Slf4j
 public class HibernateUtil {
     @Getter
     private static final SessionFactory sessionFactory;
@@ -24,9 +26,9 @@ public class HibernateUtil {
             configuration.addAnnotatedClass(TransportTypeModel.class);
 
             sessionFactory = configuration.buildSessionFactory(builder.build());
-            System.out.println("Hibernate-Konfiguration erfolgreich geladen");
+            log.info("Hibernate SessionFactory created successfully");
         } catch (Exception e) {
-            System.err.println("Initial SessionFactory creation failed. " + e);
+            log.error("Initial SessionFactory creation failed", e);
             throw new RuntimeException(e);
         }
     }
