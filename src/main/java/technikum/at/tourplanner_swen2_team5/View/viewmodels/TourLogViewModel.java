@@ -10,7 +10,7 @@ public class TourLogViewModel {
     private final ObservableList<TourLogModel> tourLogModels = FXCollections.observableArrayList();
     private final TourLogService tourLogService = new TourLogService();
 
-    private TourLogViewModel() {
+    public TourLogViewModel() {
         loadTourLogs();
     }
 

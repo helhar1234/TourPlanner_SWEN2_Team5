@@ -24,7 +24,9 @@ import technikum.at.tourplanner_swen2_team5.BL.models.TourModel;
 import technikum.at.tourplanner_swen2_team5.View.viewmodels.TourViewModel;
 import technikum.at.tourplanner_swen2_team5.util.ApplicationContext;
 import technikum.at.tourplanner_swen2_team5.util.Formatter;
+import technikum.at.tourplanner_swen2_team5.util.PDFGenerator;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 
@@ -64,7 +66,13 @@ public class TourEntryController {
 
         editButton.setOnAction(e -> onEditButtonClicked(tour.getId()));
         detailButton.setOnAction(e -> onDetailButtonClicked(tour.getId()));
-        downloadButton.setOnAction(e -> onDownloadButtonClicked(tour.getId()));
+        downloadButton.setOnAction(e -> {
+            try {
+                onDownloadButtonClicked(tour.getId());
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
         deleteButton.setOnAction(e -> onDeleteButtonTour(tour.getId()));
     }
 
@@ -184,7 +192,8 @@ public class TourEntryController {
         }
     }
 
-    private void onDownloadButtonClicked(String tourId) {
-        //TODO: implement download button
+    private void onDownloadButtonClicked(String tourId) throws IOException {
+        PDFGenerator generator = new PDFGenerator();
+        generator.generateTourReport(tourViewModel.getTourById(tourId));
     }
 }

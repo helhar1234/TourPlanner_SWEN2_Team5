@@ -24,14 +24,6 @@
                 </ImageView>
             </graphic>
         </Button>
-
-        <Button fx:id="downloadButton" styleClass="icon-button">
-            <graphic>
-                <ImageView fitHeight="20.0" fitWidth="20.0" preserveRatio="true">
-                    <Image url="@img/icons/download-icon.png"/>
-                </ImageView>
-            </graphic>
-        </Button>
         <Button fx:id="deleteButton" styleClass="icon-button">
             <graphic>
                 <ImageView fitHeight="20.0" fitWidth="20.0" preserveRatio="true">

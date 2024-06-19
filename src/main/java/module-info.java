@@ -12,6 +12,8 @@ module technikum.at.tourplanner_swen2_team5 {
     requires javafx.web;
     requires okhttp3;
     requires org.json;
+    requires kernel;
+    requires layout;
 
     exports technikum.at.tourplanner_swen2_team5;
     exports technikum.at.tourplanner_swen2_team5.util;
