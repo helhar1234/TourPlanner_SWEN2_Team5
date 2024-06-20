@@ -96,7 +96,7 @@ public class PDFGenerator {
 
             showPDF(file);
         } catch (IOException e) {
-            log.error("Failed to save tour report for tour id {}", file.getName(), e);
+            log.error("Failed to show tour report for tour id {}", file.getName(), e);
         }
     }
 
