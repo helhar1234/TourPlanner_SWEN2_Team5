@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
+import lombok.extern.slf4j.Slf4j;
 import technikum.at.tourplanner_swen2_team5.BL.models.TourModel;
 import technikum.at.tourplanner_swen2_team5.BL.models.TransportTypeModel;
 import technikum.at.tourplanner_swen2_team5.BL.services.TransportTypeService;
@@ -18,6 +19,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 public class AddTourController {
     @FXML private TextField nameField, startField, destinationField;
     @FXML private TextArea descriptionArea;
@@ -59,6 +61,7 @@ public class AddTourController {
             tourViewModel.addTour(currentTour);
             mapViewModel.addMap(currentTour);
             closeStage();
+            log.info("Successfully saved tour with id {}", currentTour.getId());
         }
     }
 
@@ -123,6 +126,7 @@ public class AddTourController {
 
     @FXML
     private void onDeleteButtonClicked() throws IOException {
+        log.info("Delete tour button clicked for Tour {}", currentTour.getName());
         if (EventHandler.confirmBack((Stage) deleteButton.getScene().getWindow(), "Delete Tour", "Deletion Confirmation", "Do you want to delete this tour?")) {
             tourViewModel.deleteTour(currentTour);
             closeStage();
@@ -131,6 +135,7 @@ public class AddTourController {
 
     @FXML
     private void onBackButtonClicked() {
+        log.info("Back button clicked for Tour {}", currentTour.getName());
         if (EventHandler.confirmBack((Stage) backButton.getScene().getWindow(), "Return to Tour Planner", "Return Confirmation", "If you go back now, your Tour will not be saved!")) {
             closeStage();
         }

@@ -8,6 +8,7 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
+import lombok.extern.slf4j.Slf4j;
 import technikum.at.tourplanner_swen2_team5.BL.models.DifficultyModel;
 import technikum.at.tourplanner_swen2_team5.BL.models.TourLogModel;
 import technikum.at.tourplanner_swen2_team5.BL.models.TourModel;
@@ -25,6 +26,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+@Slf4j
 public class AddTourLogController {
     @FXML
     private DatePicker dateField;
@@ -165,6 +167,7 @@ public class AddTourLogController {
             currentTourLog.setTotalTime(formatter.formatTime_hm(currentTourLog.getTotalTime()));
             tourLogViewModel.addTourLog(currentTourLog);
             closeStage();
+            log.info("Successfully saved tour log for tour {} with tourLogId {}", currentTourLog.getTour().getId(), currentTourLog.getId());
         }
     }
 
@@ -227,6 +230,7 @@ public class AddTourLogController {
 
         if (dialog.showAndWait()) {
             closeStage();
+            log.info("Successfully deleted tour log with id {}", currentTourLog.getId());
         }
     }
 
@@ -240,6 +244,7 @@ public class AddTourLogController {
 
         if (dialog.showAndWait()) {
             closeStage();
+            log.info("Successfully backed to tour with id {}", currentTourLog.getTour().getId());
         }
     }
 }
