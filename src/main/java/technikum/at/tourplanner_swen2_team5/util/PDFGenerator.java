@@ -8,10 +8,10 @@ import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.properties.UnitValue;
 import javafx.collections.transformation.FilteredList;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 import technikum.at.tourplanner_swen2_team5.BL.models.TourLogModel;
 import technikum.at.tourplanner_swen2_team5.BL.models.TourModel;
-import technikum.at.tourplanner_swen2_team5.BL.services.TourLogService;
 import technikum.at.tourplanner_swen2_team5.View.viewmodels.TourLogViewModel;
 
 import java.awt.*;
@@ -21,47 +21,39 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.List;
 
 @Slf4j
 public class PDFGenerator {
 
     public void generateTourReport(TourModel tour) {
         try {
-            writeTourReport(tour);
-            Path pdfPath = getPdfPath(tour.getName());
-            byte[] pdfContent = Files.readAllBytes(pdfPath);
-            downloadAndShowPDF(pdfContent, tour);
-            log.info("Successfully generated tour report");
+            File selectedFile = promptUserForSaveLocation(tour.getName());
+            if (selectedFile != null) {
+                writeTourReport(tour, selectedFile.toPath());
+                byte[] pdfContent = Files.readAllBytes(selectedFile.toPath());
+                downloadAndShowPDF(pdfContent, selectedFile);
+                log.info("Successfully generated tour report for tour with id {}", tour.getId());
+            }
         } catch (IOException e) {
             log.error("Failed to generate tour report of tour with id {}", tour.getId(), e);
         }
     }
 
-    private Path getPdfPath(String tourName) {
-        String currentWorkingDir = System.getProperty("user.dir");
-        System.out.println("Aktuelles Arbeitsverzeichnis: " + currentWorkingDir);
-
-        Path relativePath = Paths.get(currentWorkingDir, "src", "main", "resources", "technikum", "at", "tourplanner_swen2_team5", "pdf", "TourReports");
-
-        String fileName = tourName + ".pdf";
-        Path filePath = relativePath.resolve(fileName);
-        Path absolutePath = filePath.toAbsolutePath().normalize();
-        if(Files.exists(absolutePath)) {
-            return filePath.toAbsolutePath().normalize();
+    private File promptUserForSaveLocation(String defaultFileName) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setInitialFileName(defaultFileName + " Report.pdf");
+        File file = fileChooser.showSaveDialog(new Stage());
+        if (file != null) {
+            return file;
         } else {
-            log.error("Failed to resolve path for tour report");
-            throw new RuntimeException("Failed to resolve path for tour report");
+            log.warn("User did not select a save location for the PDF");
+            return null;
         }
     }
 
-    private void writeTourReport(TourModel tour) throws IOException {
-        String dest = getPdfPath(tour.getName()).toString();
-
+    private void writeTourReport(TourModel tour, Path filePath) throws IOException {
         try {
-
-            PdfWriter writer = new PdfWriter(dest);
+            PdfWriter writer = new PdfWriter(filePath.toString());
             PdfDocument pdf = new PdfDocument(writer);
             Document document = new Document(pdf);
             document.setMargins(20, 20, 20, 20);
@@ -87,7 +79,7 @@ public class PDFGenerator {
                 ls.setWidth(UnitValue.createPercentValue(100));
                 document.add(ls);
 
-                document.add(new Paragraph(" ")); // Leerzeile
+                document.add(new Paragraph(" "));
             }
 
             document.close();
@@ -96,29 +88,18 @@ public class PDFGenerator {
         }
     }
 
-    private void downloadAndShowPDF(byte[] pdfContent, TourModel tour) {
-        // FileChooser erstellen, um den Speicherort für das heruntergeladene PDF auszuwählen
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setInitialFileName(tour.getName() + " Report.pdf");
-        File file = fileChooser.showSaveDialog(null);
+    private void downloadAndShowPDF(byte[] pdfContent, File file) {
+        try {
+            FileOutputStream fos = new FileOutputStream(file);
+            fos.write(pdfContent);
+            fos.close();
 
-        // Wenn der Benutzer einen Speicherort ausgewählt hat
-        if (file != null) {
-            try {
-                // PDF-Inhalt in die Datei schreiben
-                FileOutputStream fos = new FileOutputStream(file);
-                fos.write(pdfContent);
-                fos.close();
-
-                // PDF anzeigen
-                showPDF(file);
-            } catch (IOException e) {
-                log.error("Failed to save tour report for tour id {}", tour.getId(), e);
-            }
+            showPDF(file);
+        } catch (IOException e) {
+            log.error("Failed to save tour report for tour id {}", file.getName(), e);
         }
     }
 
-    // PDF anzeigen
     private void showPDF(File file) {
         try {
             if (Desktop.isDesktopSupported()) {
