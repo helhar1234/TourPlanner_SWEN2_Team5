@@ -135,7 +135,6 @@ public class AddTourController {
 
     @FXML
     private void onBackButtonClicked() {
-        log.info("Back button clicked for Tour {}", currentTour.getName());
         if (EventHandler.confirmBack((Stage) backButton.getScene().getWindow(), "Return to Tour Planner", "Return Confirmation", "If you go back now, your Tour will not be saved!")) {
             closeStage();
         }

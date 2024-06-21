@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
+import lombok.extern.slf4j.Slf4j;
 import technikum.at.tourplanner_swen2_team5.BL.models.DifficultyModel;
 import technikum.at.tourplanner_swen2_team5.BL.models.TourLogModel;
 import technikum.at.tourplanner_swen2_team5.BL.models.TransportTypeModel;
@@ -21,6 +22,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 public class EditTourLogController {
 
     @FXML
@@ -143,6 +145,7 @@ public class EditTourLogController {
             currentTourLog.setTotalTime(formatter.formatTime_hm(currentTourLog.getTotalTime()));
             tourLogViewModel.updateTourLog(currentTourLog);
             closeStage();
+            log.info("Successfully updated tour log with id {}", currentTourLog.getId());
         }
     }
 
@@ -158,6 +161,7 @@ public class EditTourLogController {
         if (dialog.showAndWait()) {
             tourLogViewModel.deleteTourLogById(currentTourLog.getId());
             closeStage();
+            log.info("Successfully deleted tour log with id {}", currentTourLog.getId());
         }
     }
 

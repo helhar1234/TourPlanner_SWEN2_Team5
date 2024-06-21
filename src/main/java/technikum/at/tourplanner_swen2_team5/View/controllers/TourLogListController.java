@@ -18,26 +18,25 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import lombok.extern.slf4j.Slf4j;
 import technikum.at.tourplanner_swen2_team5.MainTourPlaner;
 import technikum.at.tourplanner_swen2_team5.BL.models.TourLogModel;
-import technikum.at.tourplanner_swen2_team5.util.Formatter;
 import technikum.at.tourplanner_swen2_team5.View.viewmodels.TourLogViewModel;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 
+@Slf4j
 public class TourLogListController {
     @FXML
     private VBox tourLogsContainer;
 
     private TourLogViewModel tourLogViewModel;
-    private Formatter formatter;
     private String tourId;
 
     public void initialize() {
         tourLogViewModel = TourLogViewModel.getInstance();
-        formatter = new Formatter();
         tourLogViewModel.getTourLogs().addListener((ListChangeListener<TourLogModel>) change -> refreshTourLogs());
     }
 
@@ -59,12 +58,12 @@ public class TourLogListController {
     private void populateTourLogs(List<TourLogModel> tourLogs) {
         tourLogsContainer.getChildren().clear();
         boolean first = true;
-        for (TourLogModel log : tourLogs) {
+        for (TourLogModel tourLog : tourLogs) {
             try {
                 FXMLLoader loader = new FXMLLoader(MainTourPlaner.class.getResource("tour_log_entry.fxml"));
                 VBox logEntry = loader.load();
 
-                String imageName = "img/icons/" + log.getTransportType().getName().toLowerCase() + "-icon.png";
+                String imageName = "img/icons/" + tourLog.getTransportType().getName().toLowerCase() + "-icon.png";
                 URL resource = MainTourPlaner.class.getResource(imageName);
                 if (resource != null) {
                     Image transportIcon = new Image(resource.toString());
@@ -74,20 +73,20 @@ public class TourLogListController {
                     transportIconView.setPreserveRatio(true);
                     transportIconView.setImage(transportIcon);
                 } else {
-                    System.out.println("Image not found: " + imageName);
+                    log.warn("Failed to load transport icon {}", imageName);
                 }
 
-                ((Label) logEntry.lookup("#dateLabel")).setText(log.getDate().toString());
-                ((Label) logEntry.lookup("#ratingLabel")).setText(log.getRating() + "/10");
-                ((Label) logEntry.lookup("#detailsLabel")).setText("Time: " + log.getTimeHours() + ":" + log.getTimeMinutes() + " | Difficulty: " + log.getDifficulty().getDifficulty() +
-                        " | Distance: " + log.getDistance() + " km | Total Time: " + log.getTotalTime());
-                ((Label) logEntry.lookup("#commentLabel")).setText(log.getComment());
+                ((Label) logEntry.lookup("#dateLabel")).setText(tourLog.getDate());
+                ((Label) logEntry.lookup("#ratingLabel")).setText(tourLog.getRating() + "/10");
+                ((Label) logEntry.lookup("#detailsLabel")).setText("Time: " + tourLog.getTimeHours() + ":" + tourLog.getTimeMinutes() + " | Difficulty: " + tourLog.getDifficulty().getDifficulty() +
+                        " | Distance: " + tourLog.getDistance() + " km | Total Time: " + tourLog.getTotalTime());
+                ((Label) logEntry.lookup("#commentLabel")).setText(tourLog.getComment());
 
                 Button editButton = (Button) logEntry.lookup("#editButton");
-                editButton.setOnAction(event -> onEditTourLogClicked(log.getId()));
+                editButton.setOnAction(event -> onEditTourLogClicked(tourLog.getId()));
 
                 Button trashButton = (Button) logEntry.lookup("#deleteButton");
-                trashButton.setOnAction(event -> tourLogViewModel.deleteTourLogById(log.getId()));
+                trashButton.setOnAction(event -> tourLogViewModel.deleteTourLogById(tourLog.getId()));
 
                 if (!first) {
                     Separator separator = new Separator();
@@ -100,7 +99,7 @@ public class TourLogListController {
                 tourLogsContainer.getChildren().add(logEntry);
 
                 Label ratingLabel = (Label) logEntry.lookup("#ratingLabel");
-                int rating = log.getRating();
+                int rating = tourLog.getRating();
                 ratingLabel.setText(rating + "/10");
                 if (rating >= 6) {
                     ratingLabel.setStyle("-fx-text-fill: green;");
@@ -110,8 +109,9 @@ public class TourLogListController {
                     ratingLabel.setStyle("-fx-text-fill: red;");
                 }
 
+                log.info("Successfully loaded tour logs for tour with id: {}", tourId);
             } catch (IOException e) {
-                e.printStackTrace();
+                log.error("Failed to load tour logs for tour with id: {}", tourId, e);
             }
         }
     }
@@ -119,6 +119,8 @@ public class TourLogListController {
     private void onEditTourLogClicked(String id) {
         try {
             TourLogModel tourLog = tourLogViewModel.getTourLogById(id);
+            log.info("Edit button clicked for tourLog with id {}", id);
+
             FXMLLoader fxmlLoader = new FXMLLoader(MainTourPlaner.class.getResource("edit_tour_log.fxml"));
             Parent root = fxmlLoader.load();
 
@@ -141,7 +143,7 @@ public class TourLogListController {
             stage.showAndWait();
             refreshTourLogs();
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Failed to load EditTourLog Window for tour with id: {}", id, e);
         }
     }
 }

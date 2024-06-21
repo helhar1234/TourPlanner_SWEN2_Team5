@@ -244,7 +244,6 @@ public class AddTourLogController {
 
         if (dialog.showAndWait()) {
             closeStage();
-            log.info("Successfully backed to tour with id {}", currentTourLog.getTour().getId());
         }
     }
 }

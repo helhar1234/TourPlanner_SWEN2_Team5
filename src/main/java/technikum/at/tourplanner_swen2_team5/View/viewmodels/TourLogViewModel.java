@@ -49,6 +49,5 @@ public class TourLogViewModel {
     public void updateTourLog(TourLogModel tourLog) {
         tourLogService.updateTourLog(tourLog);
         loadTourLogs();
-
     }
 }
