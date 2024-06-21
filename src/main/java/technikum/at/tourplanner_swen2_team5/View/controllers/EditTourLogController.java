@@ -72,7 +72,6 @@ public class EditTourLogController {
     private DifficultyService difficultyService;
     private Formatter formatter;
     private TransportTypeService transportTypeService;
-    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     public void initialize() {
         tourLogViewModel = TourLogViewModel.getInstance();
@@ -94,7 +93,7 @@ public class EditTourLogController {
     }
 
     private void loadTourLogDetails() {
-        dateField.setValue(LocalDate.parse(formatter.formatDateReverse(currentTourLog.getDate())));
+        dateField.setValue(LocalDate.parse(Formatter.formatDateReverse(currentTourLog.getDate())));
         currentTourLog.setTimeHours(currentTourLog.getTimeHours());
         currentTourLog.setTimeMinutes(currentTourLog.getTimeMinutes());
         commentArea.setText(currentTourLog.getComment());
@@ -109,7 +108,7 @@ public class EditTourLogController {
     private void loadDifficultyTypes() {
         List<DifficultyModel> difficulties = difficultyService.getAllDifficulties();
         difficultyBox.setItems(FXCollections.observableArrayList(difficulties));
-        difficultyBox.setConverter(new StringConverter<DifficultyModel>() {
+        difficultyBox.setConverter(new StringConverter<>() {
             @Override
             public String toString(DifficultyModel object) {
                 return object != null ? object.getDifficulty() : "";
@@ -193,9 +192,12 @@ public class EditTourLogController {
     }
 
     private void updateTourLogModelFromFields() {
-        currentTourLog.setDate(formatter.formatDate(String.valueOf(dateField.getValue())));
-        currentTourLog.setTimeHours(timeFieldHours.getValue());
-        currentTourLog.setTimeMinutes(timeFieldMinutes.getValue());
+        Integer timeHours = (timeFieldHours.getValue() != null) ? timeFieldHours.getValue() : null;
+        Integer timeMinutes = (timeFieldMinutes.getValue() != null) ? timeFieldMinutes.getValue() : null;
+
+        currentTourLog.setDate(Formatter.formatDate(String.valueOf(dateField.getValue())));
+        currentTourLog.setTimeHours(timeHours != null ? timeHours : 0);
+        currentTourLog.setTimeMinutes(timeMinutes != null ? timeMinutes : 0);
         currentTourLog.setComment(commentArea.getText());
         currentTourLog.setDifficulty(difficultyBox.getValue());
         currentTourLog.setDistance(distanceField.getText());
