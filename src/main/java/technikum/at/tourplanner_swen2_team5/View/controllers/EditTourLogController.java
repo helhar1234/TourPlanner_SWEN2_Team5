@@ -21,6 +21,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Slf4j
 public class EditTourLogController {
@@ -82,6 +84,8 @@ public class EditTourLogController {
 
         loadDifficultyTypes();
         loadTransportTypes();
+        loadTimeHours();
+        loadTimeMinutes();
         ratingSlider.valueProperty().addListener((obs, oldval, newVal) -> updateSliderFill(newVal));
     }
 
@@ -93,9 +97,9 @@ public class EditTourLogController {
     }
 
     private void loadTourLogDetails() {
-        dateField.setValue(LocalDate.parse(Formatter.formatDateReverse(currentTourLog.getDate())));
-        currentTourLog.setTimeHours(currentTourLog.getTimeHours());
-        currentTourLog.setTimeMinutes(currentTourLog.getTimeMinutes());
+        dateField.setValue(LocalDate.parse(formatter.formatDateReverse(currentTourLog.getDate())));
+        timeFieldHours.setValue(currentTourLog.getTimeHours());
+        timeFieldMinutes.setValue(currentTourLog.getTimeMinutes());
         commentArea.setText(currentTourLog.getComment());
         difficultyBox.setValue(currentTourLog.getDifficulty());
         distanceField.setText(currentTourLog.getDistance());
@@ -135,6 +139,16 @@ public class EditTourLogController {
                 return transportTypes.stream().filter(item -> item.getName().equals(string)).findFirst().orElse(null);
             }
         });
+    }
+
+    private void loadTimeHours() {
+        List<Integer> hours = IntStream.rangeClosed(0, 23).boxed().collect(Collectors.toList());
+        timeFieldHours.setItems(FXCollections.observableArrayList(hours));
+    }
+
+    private void loadTimeMinutes() {
+        List<Integer> minutes = IntStream.rangeClosed(0, 59).boxed().collect(Collectors.toList());
+        timeFieldMinutes.setItems(FXCollections.observableArrayList(minutes));
     }
 
     @FXML
