@@ -89,7 +89,7 @@ public class PDFGenerator {
     // Header mit Logo und Titel
     private void addHeader(Document document, TourModel tour) throws IOException {
         // Tabelle mit zwei Spalten, ungleiche Aufteilung
-        Table table = new Table(UnitValue.createPercentArray(new float[]{50, 5})) // Ändere die Proportionen nach Bedarf
+        Table table = new Table(UnitValue.createPercentArray(new float[]{50, 4}))
                 .useAllAvailableWidth();
         String imageName = "img/logos/BikerLogoMave.png";
         URL resource = MainTourPlaner.class.getResource(imageName);
@@ -107,7 +107,6 @@ public class PDFGenerator {
                 .setFontSize(14);
         table.addCell(titleCell);
 
-        // Logozelle, Textausrichtung rechts
         Cell logoCell = new Cell().add(logo)
                 .setBorder(Border.NO_BORDER)
                 .setTextAlignment(TextAlignment.RIGHT);
@@ -149,16 +148,12 @@ public class PDFGenerator {
                 .add(new Text(tour.getDestination()).setFontColor(DARK_GREEN).setBold())
                 .setFontSize(12);
 
-        // Distance and Estimated Time
-        // Assuming you have a method to calculate or retrieve the estimated time, I'm using a placeholder here.
         Formatter formatter = new Formatter();
-        String estimatedTime = formatter.formatTime(0, tour.getTime()); // This should be replaced with actual time calculation if available
+        String estimatedTime = formatter.formatTime(0, tour.getTime());
         Paragraph distanceAndTime = new Paragraph()
                 .add(new Text(tour.getDistance() + " km | " + estimatedTime).setFontColor(DARK_GREEN))
                 .setFontSize(12);
 
-        // Adding a background and a border with rounded corners
-        // Note: iText7 does not directly support setBorderRadius, the correct method will be shown below
         Div tourDataContainer = new Div()
                 .add(tourName)
                 .add(routeDetails)
@@ -181,7 +176,6 @@ public class PDFGenerator {
         FilteredList<TourLogModel> logs = new FilteredList<>(logViewModel.getTourLogs());
         logs.setPredicate(tourLog -> tourLog.getTour().getId().equals(tour.getId()));
         for (TourLogModel log : logs) {
-            // Erstellen eines Divs für den grauen Kasten um jedes Log herum
             Div logEntryDiv = new Div();
             logEntryDiv.setBackgroundColor(CREME_WHITE);
             logEntryDiv.setBorder(Border.NO_BORDER);
@@ -191,7 +185,6 @@ public class PDFGenerator {
             Table logTable = new Table(UnitValue.createPercentArray(new float[]{70, 5})).useAllAvailableWidth();
             logTable.setBorder(Border.NO_BORDER);  // Keine Umrandung der gesamten Tabelle
 
-            // Date Cell
             Cell dateCell = new Cell().add(new Paragraph(log.getDate())
                             .setFontColor(DARK_GREEN)
                             .setFontSize(12)
@@ -199,7 +192,6 @@ public class PDFGenerator {
                     .setBorder(Border.NO_BORDER);
             logTable.addCell(dateCell);
 
-            // Transport Icon Cell
             if (log.getTransportType() != null) {
                 URL resource = MainTourPlaner.class.getResource("img/icons/" + log.getTransportType().getName().toLowerCase() + "-icon.png");
                 if (resource != null) {
@@ -215,7 +207,6 @@ public class PDFGenerator {
                 logTable.addCell(new Cell().add(new Paragraph("No transport type")).setBorder(Border.NO_BORDER));
             }
 
-            // Additional info in a new row
             Cell infoCell = new Cell(1, 2)  // Spanning both columns
                     .add(new Paragraph("Started at " + log.getTimeHours() + ":" + log.getTimeMinutes() + "m").setBold())
                     .add(new Paragraph(log.getTotalTime() + " | " + log.getDistance() + " km | " + log.getDifficulty().getDifficulty()))
@@ -223,7 +214,6 @@ public class PDFGenerator {
                     .setBorder(Border.NO_BORDER);
             logTable.addCell(infoCell);
 
-            // Rating in the next row, right-aligned
             Cell ratingCell = new Cell(1, 2)  // Spanning both columns
                     .add(new Paragraph(log.getRating() + "/10")
                             .setFontColor(log.getRating() >= 6 ? BRIGHT_GREEN : log.getRating() >= 3 ? new DeviceRgb(255, 165, 0) : new DeviceRgb(255, 0, 0))
@@ -231,10 +221,8 @@ public class PDFGenerator {
                     .setBorder(Border.NO_BORDER);
             logTable.addCell(ratingCell);
 
-            // Hinzufügen der Tabelle zum Div
             logEntryDiv.add(logTable);
 
-            // Hinzufügen des gesamten Divs zum Dokument
             document.add(logEntryDiv);
         }
     }

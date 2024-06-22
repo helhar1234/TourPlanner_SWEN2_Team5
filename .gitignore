@@ -2,6 +2,7 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+target/classes/module-info.class
 
 ### Generated Logfiles ###
 /src/main/resources/technikum/at/tourplanner_swen2_team5/logs/
