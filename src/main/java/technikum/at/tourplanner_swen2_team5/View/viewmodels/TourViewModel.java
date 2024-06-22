@@ -63,6 +63,4 @@ public class TourViewModel {
         tourService.updateTour(tour);
         loadTours();
     }
-
-
 }

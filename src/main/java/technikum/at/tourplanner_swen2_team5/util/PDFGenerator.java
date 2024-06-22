@@ -13,7 +13,6 @@ import com.itextpdf.layout.properties.BorderRadius;
 import com.itextpdf.layout.properties.HorizontalAlignment;
 import com.itextpdf.layout.properties.TextAlignment;
 import com.itextpdf.layout.properties.UnitValue;
-import javafx.collections.transformation.FilteredList;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +32,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 @Slf4j
 public class PDFGenerator {
@@ -178,8 +178,7 @@ public class PDFGenerator {
         document.add(new Paragraph("Tour Logs").setBold().setFontSize(16).setFontColor(BRIGHT_GREEN));
 
         TourLogViewModel logViewModel = new TourLogViewModel();
-        FilteredList<TourLogModel> logs = new FilteredList<>(logViewModel.getTourLogs());
-        logs.setPredicate(tourLog -> tourLog.getTour().getId().equals(tour.getId()));
+        List<TourLogModel> logs = logViewModel.getTourLogsForTour(tour.getId());
         for (TourLogModel log : logs) {
             // Erstellen eines Divs für den grauen Kasten um jedes Log herum
             Div logEntryDiv = new Div();

@@ -37,7 +37,7 @@ public class TourLogListController {
 
     public void initialize() {
         tourLogViewModel = TourLogViewModel.getInstance();
-        tourLogViewModel.getTourLogs().addListener((ListChangeListener<TourLogModel>) change -> refreshTourLogs());
+        tourLogViewModel.getTourLogsForTour(tourId).addListener((ListChangeListener<TourLogModel>) change -> refreshTourLogs());
     }
 
     public void setTourId(String tourId) {
@@ -46,9 +46,7 @@ public class TourLogListController {
     }
 
     private void loadTourLogs() {
-        FilteredList<TourLogModel> filteredList = new FilteredList<>(tourLogViewModel.getTourLogs());
-        filteredList.setPredicate(tourLog -> tourLog.getTour().getId().equals(tourId));
-        populateTourLogs(filteredList);
+        populateTourLogs(tourLogViewModel.getTourLogsForTour(tourId));
     }
 
     private void refreshTourLogs() {
