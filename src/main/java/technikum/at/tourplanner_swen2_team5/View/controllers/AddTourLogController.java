@@ -8,6 +8,7 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
+import lombok.extern.slf4j.Slf4j;
 import technikum.at.tourplanner_swen2_team5.BL.models.DifficultyModel;
 import technikum.at.tourplanner_swen2_team5.BL.models.TourLogModel;
 import technikum.at.tourplanner_swen2_team5.BL.models.TourModel;
@@ -25,6 +26,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+@Slf4j
 public class AddTourLogController {
     @FXML
     private DatePicker dateField;
@@ -73,7 +75,6 @@ public class AddTourLogController {
     private final TourLogModel currentTourLog = new TourLogModel();
 
     private DifficultyService difficultyService;
-    private Formatter formatter;
     private TourLogValidationService validationService;
     private TransportTypeService transportTypeService;
 
@@ -82,7 +83,6 @@ public class AddTourLogController {
         difficultyService = new DifficultyService();
         transportTypeService = new TransportTypeService();
         validationService = new TourLogValidationService();
-        formatter = new Formatter();
         loadTimeHours();
         loadTimeMinutes();
         loadDifficultyTypes();
@@ -162,9 +162,10 @@ public class AddTourLogController {
     private void onSaveButtonClicked() {
         updateTourLogModelFromFields();
         if (validateInputs()) {
-            currentTourLog.setTotalTime(formatter.formatTime_hm(currentTourLog.getTotalTime()));
+            currentTourLog.setTotalTime(Formatter.formatTime_hm(currentTourLog.getTotalTime()));
             tourLogViewModel.addTourLog(currentTourLog);
             closeStage();
+            log.info("Successfully saved tour log for tour {} with tourLogId {}", currentTourLog.getTour().getId(), currentTourLog.getId());
         }
     }
 
@@ -172,7 +173,7 @@ public class AddTourLogController {
         Integer timeHours = (timeFieldHours.getValue() != null) ? timeFieldHours.getValue() : null;
         Integer timeMinutes = (timeFieldMinutes.getValue() != null) ? timeFieldMinutes.getValue() : null;
 
-        currentTourLog.setDate(formatter.formatDate(String.valueOf(dateField.getValue())));
+        currentTourLog.setDate(Formatter.formatDate(String.valueOf(dateField.getValue())));
         currentTourLog.setTimeHours(timeHours != null ? timeHours : 0);
         currentTourLog.setTimeMinutes(timeMinutes != null ? timeMinutes : 0);
         currentTourLog.setComment(commentArea.getText());
@@ -227,6 +228,7 @@ public class AddTourLogController {
 
         if (dialog.showAndWait()) {
             closeStage();
+            log.info("Successfully deleted tour log with id {}", currentTourLog.getId());
         }
     }
 

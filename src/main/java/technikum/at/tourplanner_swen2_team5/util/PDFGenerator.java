@@ -15,6 +15,8 @@ import com.itextpdf.layout.properties.TextAlignment;
 import com.itextpdf.layout.properties.UnitValue;
 import javafx.collections.transformation.FilteredList;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import lombok.extern.slf4j.Slf4j;
 import technikum.at.tourplanner_swen2_team5.BL.models.TourLogModel;
 import technikum.at.tourplanner_swen2_team5.BL.models.TourModel;
 import technikum.at.tourplanner_swen2_team5.MainTourPlaner;
@@ -22,16 +24,17 @@ import technikum.at.tourplanner_swen2_team5.View.viewmodels.TourLogViewModel;
 
 import java.awt.*;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+@Slf4j
 public class PDFGenerator {
 
     private static final DeviceRgb BRIGHT_GREEN = new DeviceRgb(164, 214, 94);
@@ -39,21 +42,48 @@ public class PDFGenerator {
     private static final DeviceRgb CREME_WHITE = new DeviceRgb(245, 245, 245);
     private static final float ROUNDED_CORNER = 5f;
 
-    public void generateTourReport(TourModel tour) throws IOException {
-        Path pdfPath = getPdfPath(tour.getName());
-        PdfWriter writer = new PdfWriter(pdfPath.toString());
-        PdfDocument pdf = new PdfDocument(writer);
-        Document document = new Document(pdf);
+    public void generateTourReport(TourModel tour) {
+        try {
+            File selectedFile = promptUserForSaveLocation(tour.getName());
+            if (selectedFile != null) {
+                writeTourReport(tour, selectedFile.toPath());
+                byte[] pdfContent = Files.readAllBytes(selectedFile.toPath());
+                downloadAndShowPDF(pdfContent, selectedFile);
+                log.info("Successfully generated tour report for tour with id {}", tour.getId());
+            }
+        } catch (IOException e) {
+            log.error("Failed to generate tour report of tour with id {}", tour.getId(), e);
+        }
+    }
 
-        addHeader(document, tour);
-        addMapImage(document, tour);
-        addTourDataSection(document, tour);
-        addSectionSeparator(document);
-        addTourLogsSection(document, tour);
+    private File promptUserForSaveLocation(String defaultFileName) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setInitialFileName(defaultFileName + " Report.pdf");
+        File file = fileChooser.showSaveDialog(new Stage());
+        if (file != null) {
+            return file;
+        } else {
+            log.warn("User did not select a save location for the PDF");
+            return null;
+        }
+    }
 
-        document.close();
-        byte[] pdfContent = Files.readAllBytes(pdfPath);
-        downloadAndShowPDF(pdfContent, tour);
+    private void writeTourReport(TourModel tour, Path filePath) throws IOException {
+        try {
+            PdfWriter writer = new PdfWriter(filePath.toString());
+            PdfDocument pdf = new PdfDocument(writer);
+            Document document = new Document(pdf);
+
+            addHeader(document, tour);
+            addMapImage(document, tour);
+            addTourDataSection(document, tour);
+            addSectionSeparator(document);
+            addTourLogsSection(document, tour);
+
+            document.close();
+        } catch (FileNotFoundException e) {
+            log.error("Failed to write pdf to tour report", e);
+        }
     }
 
     // Header mit Logo und Titel
@@ -140,11 +170,9 @@ public class PDFGenerator {
         document.add(tourDataContainer);
     }
 
-
     private void addSectionSeparator(Document document) {
         document.add(new LineSeparator(new SolidLine()).setMarginTop(10).setMarginBottom(10));
     }
-
 
     private void addTourLogsSection(Document document, TourModel tour) throws MalformedURLException {
         document.add(new Paragraph("Tour Logs").setBold().setFontSize(16).setFontColor(BRIGHT_GREEN));
@@ -211,59 +239,27 @@ public class PDFGenerator {
         }
     }
 
-
-    private Path getPdfPath(String tourName) {
-        String dir = System.getProperty("user.home") + "/TourPlanner/reports";
-        Path relativePath = Paths.get(dir);
-
+    private void downloadAndShowPDF(byte[] pdfContent, File file) {
         try {
-            // Stellt sicher, dass das Verzeichnis existiert
-            Files.createDirectories(relativePath);
+            FileOutputStream fos = new FileOutputStream(file);
+            fos.write(pdfContent);
+            fos.close();
+
+            showPDF(file);
         } catch (IOException e) {
-            System.err.println("Failed to create directory: " + dir);
-            e.printStackTrace();
-            return null;  // oder werfe eine geeignete Exception, je nach Anwendungslogik
-        }
-
-        String fileName = tourName + ".pdf";
-        Path filePath = relativePath.resolve(fileName);
-
-        return filePath.toAbsolutePath().normalize();
-    }
-
-
-    private void downloadAndShowPDF(byte[] pdfContent, TourModel tour) {
-        // FileChooser erstellen, um den Speicherort für das heruntergeladene PDF auszuwählen
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setInitialFileName(tour.getName() + " Report.pdf");
-        File file = fileChooser.showSaveDialog(null);
-
-        // Wenn der Benutzer einen Speicherort ausgewählt hat
-        if (file != null) {
-            try {
-                // PDF-Inhalt in die Datei schreiben
-                FileOutputStream fos = new FileOutputStream(file);
-                fos.write(pdfContent);
-                fos.close();
-
-                // PDF anzeigen
-                showPDF(file);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            log.error("Failed to show tour report for tour id {}", file.getName(), e);
         }
     }
 
-    // PDF anzeigen
     private void showPDF(File file) {
         try {
             if (Desktop.isDesktopSupported()) {
                 Desktop.getDesktop().open(file);
             } else {
-                System.out.println("Desktop is not supported, unable to open the PDF automatically.");
+                log.warn("Desktop is not supported, unable to open the PDF automatically.");
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Failed to open the PDF automatically", e);
         }
     }
 }

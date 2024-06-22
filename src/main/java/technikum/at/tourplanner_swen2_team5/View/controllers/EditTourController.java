@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
+import lombok.extern.slf4j.Slf4j;
 import technikum.at.tourplanner_swen2_team5.BL.validation.TourMapValidationService;
 import technikum.at.tourplanner_swen2_team5.BL.validation.TourValidationService;
 import technikum.at.tourplanner_swen2_team5.BL.models.TourModel;
@@ -19,6 +20,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 public class EditTourController {
     @FXML
     private TextField nameField;
@@ -101,6 +103,7 @@ public class EditTourController {
             mapViewModel.updateMap(currentTour);
             closeStage();
             EventHandler.showMapPinContent(ApplicationContext.getHomeScreenController());
+            log.info("Successfully updated tour with id {}", currentTour.getId());
         }
     }
 
@@ -169,6 +172,7 @@ public class EditTourController {
         if (dialog.showAndWait()) {
             tourViewModel.deleteTour(currentTour);
             closeStage();
+            log.info("Successfully deleted tour with id {}", currentTour.getId());
         }
     }
 

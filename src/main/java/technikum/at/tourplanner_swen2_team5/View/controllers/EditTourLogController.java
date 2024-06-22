@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
+import lombok.extern.slf4j.Slf4j;
 import technikum.at.tourplanner_swen2_team5.BL.models.DifficultyModel;
 import technikum.at.tourplanner_swen2_team5.BL.models.TourLogModel;
 import technikum.at.tourplanner_swen2_team5.BL.models.TransportTypeModel;
@@ -20,7 +21,10 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
+@Slf4j
 public class EditTourLogController {
 
     @FXML
@@ -70,7 +74,6 @@ public class EditTourLogController {
     private DifficultyService difficultyService;
     private Formatter formatter;
     private TransportTypeService transportTypeService;
-    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     public void initialize() {
         tourLogViewModel = TourLogViewModel.getInstance();
@@ -81,6 +84,8 @@ public class EditTourLogController {
 
         loadDifficultyTypes();
         loadTransportTypes();
+        loadTimeHours();
+        loadTimeMinutes();
         ratingSlider.valueProperty().addListener((obs, oldval, newVal) -> updateSliderFill(newVal));
     }
 
@@ -93,8 +98,8 @@ public class EditTourLogController {
 
     private void loadTourLogDetails() {
         dateField.setValue(LocalDate.parse(formatter.formatDateReverse(currentTourLog.getDate())));
-        currentTourLog.setTimeHours(currentTourLog.getTimeHours());
-        currentTourLog.setTimeMinutes(currentTourLog.getTimeMinutes());
+        timeFieldHours.setValue(currentTourLog.getTimeHours());
+        timeFieldMinutes.setValue(currentTourLog.getTimeMinutes());
         commentArea.setText(currentTourLog.getComment());
         difficultyBox.setValue(currentTourLog.getDifficulty());
         distanceField.setText(currentTourLog.getDistance());
@@ -107,7 +112,7 @@ public class EditTourLogController {
     private void loadDifficultyTypes() {
         List<DifficultyModel> difficulties = difficultyService.getAllDifficulties();
         difficultyBox.setItems(FXCollections.observableArrayList(difficulties));
-        difficultyBox.setConverter(new StringConverter<DifficultyModel>() {
+        difficultyBox.setConverter(new StringConverter<>() {
             @Override
             public String toString(DifficultyModel object) {
                 return object != null ? object.getDifficulty() : "";
@@ -136,6 +141,16 @@ public class EditTourLogController {
         });
     }
 
+    private void loadTimeHours() {
+        List<Integer> hours = IntStream.rangeClosed(0, 23).boxed().collect(Collectors.toList());
+        timeFieldHours.setItems(FXCollections.observableArrayList(hours));
+    }
+
+    private void loadTimeMinutes() {
+        List<Integer> minutes = IntStream.rangeClosed(0, 59).boxed().collect(Collectors.toList());
+        timeFieldMinutes.setItems(FXCollections.observableArrayList(minutes));
+    }
+
     @FXML
     private void onSaveButtonClicked() {
         updateTourLogModelFromFields();
@@ -143,6 +158,7 @@ public class EditTourLogController {
             currentTourLog.setTotalTime(formatter.formatTime_hm(currentTourLog.getTotalTime()));
             tourLogViewModel.updateTourLog(currentTourLog);
             closeStage();
+            log.info("Successfully updated tour log with id {}", currentTourLog.getId());
         }
     }
 
@@ -158,6 +174,7 @@ public class EditTourLogController {
         if (dialog.showAndWait()) {
             tourLogViewModel.deleteTourLogById(currentTourLog.getId());
             closeStage();
+            log.info("Successfully deleted tour log with id {}", currentTourLog.getId());
         }
     }
 
@@ -189,9 +206,12 @@ public class EditTourLogController {
     }
 
     private void updateTourLogModelFromFields() {
-        currentTourLog.setDate(formatter.formatDate(String.valueOf(dateField.getValue())));
-        currentTourLog.setTimeHours(timeFieldHours.getValue());
-        currentTourLog.setTimeMinutes(timeFieldMinutes.getValue());
+        Integer timeHours = (timeFieldHours.getValue() != null) ? timeFieldHours.getValue() : null;
+        Integer timeMinutes = (timeFieldMinutes.getValue() != null) ? timeFieldMinutes.getValue() : null;
+
+        currentTourLog.setDate(Formatter.formatDate(String.valueOf(dateField.getValue())));
+        currentTourLog.setTimeHours(timeHours != null ? timeHours : 0);
+        currentTourLog.setTimeMinutes(timeMinutes != null ? timeMinutes : 0);
         currentTourLog.setComment(commentArea.getText());
         currentTourLog.setDifficulty(difficultyBox.getValue());
         currentTourLog.setDistance(distanceField.getText());

@@ -19,6 +19,8 @@ import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import technikum.at.tourplanner_swen2_team5.MainTourPlaner;
 import technikum.at.tourplanner_swen2_team5.BL.models.TourModel;
 import technikum.at.tourplanner_swen2_team5.View.viewmodels.TourViewModel;
@@ -30,6 +32,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 
+@Slf4j
 public class TourEntryController {
 
     @FXML
@@ -39,21 +42,18 @@ public class TourEntryController {
     @FXML
     private Button editButton, detailButton, downloadButton, deleteButton;
 
-    private Formatter formatter;
     private TourViewModel tourViewModel;
+    @Setter
     private TourListController tourListController;
-
-    public void setTourListController(TourListController controller) {
-        this.tourListController = controller;
-    }
 
     public void setTourData(TourModel tour) {
         tourViewModel = TourViewModel.getInstance();
-        formatter = new Formatter();
+        Formatter formatter = new Formatter();
 
         String imageName = "img/icons/" + tour.getTransportType().getName().toLowerCase() + "-icon.png";
         URL resource = MainTourPlaner.class.getResource(imageName);
 
+        assert resource != null;
         Image image = new Image(resource.toString());
         transportIcon.setImage(image);
         transportIcon.setFitHeight(25);
@@ -61,7 +61,7 @@ public class TourEntryController {
         nameLabel.setText(tour.getName());
         startLabel.setText(tour.getStart());
         destinationLabel.setText(tour.getDestination());
-        distanceLabel.setText(formatter.formatDistance(tour.getDistance()));
+        distanceLabel.setText(Formatter.formatDistance(tour.getDistance()));
         timeLabel.setText(formatter.formatTime(0, tour.getTime()));
 
         editButton.setOnAction(e -> onEditButtonClicked(tour.getId()));
@@ -79,6 +79,8 @@ public class TourEntryController {
     public void onEditButtonClicked(String id) {
         try {
             TourModel tour = tourViewModel.getTourById(id);
+            log.info("Edit button for tour with id {} clicked", tour.getId());
+
             FXMLLoader fxmlLoader = new FXMLLoader(MainTourPlaner.class.getResource("edit_tour.fxml"));
             Parent root = fxmlLoader.load();
 
@@ -101,11 +103,12 @@ public class TourEntryController {
             stage.showAndWait();
             tourListController.onRefreshButtonClicked();
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Failed to open EditTour Window for tour with id {}", id, e);
         }
     }
 
     public void onDetailButtonClicked(String tourId) {
+        log.info("Detail Button clicked");
         // Create the image view for the animation
         ImageView animatedImage = new ImageView();
         animatedImage.setFitHeight(300);  // Adjust height as needed
@@ -118,6 +121,7 @@ public class TourEntryController {
         String transportType = selectedTour.getTransportType().getName().toLowerCase();
         String imageName = "img/icons/" + transportType + "-color-icon.png";
         URL resource = MainTourPlaner.class.getResource(imageName);
+        assert resource != null;
         Image image = new Image(resource.toString());
         animatedImage.setImage(image);
 
@@ -174,6 +178,7 @@ public class TourEntryController {
 
 
     private void onDeleteButtonTour(String tourId) {
+        log.info("Delete Button for tour with id: {} clicked", tourId);
         TourModel tour = tourViewModel.getTourById(tourId);
         ConfirmationWindow dialog = new ConfirmationWindow(
                 (Stage) deleteButton.getScene().getWindow(),
@@ -185,7 +190,9 @@ public class TourEntryController {
         if (tour != null && dialog.showAndWait()) {
             try {
                 tourViewModel.deleteTour(tour);
+                log.info("Deleted tour with id: {}", tourId);
             } catch (IOException e) {
+                log.error("Failed to delete tour with id: {}", tourId, e);
                 throw new RuntimeException(e);
             }
             tourListController.onRefreshButtonClicked();
@@ -193,6 +200,7 @@ public class TourEntryController {
     }
 
     private void onDownloadButtonClicked(String tourId) throws IOException {
+        log.info("Download Tour Report Button clicked");
         PDFGenerator generator = new PDFGenerator();
         generator.generateTourReport(tourViewModel.getTourById(tourId));
     }

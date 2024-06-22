@@ -1,9 +1,6 @@
 package technikum.at.tourplanner_swen2_team5.View.controllers;
 
-import javafx.application.Platform;
-import javafx.concurrent.Worker;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
@@ -13,12 +10,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.web.WebEngine;
-import javafx.scene.web.WebView;
 import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import lombok.extern.slf4j.Slf4j;
 import technikum.at.tourplanner_swen2_team5.BL.models.TourModel;
 import technikum.at.tourplanner_swen2_team5.MainTourPlaner;
 import technikum.at.tourplanner_swen2_team5.util.ApplicationContext;
@@ -29,12 +24,8 @@ import technikum.at.tourplanner_swen2_team5.util.MapRequester;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 
+@Slf4j
 public class TourDetailController {
 
     @FXML
@@ -96,7 +87,7 @@ public class TourDetailController {
             mapView.setImage(map);
             mapView.setOnMouseClicked(event -> MapRequester.openMapInBrowser(currentTour.getStart(), currentTour.getDestination()));
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Failed to load map image for tour {}", tour.getId(), e);
         }
 
         // Set the tourId in the TourLogListController
@@ -107,6 +98,7 @@ public class TourDetailController {
 
     public void onAddLogButtonClicked(ActionEvent actionEvent) {
         try {
+            log.info("Add log button clicked");
             FXMLLoader fxmlLoader = new FXMLLoader(MainTourPlaner.class.getResource("add_tour_log.fxml"));
             Parent root = fxmlLoader.load();
 
@@ -131,12 +123,13 @@ public class TourDetailController {
 
             stage.showAndWait();
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Failed to load Add Log Window for tour {}", currentTour.getId(), e);
         }
     }
 
     public void onEditButtonClicked(ActionEvent actionEvent) {
         try {
+            log.info("Edit tour button clicked");
             TourModel tour = tourViewModel.getTourById(currentTour.getId());
             FXMLLoader fxmlLoader = new FXMLLoader(MainTourPlaner.class.getResource("edit_tour.fxml"));
             Parent root = fxmlLoader.load(); // Lade die FXML und initialisiere den Controller
@@ -150,7 +143,7 @@ public class TourDetailController {
             stage.setScene(new Scene(root));
             stage.showAndWait(); // Zeige das Fenster und warte, bis es geschlossen wird
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Failed to load Edit Tour Window for tour {}", currentTour.getId(), e);
         }
     }
 
@@ -162,7 +155,7 @@ public class TourDetailController {
             HomeScreenController homeController = ApplicationContext.getHomeScreenController();
             homeController.changeMainContent(listView);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Failed to load Tour List Window for tour {}", currentTour.getId(), e);
         }
     }
 }

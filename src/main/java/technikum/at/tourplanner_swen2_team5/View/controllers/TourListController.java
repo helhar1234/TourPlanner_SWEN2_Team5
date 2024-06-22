@@ -1,13 +1,10 @@
 package technikum.at.tourplanner_swen2_team5.View.controllers;
 
-import com.sun.tools.javac.Main;
 import javafx.animation.RotateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
-import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.Parent;
@@ -17,16 +14,16 @@ import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import lombok.extern.slf4j.Slf4j;
 import technikum.at.tourplanner_swen2_team5.MainTourPlaner;
 import technikum.at.tourplanner_swen2_team5.BL.models.TourModel;
 import technikum.at.tourplanner_swen2_team5.View.viewmodels.TourViewModel;
 import technikum.at.tourplanner_swen2_team5.util.ApplicationContext;
 
-import java.awt.*;
 import java.io.IOException;
-import java.net.URL;
 import java.util.List;
 
+@Slf4j
 public class TourListController {
 
     @FXML
@@ -47,6 +44,7 @@ public class TourListController {
         for (TourModel tour : tours) {
             addTourEntry(tour);
         }
+        log.info("Updated tour list");
     }
 
     private void addTourEntry(TourModel tour) {
@@ -71,13 +69,14 @@ public class TourListController {
 
             tourEntryContainer.getChildren().add(tourEntry);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Failed to add Tour Entry with id {} to TourList", tour.getId(), e);
         }
     }
 
     @FXML
     public void onAddButtonClicked(ActionEvent actionEvent) {
         try {
+            log.info("Add Tour Button clicked");
             FXMLLoader fxmlLoader = new FXMLLoader(MainTourPlaner.class.getResource("add_tour.fxml"));
             Parent root = fxmlLoader.load();
 
@@ -99,12 +98,13 @@ public class TourListController {
             stage.showAndWait();
             onRefreshButtonClicked();
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Failed to open AddTour Window", e);
         }
     }
 
     @FXML
     public void onRefreshButtonClicked() {
+        log.info("Refresh Button clicked");
         RotateTransition rotateTransition = new RotateTransition(Duration.seconds(1), reloadIcon);
         rotateTransition.setByAngle(360);
         rotateTransition.setCycleCount(1);

@@ -3,6 +3,9 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+### Generated Logfiles ###
+/src/main/resources/technikum/at/tourplanner_swen2_team5/logs/
+
 ### IntelliJ IDEA ###
 .idea/encodings.xml
 .idea/misc.xml

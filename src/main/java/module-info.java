@@ -15,6 +15,9 @@ module technikum.at.tourplanner_swen2_team5 {
     requires kernel;
     requires layout;
     requires io;
+    requires org.slf4j;
+    requires org.apache.logging.log4j;
+    requires org.apache.logging.log4j.core;
 
     exports technikum.at.tourplanner_swen2_team5;
     exports technikum.at.tourplanner_swen2_team5.util;
