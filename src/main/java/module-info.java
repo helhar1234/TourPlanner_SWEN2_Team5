@@ -14,6 +14,7 @@ module technikum.at.tourplanner_swen2_team5 {
     requires org.json;
     requires kernel;
     requires layout;
+    requires io;
 
     exports technikum.at.tourplanner_swen2_team5;
     exports technikum.at.tourplanner_swen2_team5.util;
