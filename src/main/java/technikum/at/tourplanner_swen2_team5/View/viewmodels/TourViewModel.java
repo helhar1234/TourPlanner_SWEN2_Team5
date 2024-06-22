@@ -35,7 +35,15 @@ public class TourViewModel {
 
     private void loadTours() {
         List<TourModel> tours = tourService.getAllTours();
+        addTourPopularity(tours);
         tourModels.setAll(tours); // Convert ArrayList to ObservableList
+    }
+
+    private void addTourPopularity(List<TourModel> tours) {
+        TourLogViewModel logViewModel = new TourLogViewModel();
+        for (TourModel tour : tours) {
+            tour.setPopularity(logViewModel.getTourLogCountForTour(tour.getId()));
+        }
     }
 
     public void addTour(TourModel tour) throws IOException {

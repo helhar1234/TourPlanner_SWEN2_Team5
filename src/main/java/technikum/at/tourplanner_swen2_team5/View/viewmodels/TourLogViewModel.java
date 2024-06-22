@@ -6,6 +6,8 @@ import javafx.collections.transformation.FilteredList;
 import technikum.at.tourplanner_swen2_team5.BL.models.TourLogModel;
 import technikum.at.tourplanner_swen2_team5.BL.services.TourLogService;
 
+import java.util.List;
+
 public class TourLogViewModel {
     private static TourLogViewModel instance;
     private final ObservableList<TourLogModel> tourLogModels = FXCollections.observableArrayList();
@@ -30,6 +32,11 @@ public class TourLogViewModel {
         FilteredList<TourLogModel> tourLogs = new FilteredList<>(tourLogModels);
         tourLogs.setPredicate(tourLog -> tourLog.getTour().getId().equals(tourId));
         return tourLogs;
+    }
+
+    public int getTourLogCountForTour(String tourId) {
+        List<TourLogModel> tourLogs = getTourLogsForTour(tourId);
+        return tourLogs.size();
     }
 
     public void addTourLog(TourLogModel tourLog) {

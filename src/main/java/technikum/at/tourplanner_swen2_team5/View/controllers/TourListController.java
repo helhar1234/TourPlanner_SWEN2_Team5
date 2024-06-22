@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.Parent;
@@ -21,6 +22,7 @@ import technikum.at.tourplanner_swen2_team5.View.viewmodels.TourViewModel;
 import technikum.at.tourplanner_swen2_team5.util.ApplicationContext;
 
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.List;
 
 @Slf4j
@@ -28,6 +30,8 @@ public class TourListController {
 
     @FXML
     private ImageView reloadIcon;
+    @FXML
+    private Button sortByPopularityIcon;
     @FXML
     private VBox tourEntryContainer;
 
@@ -111,6 +115,21 @@ public class TourListController {
         rotateTransition.play();
 
         updateTourList();
+    }
+
+    @FXML
+    private void onSortByPopularityButtonClicked(ActionEvent actionEvent) {
+        tourEntryContainer.getChildren().clear(); // Clear existing entries
+
+        List<TourModel> tours = tourViewModel.getTours();
+
+        tours.sort(Comparator.comparingInt(TourModel::getPopularity).reversed());
+
+        for (TourModel tour : tours) {
+            addTourEntry(tour);
+        }
+
+        log.info("Sorted tour list by popularity");
     }
 
     public void onBackButtonClicked(ActionEvent actionEvent) {
