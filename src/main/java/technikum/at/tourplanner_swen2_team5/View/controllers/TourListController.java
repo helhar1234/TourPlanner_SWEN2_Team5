@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.Parent;
@@ -32,6 +33,12 @@ public class TourListController {
     private ImageView reloadIcon;
     @FXML
     private VBox tourEntryContainer;
+    @FXML
+    private Button sortByRecentButton;
+    @FXML
+    private Button sortByPopularityButton;
+    @FXML
+    private Button sortByChildFriendlinessButton;
 
     private final TourViewModel tourViewModel = TourViewModel.getInstance();
 
@@ -52,6 +59,14 @@ public class TourListController {
         for (TourModel tour : tours) {
             addTourEntry(tour);
         }
+
+        isAscendingRecent = false;
+        isAscendingPopularity = true;
+        isAscendingChildFriendliness = true;
+
+        sortByRecentButton.setText("recent ↓");
+        sortByPopularityButton.setText("popularity");
+        sortByChildFriendlinessButton.setText("child-friendliness");
     }
 
     private void addTourEntry(TourModel tour) {
@@ -118,6 +133,7 @@ public class TourListController {
         rotateTransition.play();
 
         updateTourList();
+
         log.info("Refreshed tour list");
     }
 
@@ -139,6 +155,10 @@ public class TourListController {
         isAscendingRecent = !isAscendingRecent;
         isAscendingPopularity = true;
         isAscendingChildFriendliness = true;
+
+        sortByRecentButton.setText("recent " + (isAscendingRecent ? "↑" : "↓"));
+        sortByPopularityButton.setText("popularity");
+        sortByChildFriendlinessButton.setText("child-friendliness");
 
         log.info("Sorted tour list by recency in {} order", isAscendingRecent ? "ascending" : "descending");
     }
@@ -164,6 +184,10 @@ public class TourListController {
         isAscendingRecent = true;
         isAscendingChildFriendliness = true;
 
+        sortByRecentButton.setText("recent");
+        sortByPopularityButton.setText("popularity " + (isAscendingPopularity ? "↑" : "↓"));
+        sortByChildFriendlinessButton.setText("child-friendliness");
+
         log.info("Sorted tour list by popularity in {} order", isAscendingPopularity ? "ascending" : "descending");
     }
 
@@ -172,6 +196,10 @@ public class TourListController {
         isAscendingChildFriendliness = !isAscendingChildFriendliness;
         isAscendingRecent = true;
         isAscendingPopularity = true;
+
+        sortByRecentButton.setText("recent");
+        sortByPopularityButton.setText("popularity");
+        sortByChildFriendlinessButton.setText("child-friendliness " + (isAscendingChildFriendliness ? "↑" : "↓"));
 
         log.info("Sorted tour list by child-friendliness in {} order", isAscendingChildFriendliness ? "ascending" : "descending");
     }

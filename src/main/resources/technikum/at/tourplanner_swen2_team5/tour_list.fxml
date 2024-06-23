@@ -39,11 +39,11 @@
     </HBox>
 
     <Label text="TOURS" styleClass="list-title" alignment="CENTER" maxWidth="1.7976931348623157E308"/>
-    <HBox alignment="CENTER_RIGHT">
-        <Label text="Sort by: "/>
-        <Button text="Recent" onAction="#onSortByRecentButtonClicked"/>
-        <Button text="Popularity" onAction="#onSortByPopularityButtonClicked"/>
-        <Button text="Child-Friendliness" onAction="#onSortByChildFriendlinessButtonClicked"/>
+    <HBox alignment="CENTER_LEFT" spacing="5">
+        <Label text="Sort by: " styleClass="sort-label"/>
+        <Button fx:id="sortByRecentButton" styleClass="sort-button" text="recent ↓" onAction="#onSortByRecentButtonClicked"/>
+        <Button fx:id="sortByPopularityButton" styleClass="sort-button" text="popularity" onAction="#onSortByPopularityButtonClicked"/>
+        <Button fx:id="sortByChildFriendlinessButton" styleClass="sort-button" text="child-friendliness" onAction="#onSortByChildFriendlinessButtonClicked"/>
     </HBox>
     <!-- Column Headings -->
     <HBox styleClass="column-headers">

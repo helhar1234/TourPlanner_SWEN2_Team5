@@ -30,6 +30,19 @@
     -fx-background-color: #395C37;
 }
 
+.sort-button {
+    -fx-background-color: #A4D65E;
+    -fx-background-radius: 50;
+    -fx-cursor: hand;
+    -fx-border-radius: 50;
+    -fx-border-color: #202020;
+    -fx-border-width: 1;
+}
+
+.sort-button:hover {
+    -fx-background-color: #395C37;
+}
+
 #deleteButton {
     -fx-background-color: #F44336;
 }
