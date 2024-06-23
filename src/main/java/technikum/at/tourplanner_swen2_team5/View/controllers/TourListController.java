@@ -42,7 +42,7 @@ public class TourListController {
 
     private final TourViewModel tourViewModel = TourViewModel.getInstance();
 
-    private boolean isAscendingRecent = false;
+    private boolean isDescendingRecent = false;
 
     private boolean isAscendingPopularity = true;
 
@@ -56,11 +56,13 @@ public class TourListController {
         tourEntryContainer.getChildren().clear(); // Clear existing entries
 
         List<TourModel> tours = tourViewModel.getTours(); // Fetch tours
+        Collections.reverse(tours); // Sort by recent descending
+
         for (TourModel tour : tours) {
             addTourEntry(tour);
         }
 
-        isAscendingRecent = false;
+        isDescendingRecent = true;
         isAscendingPopularity = true;
         isAscendingChildFriendliness = true;
 
@@ -143,7 +145,7 @@ public class TourListController {
 
         List<TourModel> tours = tourViewModel.getTours(); // Fetch tours
 
-        if (!isAscendingRecent) {
+        if (!isDescendingRecent) {
             Collections.reverse(tours);
         }
 
@@ -152,15 +154,15 @@ public class TourListController {
         }
 
         // Toggle the sorting order for next click
-        isAscendingRecent = !isAscendingRecent;
+        isDescendingRecent = !isDescendingRecent;
         isAscendingPopularity = true;
         isAscendingChildFriendliness = true;
 
-        sortByRecentButton.setText("recent " + (isAscendingRecent ? "↑" : "↓"));
+        sortByRecentButton.setText("recent " + (!isDescendingRecent ? "↑" : "↓"));
         sortByPopularityButton.setText("popularity");
         sortByChildFriendlinessButton.setText("child-friendliness");
 
-        log.info("Sorted tour list by recency in {} order", isAscendingRecent ? "ascending" : "descending");
+        log.info("Sorted tour list by recency in {} order", !isDescendingRecent ? "ascending" : "descending");
     }
 
     @FXML
@@ -181,7 +183,7 @@ public class TourListController {
 
         // Toggle the sorting order for next click
         isAscendingPopularity = !isAscendingPopularity;
-        isAscendingRecent = true;
+        isDescendingRecent = false;
         isAscendingChildFriendliness = true;
 
         sortByRecentButton.setText("recent");
@@ -194,7 +196,7 @@ public class TourListController {
     @FXML
     private void onSortByChildFriendlinessButtonClicked(ActionEvent actionEvent) {
         isAscendingChildFriendliness = !isAscendingChildFriendliness;
-        isAscendingRecent = true;
+        isDescendingRecent = false;
         isAscendingPopularity = true;
 
         sortByRecentButton.setText("recent");

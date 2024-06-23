@@ -2,7 +2,6 @@ package technikum.at.tourplanner_swen2_team5.View.controllers;
 
 import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
-import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -55,61 +54,69 @@ public class TourLogListController {
 
     private void populateTourLogs(List<TourLogModel> tourLogs) {
         tourLogsContainer.getChildren().clear();
-        boolean first = true;
-        for (TourLogModel tourLog : tourLogs) {
-            try {
-                FXMLLoader loader = new FXMLLoader(MainTourPlaner.class.getResource("tour_log_entry.fxml"));
-                VBox logEntry = loader.load();
+        if (tourLogs.isEmpty()) {
+            Label noLogsLabel = new Label("No tour logs added yet...");
+            tourLogsContainer.getChildren().add(noLogsLabel);
+        } else {
+            boolean first = true;
+            for (TourLogModel tourLog : tourLogs) {
+                try {
+                    FXMLLoader loader = new FXMLLoader(MainTourPlaner.class.getResource("tour_log_entry.fxml"));
+                    VBox logEntry = loader.load();
 
-                String imageName = "img/icons/" + tourLog.getTransportType().getName().toLowerCase() + "-icon.png";
-                URL resource = MainTourPlaner.class.getResource(imageName);
-                if (resource != null) {
-                    Image transportIcon = new Image(resource.toString());
-                    ImageView transportIconView = (ImageView) logEntry.lookup("#transportTypeIcon");
-                    transportIconView.setFitWidth(30);
-                    transportIconView.setFitHeight(30);
-                    transportIconView.setPreserveRatio(true);
-                    transportIconView.setImage(transportIcon);
-                } else {
-                    log.warn("Failed to load transport icon {}", imageName);
+                    String imageName = "img/icons/" + tourLog.getTransportType().getName().toLowerCase() + "-icon.png";
+                    URL resource = MainTourPlaner.class.getResource(imageName);
+                    if (resource != null) {
+                        Image transportIcon = new Image(resource.toString());
+                        ImageView transportIconView = (ImageView) logEntry.lookup("#transportTypeIcon");
+                        transportIconView.setFitWidth(30);
+                        transportIconView.setFitHeight(30);
+                        transportIconView.setPreserveRatio(true);
+                        transportIconView.setImage(transportIcon);
+                    } else {
+                        log.warn("Failed to load transport icon {}", imageName);
+                    }
+
+                    ((Label) logEntry.lookup("#dateLabel")).setText(tourLog.getDate());
+                    ((Label) logEntry.lookup("#ratingLabel")).setText(tourLog.getRating() + "/10");
+                    ((Label) logEntry.lookup("#detailsLabel")).setText("Time: " + tourLog.getTimeHours() + ":" + tourLog.getTimeMinutes() + " | Difficulty: " + tourLog.getDifficulty().getDifficulty() +
+                            " | Distance: " + tourLog.getDistance() + " km | Total Time: " + tourLog.getTotalTime());
+                    ((Label) logEntry.lookup("#commentLabel")).setText(tourLog.getComment());
+
+                    Button editButton = (Button) logEntry.lookup("#editButton");
+                    editButton.setOnAction(event -> onEditTourLogClicked(tourLog.getId()));
+
+                    Button trashButton = (Button) logEntry.lookup("#deleteButton");
+                    trashButton.setOnAction(event -> {
+                        tourLogViewModel.deleteTourLogById(tourLog.getId());
+                        refreshTourLogs();
+                    });
+
+                    if (!first) {
+                        Separator separator = new Separator();
+                        separator.setPadding(new Insets(10, 0, 10, 0));
+                        tourLogsContainer.getChildren().add(separator);
+                    } else {
+                        first = false;
+                    }
+
+                    tourLogsContainer.getChildren().add(logEntry);
+
+                    Label ratingLabel = (Label) logEntry.lookup("#ratingLabel");
+                    int rating = tourLog.getRating();
+                    ratingLabel.setText(rating + "/10");
+                    if (rating >= 6) {
+                        ratingLabel.setStyle("-fx-text-fill: green;");
+                    } else if (rating >= 3) {
+                        ratingLabel.setStyle("-fx-text-fill: orange;");
+                    } else {
+                        ratingLabel.setStyle("-fx-text-fill: red;");
+                    }
+
+                    log.info("Successfully loaded tour logs for tour with id: {}", tourId);
+                } catch (IOException e) {
+                    log.error("Failed to load tour logs for tour with id: {}", tourId, e);
                 }
-
-                ((Label) logEntry.lookup("#dateLabel")).setText(tourLog.getDate());
-                ((Label) logEntry.lookup("#ratingLabel")).setText(tourLog.getRating() + "/10");
-                ((Label) logEntry.lookup("#detailsLabel")).setText("Time: " + tourLog.getTimeHours() + ":" + tourLog.getTimeMinutes() + " | Difficulty: " + tourLog.getDifficulty().getDifficulty() +
-                        " | Distance: " + tourLog.getDistance() + " km | Total Time: " + tourLog.getTotalTime());
-                ((Label) logEntry.lookup("#commentLabel")).setText(tourLog.getComment());
-
-                Button editButton = (Button) logEntry.lookup("#editButton");
-                editButton.setOnAction(event -> onEditTourLogClicked(tourLog.getId()));
-
-                Button trashButton = (Button) logEntry.lookup("#deleteButton");
-                trashButton.setOnAction(event -> tourLogViewModel.deleteTourLogById(tourLog.getId()));
-
-                if (!first) {
-                    Separator separator = new Separator();
-                    separator.setPadding(new Insets(10, 0, 10, 0));
-                    tourLogsContainer.getChildren().add(separator);
-                } else {
-                    first = false;
-                }
-
-                tourLogsContainer.getChildren().add(logEntry);
-
-                Label ratingLabel = (Label) logEntry.lookup("#ratingLabel");
-                int rating = tourLog.getRating();
-                ratingLabel.setText(rating + "/10");
-                if (rating >= 6) {
-                    ratingLabel.setStyle("-fx-text-fill: green;");
-                } else if (rating >= 3) {
-                    ratingLabel.setStyle("-fx-text-fill: orange;");
-                } else {
-                    ratingLabel.setStyle("-fx-text-fill: red;");
-                }
-
-                log.info("Successfully loaded tour logs for tour with id: {}", tourId);
-            } catch (IOException e) {
-                log.error("Failed to load tour logs for tour with id: {}", tourId, e);
             }
         }
     }
