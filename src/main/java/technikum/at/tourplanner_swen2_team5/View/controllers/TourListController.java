@@ -5,7 +5,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
-import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.Parent;
@@ -22,6 +21,7 @@ import technikum.at.tourplanner_swen2_team5.View.viewmodels.TourViewModel;
 import technikum.at.tourplanner_swen2_team5.util.ApplicationContext;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -31,11 +31,15 @@ public class TourListController {
     @FXML
     private ImageView reloadIcon;
     @FXML
-    private Button sortByPopularityIcon;
-    @FXML
     private VBox tourEntryContainer;
 
     private final TourViewModel tourViewModel = TourViewModel.getInstance();
+
+    private boolean isAscendingRecent = false;
+
+    private boolean isAscendingPopularity = true;
+
+    private boolean isAscendingChildFriendliness = true;
 
     public void initialize() {
         updateTourList();
@@ -48,7 +52,6 @@ public class TourListController {
         for (TourModel tour : tours) {
             addTourEntry(tour);
         }
-        log.info("Updated tour list");
     }
 
     private void addTourEntry(TourModel tour) {
@@ -115,6 +118,29 @@ public class TourListController {
         rotateTransition.play();
 
         updateTourList();
+        log.info("Refreshed tour list");
+    }
+
+    @FXML
+    private void onSortByRecentButtonClicked(ActionEvent actionEvent) {
+        tourEntryContainer.getChildren().clear(); // Clear existing entries
+
+        List<TourModel> tours = tourViewModel.getTours(); // Fetch tours
+
+        if (!isAscendingRecent) {
+            Collections.reverse(tours);
+        }
+
+        for (TourModel tour : tours) {
+            addTourEntry(tour);
+        }
+
+        // Toggle the sorting order for next click
+        isAscendingRecent = !isAscendingRecent;
+        isAscendingPopularity = true;
+        isAscendingChildFriendliness = true;
+
+        log.info("Sorted tour list by recency in {} order", isAscendingRecent ? "ascending" : "descending");
     }
 
     @FXML
@@ -123,13 +149,31 @@ public class TourListController {
 
         List<TourModel> tours = tourViewModel.getTours();
 
-        tours.sort(Comparator.comparingInt(TourModel::getPopularity).reversed());
+        if (!isAscendingPopularity) {
+            tours.sort(Comparator.comparingInt(TourModel::getPopularity));
+        } else {
+            tours.sort(Comparator.comparingInt(TourModel::getPopularity).reversed());
+        }
 
         for (TourModel tour : tours) {
             addTourEntry(tour);
         }
 
-        log.info("Sorted tour list by popularity");
+        // Toggle the sorting order for next click
+        isAscendingPopularity = !isAscendingPopularity;
+        isAscendingRecent = true;
+        isAscendingChildFriendliness = true;
+
+        log.info("Sorted tour list by popularity in {} order", isAscendingPopularity ? "ascending" : "descending");
+    }
+
+    @FXML
+    private void onSortByChildFriendlinessButtonClicked(ActionEvent actionEvent) {
+        isAscendingChildFriendliness = !isAscendingChildFriendliness;
+        isAscendingRecent = true;
+        isAscendingPopularity = true;
+
+        log.info("Sorted tour list by child-friendliness in {} order", isAscendingChildFriendliness ? "ascending" : "descending");
     }
 
     public void onBackButtonClicked(ActionEvent actionEvent) {

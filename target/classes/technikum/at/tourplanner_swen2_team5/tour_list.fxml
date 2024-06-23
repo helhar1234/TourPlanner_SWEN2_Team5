@@ -39,7 +39,12 @@
     </HBox>
 
     <Label text="TOURS" styleClass="list-title" alignment="CENTER" maxWidth="1.7976931348623157E308"/>
-<Button text="Sort by Popularity" onAction="#onSortByPopularityButtonClicked"/>
+    <HBox alignment="CENTER_RIGHT">
+        <Label text="Sort by: "/>
+        <Button text="Recent" onAction="#onSortByRecentButtonClicked"/>
+        <Button text="Popularity" onAction="#onSortByPopularityButtonClicked"/>
+        <Button text="Child-Friendliness" onAction="#onSortByChildFriendlinessButtonClicked"/>
+    </HBox>
     <!-- Column Headings -->
     <HBox styleClass="column-headers">
         <Label minWidth="35" prefWidth="35" maxWidth="35" text=""/> <!-- Placeholder for icon -->
