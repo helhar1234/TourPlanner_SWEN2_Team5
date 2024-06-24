@@ -11,6 +11,6 @@
         <ColumnConstraints hgrow="ALWAYS"/>
     </columnConstraints>
 
-    <VBox fx:id="tourLogsContainer" fillWidth="true"/>
+    <VBox fx:id="tourLogsContainer" alignment="CENTER"/>
 
 </GridPane>

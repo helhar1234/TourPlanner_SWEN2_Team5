@@ -2,8 +2,11 @@ package technikum.at.tourplanner_swen2_team5.View.viewmodels;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import technikum.at.tourplanner_swen2_team5.BL.models.TourLogModel;
 import technikum.at.tourplanner_swen2_team5.BL.services.TourLogService;
+
+import java.util.List;
 
 public class TourLogViewModel {
     private static TourLogViewModel instance;
@@ -21,12 +24,19 @@ public class TourLogViewModel {
         return instance;
     }
 
-    public ObservableList<TourLogModel> getTourLogs() {
-        return tourLogModels;
-    }
-
     private void loadTourLogs() {
         tourLogModels.setAll(tourLogService.getAllTourLogs());
+    }
+
+    public FilteredList<TourLogModel> getTourLogsForTour(String tourId) {
+        FilteredList<TourLogModel> tourLogs = new FilteredList<>(tourLogModels);
+        tourLogs.setPredicate(tourLog -> tourLog.getTour().getId().equals(tourId));
+        return tourLogs;
+    }
+
+    public int getTourLogCountForTour(String tourId) {
+        List<TourLogModel> tourLogs = getTourLogsForTour(tourId);
+        return tourLogs.size();
     }
 
     public void addTourLog(TourLogModel tourLog) {

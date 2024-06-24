@@ -31,10 +31,13 @@
     -fx-background-color: #bb1b11;
 }
 
-
 /* Labels within the row */
 .root Label {
     -fx-font-size: 12px;
     -fx-text-fill: #333;
     -fx-alignment: center-left;
+}
+
+#tourListEntry:hover {
+    -fx-cursor: hand;
 }

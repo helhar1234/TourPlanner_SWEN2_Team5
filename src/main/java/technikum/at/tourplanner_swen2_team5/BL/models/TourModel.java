@@ -31,6 +31,9 @@ public class TourModel {
     @Column(name = "time", nullable = false)
     private int time;
 
+    @Transient
+    private int popularity;
+
     // Standard constructor
     public TourModel() {}
 
@@ -108,6 +111,14 @@ public class TourModel {
 
     public void setTime(int time) {
         this.time = time;
+    }
+
+    public int getPopularity() {
+        return popularity;
+    }
+
+    public void setPopularity(int popularity) {
+        this.popularity = popularity;
     }
 }
 
