@@ -1,4 +1,4 @@
-package technikum.at.tourplanner_swen2_team5.View.controllers;
+package technikum.at.tourplanner_swen2_team5.util;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;

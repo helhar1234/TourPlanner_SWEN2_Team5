@@ -14,6 +14,7 @@ import technikum.at.tourplanner_swen2_team5.BL.services.TransportTypeService;
 import technikum.at.tourplanner_swen2_team5.View.viewmodels.MapViewModel;
 import technikum.at.tourplanner_swen2_team5.View.viewmodels.TourViewModel;
 import technikum.at.tourplanner_swen2_team5.util.ApplicationContext;
+import technikum.at.tourplanner_swen2_team5.util.ConfirmationWindow;
 import technikum.at.tourplanner_swen2_team5.util.EventHandler;
 
 import java.io.IOException;
@@ -102,7 +103,7 @@ public class EditTourController {
             tourViewModel.updateTour(currentTour);
             mapViewModel.updateMap(currentTour);
             closeStage();
-            EventHandler.showMapPinContent(ApplicationContext.getHomeScreenController());
+            EventHandler.openTourList();
             log.info("Successfully updated tour with id {}", currentTour.getId());
         }
     }
@@ -113,10 +114,10 @@ public class EditTourController {
         boolean validDestination = TourMapValidationService.isValidLocation(currentTour.getDestination());
 
         if (!validStart) {
-            setFieldError(startField, warningLabelStart, "Invalid Start Location");
+            setFieldError(startField, warningLabelStart, "Invalid Start Location in Europe");
         }
         if (!validDestination) {
-            setFieldError(destinationField, warningLabelDestination, "Invalid Destination Location");
+            setFieldError(destinationField, warningLabelDestination, "Invalid Destination Location in Europe");
         }
 
         return validStart && validDestination;

@@ -21,6 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 import technikum.at.tourplanner_swen2_team5.MainTourPlaner;
 import technikum.at.tourplanner_swen2_team5.BL.models.TourLogModel;
 import technikum.at.tourplanner_swen2_team5.View.viewmodels.TourLogViewModel;
+import technikum.at.tourplanner_swen2_team5.util.EventHandler;
 
 import java.io.IOException;
 import java.net.URL;
@@ -122,33 +123,8 @@ public class TourLogListController {
     }
 
     private void onEditTourLogClicked(String id) {
-        try {
-            TourLogModel tourLog = tourLogViewModel.getTourLogById(id);
-            log.info("Edit button clicked for tourLog with id {}", id);
-
-            FXMLLoader fxmlLoader = new FXMLLoader(MainTourPlaner.class.getResource("edit_tour_log.fxml"));
-            Parent root = fxmlLoader.load();
-
-            EditTourLogController controller = fxmlLoader.getController();
-            controller.setTourLog(tourLog);
-
-            Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
-            double width = screenBounds.getWidth() * 0.8;
-            double height = screenBounds.getHeight() * 0.8;
-
-            Stage stage = new Stage();
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setTitle("Edit Tour Log");
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-
-            stage.setWidth(width);
-            stage.setHeight(height);
-
-            stage.showAndWait();
-            refreshTourLogs();
-        } catch (IOException e) {
-            log.error("Failed to load EditTourLog Window for tour with id: {}", id, e);
-        }
+        TourLogModel tourLog = tourLogViewModel.getTourLogById(id);
+        EventHandler.openEditTourLog(tourLog);
+        refreshTourLogs();
     }
 }

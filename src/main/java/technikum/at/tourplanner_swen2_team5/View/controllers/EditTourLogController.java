@@ -13,12 +13,11 @@ import technikum.at.tourplanner_swen2_team5.BL.models.TransportTypeModel;
 import technikum.at.tourplanner_swen2_team5.BL.services.DifficultyService;
 import technikum.at.tourplanner_swen2_team5.BL.services.TransportTypeService;
 import technikum.at.tourplanner_swen2_team5.BL.validation.TourLogValidationService;
-import technikum.at.tourplanner_swen2_team5.View.controllers.ConfirmationWindow;
+import technikum.at.tourplanner_swen2_team5.util.ConfirmationWindow;
 import technikum.at.tourplanner_swen2_team5.View.viewmodels.TourLogViewModel;
 import technikum.at.tourplanner_swen2_team5.util.Formatter;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;

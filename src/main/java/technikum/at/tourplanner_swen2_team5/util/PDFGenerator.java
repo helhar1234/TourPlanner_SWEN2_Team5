@@ -89,7 +89,7 @@ public class PDFGenerator {
     // Header mit Logo und Titel
     private void addHeader(Document document, TourModel tour) throws IOException {
         // Tabelle mit zwei Spalten, ungleiche Aufteilung
-        Table table = new Table(UnitValue.createPercentArray(new float[]{50, 4}))
+        Table table = new Table(UnitValue.createPercentArray(new float[]{50, 5}))
                 .useAllAvailableWidth();
         String imageName = "img/logos/BikerLogoMave.png";
         URL resource = MainTourPlaner.class.getResource(imageName);

@@ -72,10 +72,10 @@ public class AddTourController {
         boolean validDestination = TourMapValidationService.isValidLocation(currentTour.getDestination());
 
         if (!validStart) {
-            setFieldError(startField, warningLabelStart, "Invalid Start Location");
+            setFieldError(startField, warningLabelStart, "Invalid Start Location in Europe");
         }
         if (!validDestination) {
-            setFieldError(destinationField, warningLabelDestination, "Invalid Destination Location");
+            setFieldError(destinationField, warningLabelDestination, "Invalid Destination Location in Europe");
         }
 
         return validStart && validDestination;

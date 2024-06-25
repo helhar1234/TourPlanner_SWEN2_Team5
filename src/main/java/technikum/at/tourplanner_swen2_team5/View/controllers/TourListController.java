@@ -4,19 +4,14 @@ import javafx.animation.RotateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.layout.HBox;
-import javafx.stage.Modality;
-import javafx.stage.Screen;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 import lombok.extern.slf4j.Slf4j;
 import technikum.at.tourplanner_swen2_team5.MainTourPlaner;
+import technikum.at.tourplanner_swen2_team5.util.EventHandler;
 import technikum.at.tourplanner_swen2_team5.BL.models.TourModel;
 import technikum.at.tourplanner_swen2_team5.View.viewmodels.TourViewModel;
 import technikum.at.tourplanner_swen2_team5.util.ApplicationContext;
@@ -99,31 +94,8 @@ public class TourListController {
 
     @FXML
     public void onAddButtonClicked(ActionEvent actionEvent) {
-        try {
-            log.info("Add Tour Button clicked");
-            FXMLLoader fxmlLoader = new FXMLLoader(MainTourPlaner.class.getResource("add_tour.fxml"));
-            Parent root = fxmlLoader.load();
-
-            // Bildschirmgröße ermitteln
-            Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
-            double width = screenBounds.getWidth() * 0.8;
-            double height = screenBounds.getHeight() * 0.8;
-
-            Stage stage = new Stage();
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setTitle("Add New Tour");
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-
-            // Fenstergröße relativ zur Bildschirmgröße setzen
-            stage.setWidth(width);
-            stage.setHeight(height);
-
-            stage.showAndWait();
-            onRefreshButtonClicked();
-        } catch (IOException e) {
-            log.error("Failed to open AddTour Window", e);
-        }
+        EventHandler.openAddTour();
+        onRefreshButtonClicked();
     }
 
     @FXML
@@ -207,7 +179,6 @@ public class TourListController {
     }
 
     public void onBackButtonClicked(ActionEvent actionEvent) {
-        HomeScreenController homeScreenController = ApplicationContext.getHomeScreenController();
-        homeScreenController.gotoHomeScreen();
+        ApplicationContext.getHomeScreenController().gotoHomeScreen();
     }
 }
