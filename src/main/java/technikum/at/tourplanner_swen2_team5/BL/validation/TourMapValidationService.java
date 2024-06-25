@@ -17,7 +17,5 @@ public class TourMapValidationService {
         }
     }
 
-    public static boolean validateStartAndDestination(String start, String destination) {
-        return isValidLocation(start) && isValidLocation(destination);
-    }
+
 }

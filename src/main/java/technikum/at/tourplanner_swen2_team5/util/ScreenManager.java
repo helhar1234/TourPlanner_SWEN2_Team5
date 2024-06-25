@@ -27,7 +27,6 @@ public class ScreenManager {
         FXMLLoader navbarLoader = new FXMLLoader(getClass().getResource(ApplicationContext.FXML_BASE_PATH + "navbar.fxml"));
         Parent navbar = navbarLoader.load();
         NavbarController navbarController = navbarLoader.getController();
-        navbarController.setHomeScreenController(homeController);
 
         // Anfügen der Navbar am oberen Rand des Home Screens
         GridPane gridPane = (GridPane) homeRoot;

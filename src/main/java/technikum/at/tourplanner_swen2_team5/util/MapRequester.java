@@ -133,7 +133,8 @@ public class MapRequester {
     }
 
     public static String geocode(String location) throws IOException {
-        String url = String.format("https://api.openrouteservice.org/geocode/search?api_key=%s&text=%s",
+        String url = String.format(
+                "https://api.openrouteservice.org/geocode/search?api_key=%s&text=%s",
                 ApplicationContext.API_KEY_ORS, URLEncoder.encode(location, StandardCharsets.UTF_8));
 
         HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
@@ -148,13 +149,31 @@ public class MapRequester {
             if (features.length() > 0) {
                 JSONObject geometry = features.getJSONObject(0).getJSONObject("geometry");
                 JSONArray coordinates = geometry.getJSONArray("coordinates");
-                log.info("Successfully retrieved geocode from {} with coordinates {}", url, coordinates);
-                return coordinates.getDouble(0) + "," + coordinates.getDouble(1);
+                double lon = coordinates.getDouble(0);
+                double lat = coordinates.getDouble(1);
+
+                // Überprüfen, ob die Koordinaten innerhalb der Grenzen Europas liegen
+                if (isWithinEurope(lat, lon)) {
+                    log.info("Successfully retrieved geocode from {} with coordinates {}", url, coordinates);
+                    return lon + "," + lat;
+                }
             }
         }
         log.error("Failed to fetch geocode from URL: {}", url);
         return null;
     }
+
+    // Hilfsmethode, um zu überprüfen, ob die Koordinaten innerhalb Europas liegen
+    private static boolean isWithinEurope(double lat, double lon) {
+        // Europa's ungefähre Bounding Box
+        double westLon = -31.266001; // Westlichste Länge
+        double southLat = 27.636311; // Südlichste Breite
+        double eastLon = 39.869301;  // Östlichste Länge
+        double northLat = 81.008797; // Nördlichste Breite
+
+        return lon >= westLon && lon <= eastLon && lat >= southLat && lat <= northLat;
+    }
+
 
     public static double getDistance(String start, String destination) throws IOException {
         String startCoords = geocode(start);

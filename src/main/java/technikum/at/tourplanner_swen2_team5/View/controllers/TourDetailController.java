@@ -2,21 +2,13 @@ package technikum.at.tourplanner_swen2_team5.View.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.stage.Modality;
-import javafx.stage.Screen;
-import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 import technikum.at.tourplanner_swen2_team5.BL.models.TourModel;
-import technikum.at.tourplanner_swen2_team5.MainTourPlaner;
 import technikum.at.tourplanner_swen2_team5.util.ApplicationContext;
+import technikum.at.tourplanner_swen2_team5.util.EventHandler;
 import technikum.at.tourplanner_swen2_team5.util.Formatter;
 import technikum.at.tourplanner_swen2_team5.View.viewmodels.MapViewModel;
 import technikum.at.tourplanner_swen2_team5.View.viewmodels.TourViewModel;
@@ -95,67 +87,16 @@ public class TourDetailController {
     }
 
 
-
     public void onAddLogButtonClicked(ActionEvent actionEvent) {
-        try {
-            log.info("Add log button clicked");
-            FXMLLoader fxmlLoader = new FXMLLoader(MainTourPlaner.class.getResource("add_tour_log.fxml"));
-            Parent root = fxmlLoader.load();
-
-            AddTourLogController addTourLogController = fxmlLoader.getController();
-            TourModel currentTour = this.currentTour;
-            addTourLogController.setTourLogTour(currentTour);
-
-            // Bildschirmgröße ermitteln
-            Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
-            double width = screenBounds.getWidth() * 0.8;
-            double height = screenBounds.getHeight() * 0.8;
-
-            Stage stage = new Stage();
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setTitle("Add New Tour Log");
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-
-            // Fenstergröße relativ zur Bildschirmgröße setzen
-            stage.setWidth(width);
-            stage.setHeight(height);
-
-            stage.showAndWait();
-        } catch (IOException e) {
-            log.error("Failed to load Add Log Window for tour {}", currentTour.getId(), e);
-        }
+        EventHandler.openAddTourLog(currentTour);
     }
 
     public void onEditButtonClicked(ActionEvent actionEvent) {
-        try {
-            log.info("Edit tour button clicked");
-            TourModel tour = tourViewModel.getTourById(currentTour.getId());
-            FXMLLoader fxmlLoader = new FXMLLoader(MainTourPlaner.class.getResource("edit_tour.fxml"));
-            Parent root = fxmlLoader.load(); // Lade die FXML und initialisiere den Controller
-
-            EditTourController controller = fxmlLoader.getController();
-            controller.setTour(tour);
-
-            Stage stage = new Stage();
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setTitle("Edit Tour");
-            stage.setScene(new Scene(root));
-            stage.showAndWait(); // Zeige das Fenster und warte, bis es geschlossen wird
-        } catch (IOException e) {
-            log.error("Failed to load Edit Tour Window for tour {}", currentTour.getId(), e);
-        }
+        EventHandler.openEditTour(currentTour, null);
     }
 
-    public void onBackButtonClicked(ActionEvent actionEvent) {
-        try {
-            FXMLLoader loader = new FXMLLoader(MainTourPlaner.class.getResource("tour_list.fxml"));
-            Node listView = loader.load();
 
-            HomeScreenController homeController = ApplicationContext.getHomeScreenController();
-            homeController.changeMainContent(listView);
-        } catch (IOException e) {
-            log.error("Failed to load Tour List Window for tour {}", currentTour.getId(), e);
-        }
+    public void onBackButtonClicked(ActionEvent actionEvent) {
+        EventHandler.openTourList();
     }
 }
