@@ -56,6 +56,8 @@ public class TourModel {
     @Transient
     private int popularity;
 
+    @Setter
+    @Getter
     @Transient
     private float childFriendliness;
 

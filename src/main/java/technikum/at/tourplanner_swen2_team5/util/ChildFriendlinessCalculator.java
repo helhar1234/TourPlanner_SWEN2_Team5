@@ -1,12 +1,13 @@
 package technikum.at.tourplanner_swen2_team5.util;
 
 import technikum.at.tourplanner_swen2_team5.BL.models.TourLogModel;
+import technikum.at.tourplanner_swen2_team5.BL.models.TransportTypeModel;
 
 import java.util.List;
 
 public class ChildFriendlinessCalculator {
 
-    public static double calculateChildFriendliness(List<TourLogModel> tourLogs, String tourType) {
+    public static float calculateChildFriendliness(List<TourLogModel> tourLogs, TransportTypeModel transportType) {
         double totalDistance = 0;
         double totalTime = 0;
         int totalDifficulty = 0;
@@ -20,14 +21,14 @@ public class ChildFriendlinessCalculator {
 
         double avgDistance = totalDistance / numLogs;
         double avgTime = totalTime / numLogs;
-        double avgDifficulty = totalDifficulty / numLogs;
+        double avgDifficulty = (double) totalDifficulty / numLogs;
 
         // Maximalwerte für kinderfreundliche Touren
         double maxDistance = 0;
         double maxTime = 0;
         double maxDifficulty = 0;
 
-        switch (tourType) {
+        switch (transportType.getName()) {
             case "Hike":
                 maxDistance = 10;
                 maxTime = 2;
@@ -58,8 +59,7 @@ public class ChildFriendlinessCalculator {
         double difficultyScore = Math.max(0, (maxDifficulty - avgDifficulty) / maxDifficulty);
 
         // Average
-        double childFriendlyScore = (distanceScore + timeScore + difficultyScore) / 3 * 100;
 
-        return childFriendlyScore;
+        return (float) ((distanceScore + timeScore + difficultyScore) / 3 * 100);
     }
 }
