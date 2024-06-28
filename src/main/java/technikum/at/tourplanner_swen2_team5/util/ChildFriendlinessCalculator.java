@@ -15,7 +15,7 @@ public class ChildFriendlinessCalculator {
         for (TourLogModel log : tourLogs) {
             totalDistance += log.getDistance();
             totalTime += log.getTimeInHours();
-            totalDifficulty += log.getDifficultyValue();
+            totalDifficulty += log.getDifficulty().getId();
         }
 
         double avgDistance = totalDistance / numLogs;
@@ -28,22 +28,22 @@ public class ChildFriendlinessCalculator {
         double maxDifficulty = 0;
 
         switch (tourType) {
-            case "Wandern":
+            case "Hike":
                 maxDistance = 10;
                 maxTime = 2;
                 maxDifficulty = 2;
                 break;
-            case "Radfahren":
+            case "Bike":
                 maxDistance = 15;
                 maxTime = 1.5;
                 maxDifficulty = 2;
                 break;
-            case "Urlaub":
+            case "Vacation":
                 maxDistance = 5;
                 maxTime = 1;
                 maxDifficulty = 1;
                 break;
-            case "Laufen":
+            case "Run":
                 maxDistance = 5;
                 maxTime = 1;
                 maxDifficulty = 3;
@@ -52,13 +52,14 @@ public class ChildFriendlinessCalculator {
                 return 0; // Unknown tour type
         }
 
-        // Berechnung der Abweichung und Normalisierung
+        // Calculation
         double distanceScore = Math.max(0, (maxDistance - avgDistance) / maxDistance);
         double timeScore = Math.max(0, (maxTime - avgTime) / maxTime);
         double difficultyScore = Math.max(0, (maxDifficulty - avgDifficulty) / maxDifficulty);
 
-        // Durchschnitt der Scores und Umwandlung in Prozentsatz
+        // Average
         double childFriendlyScore = (distanceScore + timeScore + difficultyScore) / 3 * 100;
 
         return childFriendlyScore;
     }
+}

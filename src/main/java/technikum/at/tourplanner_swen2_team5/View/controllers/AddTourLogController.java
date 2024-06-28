@@ -21,6 +21,7 @@ import technikum.at.tourplanner_swen2_team5.View.viewmodels.TourLogViewModel;
 import technikum.at.tourplanner_swen2_team5.util.Formatter;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -116,14 +117,42 @@ public class AddTourLogController {
         };
     }
 
+    private void initializeComboBox(ComboBox<Integer> comboBox, List<Integer> items) {
+        comboBox.setItems(FXCollections.observableArrayList(items));
+
+        comboBox.setCellFactory(param -> new ListCell<Integer>() {
+            @Override
+            protected void updateItem(Integer item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    setText(String.format("%02d", item));
+                }
+            }
+        });
+
+        comboBox.setButtonCell(new ListCell<Integer>() {
+            @Override
+            protected void updateItem(Integer item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    setText(String.format("%02d", item));
+                }
+            }
+        });
+    }
+
     private void loadTimeHours() {
         List<Integer> hours = IntStream.rangeClosed(0, 23).boxed().collect(Collectors.toList());
-        timeFieldHours.setItems(FXCollections.observableArrayList(hours));
+        initializeComboBox(timeFieldHours, hours);
     }
 
     private void loadTimeMinutes() {
-        List<Integer> minutes = IntStream.rangeClosed(0, 59).boxed().collect(Collectors.toList());
-        timeFieldMinutes.setItems(FXCollections.observableArrayList(minutes));
+        List<Integer> minutes = Arrays.asList(0, 15, 30, 45);
+        initializeComboBox(timeFieldMinutes, minutes);
     }
 
     private void loadDifficultyTypes() {
@@ -178,7 +207,7 @@ public class AddTourLogController {
         currentTourLog.setTimeMinutes(timeMinutes != null ? timeMinutes : 0);
         currentTourLog.setComment(commentArea.getText());
         currentTourLog.setDifficulty(difficultyBox.getValue());
-        currentTourLog.setDistance(distanceField.getText());
+        currentTourLog.setDistance(Float.parseFloat(distanceField.getText()));
         currentTourLog.setTotalTime(totalTimeField.getText());
         currentTourLog.setRating((int) ratingSlider.getValue());
         currentTourLog.setTransportType(transportTypeBox.getValue());

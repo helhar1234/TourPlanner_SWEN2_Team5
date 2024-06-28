@@ -101,7 +101,7 @@ public class EditTourLogController {
         timeFieldMinutes.setValue(currentTourLog.getTimeMinutes());
         commentArea.setText(currentTourLog.getComment());
         difficultyBox.setValue(currentTourLog.getDifficulty());
-        distanceField.setText(currentTourLog.getDistance());
+        distanceField.setText(String.valueOf(currentTourLog.getDistance()));
         totalTimeField.setText(currentTourLog.getTotalTime());
         ratingSlider.setValue(currentTourLog.getRating());
         updateSliderFill(ratingSlider.getValue());
@@ -154,7 +154,7 @@ public class EditTourLogController {
     private void onSaveButtonClicked() {
         updateTourLogModelFromFields();
         if (validateInputs()) {
-            currentTourLog.setTotalTime(formatter.formatTime_hm(currentTourLog.getTotalTime()));
+            currentTourLog.setTotalTime(Formatter.formatTime_hm(currentTourLog.getTotalTime()));
             tourLogViewModel.updateTourLog(currentTourLog);
             closeStage();
             log.info("Successfully updated tour log with id {}", currentTourLog.getId());
@@ -213,7 +213,7 @@ public class EditTourLogController {
         currentTourLog.setTimeMinutes(timeMinutes != null ? timeMinutes : 0);
         currentTourLog.setComment(commentArea.getText());
         currentTourLog.setDifficulty(difficultyBox.getValue());
-        currentTourLog.setDistance(distanceField.getText());
+        currentTourLog.setDistance(Float.parseFloat(distanceField.getText()));
         currentTourLog.setTotalTime(totalTimeField.getText());
         currentTourLog.setRating((int) ratingSlider.getValue());
         currentTourLog.setTransportType(transportTypeBox.getValue());
