@@ -79,16 +79,8 @@ public class TourLogValidationService {
         return comment != null && !comment.trim().isEmpty();
     }
 
-    private boolean isValidDistance(String distance) {
-        if (distance == null || distance.trim().isEmpty()) {
-            return false;
-        }
-        try {
-            Double.parseDouble(distance);
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
-        }
+    private boolean isValidDistance(float distance) {
+        return distance >= 0 && distance <= 30000;
     }
 
     private boolean isValidTotalTime(String totalTime) {

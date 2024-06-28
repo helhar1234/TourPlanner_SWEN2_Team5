@@ -33,7 +33,7 @@ public class TourLogModel {
     private DifficultyModel difficulty;
 
     @Column(name = "distance")
-    private String distance;
+    private float distance;
 
     @Column(name = "totaltime")
     private String totalTime;
@@ -45,12 +45,10 @@ public class TourLogModel {
     @JoinColumn(name = "transporttypeid_fk", referencedColumnName = "transporttypeid")
     private TransportTypeModel transportType;
 
-    // Standardkonstruktor
     public TourLogModel() {
     }
 
-    // Konstruktor mit allen Parametern
-    public TourLogModel(String id, TourModel tour, String date, int timeHours, int timeMinutes, String comment, DifficultyModel difficulty, String distance, String totalTime, int rating, TransportTypeModel transportType) {
+    public TourLogModel(String id, TourModel tour, String date, int timeHours, int timeMinutes, String comment, DifficultyModel difficulty, float distance, String totalTime, int rating, TransportTypeModel transportType) {
         this.id = id;
         this.tour = tour;
         this.date = date;
@@ -62,5 +60,9 @@ public class TourLogModel {
         this.totalTime = totalTime;
         this.rating = rating;
         this.transportType = transportType;
+    }
+
+    public double getTimeInHours() {
+        return timeHours + timeMinutes / 60.0;
     }
 }

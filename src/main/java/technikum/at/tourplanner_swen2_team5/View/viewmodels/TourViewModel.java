@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import technikum.at.tourplanner_swen2_team5.BL.services.MapService;
 import technikum.at.tourplanner_swen2_team5.BL.services.TourService;
 import technikum.at.tourplanner_swen2_team5.BL.models.TourModel;
+import technikum.at.tourplanner_swen2_team5.util.ChildFriendlinessCalculator;
 import technikum.at.tourplanner_swen2_team5.util.MapRequester;
 
 import java.io.IOException;
@@ -36,6 +37,7 @@ public class TourViewModel {
     private void loadTours() {
         List<TourModel> tours = tourService.getAllTours();
         addTourPopularity(tours);
+        addTourChildFriendliness(tours);
         tourModels.setAll(tours); // Convert ArrayList to ObservableList
     }
 
@@ -43,6 +45,13 @@ public class TourViewModel {
         TourLogViewModel logViewModel = new TourLogViewModel();
         for (TourModel tour : tours) {
             tour.setPopularity(logViewModel.getTourLogCountForTour(tour.getId()));
+        }
+    }
+
+    private void addTourChildFriendliness(List<TourModel> tours) {
+        TourLogViewModel logViewModel = new TourLogViewModel();
+        for (TourModel tour : tours) {
+            tour.setChildFriendliness(ChildFriendlinessCalculator.calculateChildFriendliness(logViewModel.getTourLogsForTour(tour.getId()), tour.getTransportType()));
         }
     }
 

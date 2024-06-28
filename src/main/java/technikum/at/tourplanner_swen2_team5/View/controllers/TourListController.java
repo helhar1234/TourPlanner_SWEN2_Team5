@@ -167,6 +167,20 @@ public class TourListController {
 
     @FXML
     private void onSortByChildFriendlinessButtonClicked(ActionEvent actionEvent) {
+        tourEntryContainer.getChildren().clear(); // Clear existing entries
+
+        List<TourModel> tours = tourViewModel.getTours();
+
+        if (!isAscendingChildFriendliness) {
+            tours.sort(Comparator.comparingDouble(TourModel::getChildFriendliness));
+        } else {
+            tours.sort(Comparator.comparingDouble(TourModel::getChildFriendliness).reversed());
+        }
+
+        for (TourModel tour : tours) {
+            addTourEntry(tour);
+        }
+
         isAscendingChildFriendliness = !isAscendingChildFriendliness;
         isDescendingRecent = false;
         isAscendingPopularity = true;

@@ -15,11 +15,9 @@ public class DifficultyModel {
     @Column(name = "difficulty", nullable = false)
     private String difficulty;
 
-    // Standardkonstruktor
     public DifficultyModel() {
     }
 
-    // Konstruktor mit allen Parametern
     public DifficultyModel(int id, String difficulty) {
         this.id = id;
         this.difficulty = difficulty;

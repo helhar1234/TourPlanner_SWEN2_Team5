@@ -80,8 +80,14 @@ public class TourLogListController {
 
                     ((Label) logEntry.lookup("#dateLabel")).setText(tourLog.getDate());
                     ((Label) logEntry.lookup("#ratingLabel")).setText(tourLog.getRating() + "/10");
-                    ((Label) logEntry.lookup("#detailsLabel")).setText("Time: " + tourLog.getTimeHours() + ":" + tourLog.getTimeMinutes() + " | Difficulty: " + tourLog.getDifficulty().getDifficulty() +
-                            " | Distance: " + tourLog.getDistance() + " km | Total Time: " + tourLog.getTotalTime());
+                    ((Label) logEntry.lookup("#detailsLabel")).setText(
+                            String.format("Time: %02d:%02d | Difficulty: %s | Distance: %.2f km | Total Time: %s",
+                                    tourLog.getTimeHours(),
+                                    tourLog.getTimeMinutes(),
+                                    tourLog.getDifficulty().getDifficulty(),
+                                    tourLog.getDistance(),
+                                    tourLog.getTotalTime())
+                    );
                     ((Label) logEntry.lookup("#commentLabel")).setText(tourLog.getComment());
 
                     Button editButton = (Button) logEntry.lookup("#editButton");
