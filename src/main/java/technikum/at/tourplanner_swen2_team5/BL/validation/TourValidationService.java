@@ -47,11 +47,12 @@ public class TourValidationService {
     public Map<String, String> validateNameExists(String newName, String oldName) {
         Map<String, String> errors = new HashMap<>();
 
-        if (!newName.equals(oldName) && tourService.getTourByName(newName.trim()) != null) {
+        if (newName == null || newName.trim().isEmpty()) {
+            errors.put("name", "New name cannot be null or empty");
+        } else if (!newName.equals(oldName) && tourService.getTourByName(newName.trim()) != null) {
             errors.put("name", "Name already exists!");
         }
 
         return errors;
     }
 }
-

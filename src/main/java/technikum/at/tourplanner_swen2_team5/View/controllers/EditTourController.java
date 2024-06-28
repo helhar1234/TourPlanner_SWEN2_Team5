@@ -67,6 +67,7 @@ public class EditTourController {
     public void setTour(TourModel tour) {
         this.currentTour = tour;
         if (currentTour != null) {
+            bindFieldsToModel();
             loadTourDetails();
         }
     }
@@ -87,8 +88,16 @@ public class EditTourController {
         });
     }
 
+    private void bindFieldsToModel() {
+        nameField.textProperty().bindBidirectional(currentTour.nameProperty());
+        descriptionArea.textProperty().bindBidirectional(currentTour.descriptionProperty());
+        startField.textProperty().bindBidirectional(currentTour.startProperty());
+        destinationField.textProperty().bindBidirectional(currentTour.destinationProperty());
+        transportTypeBox.valueProperty().bindBidirectional(currentTour.transportTypeProperty());
+    }
 
     private void loadTourDetails() {
+        // This method can be simplified or removed if binding is used correctly
         nameField.setText(currentTour.getName());
         descriptionArea.setText(currentTour.getDescription());
         startField.setText(currentTour.getStart());
@@ -98,18 +107,16 @@ public class EditTourController {
 
     @FXML
     private void onSaveButtonClicked() throws IOException {
+        currentTour.syncWithProperties();
         if (validateInputs() && validateRoute()) {
-            updateTourModelFromFields();
             tourViewModel.updateTour(currentTour);
             mapViewModel.updateMap(currentTour);
             closeStage();
-            EventHandler.openTourList();
             log.info("Successfully updated tour with id {}", currentTour.getId());
         }
     }
 
     private boolean validateRoute() {
-
         boolean validStart = TourMapValidationService.isValidLocation(currentTour.getStart());
         boolean validDestination = TourMapValidationService.isValidLocation(currentTour.getDestination());
 
@@ -124,7 +131,7 @@ public class EditTourController {
     }
 
     private boolean validateInputs() {
-        updateTourModelFromFields();
+        currentTour.syncWithProperties();
         Map<String, String> errors = validationService.validateTour(currentTour);
         Map<String, String> nameError = validationService.validateNameExists(currentTour.getName(), tourViewModel.getTourById(currentTour.getId()).getName());
 
@@ -142,7 +149,6 @@ public class EditTourController {
         return !hasError;
     }
 
-
     private void setFieldError(Control field, Label warningLabel, String errorMessage) {
         if (errorMessage != null) {
             warningLabel.setText(errorMessage);
@@ -151,14 +157,6 @@ public class EditTourController {
             warningLabel.setText("");
             field.setStyle("");
         }
-    }
-
-    private void updateTourModelFromFields() {
-        currentTour.setName(nameField.getText());
-        currentTour.setDescription(descriptionArea.getText());
-        currentTour.setStart(startField.getText());
-        currentTour.setDestination(destinationField.getText());
-        currentTour.setTransportType(transportTypeBox.getValue());
     }
 
     @FXML
