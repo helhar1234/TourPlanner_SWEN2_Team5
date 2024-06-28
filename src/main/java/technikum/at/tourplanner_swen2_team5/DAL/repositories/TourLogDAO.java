@@ -6,7 +6,6 @@ import org.hibernate.query.Query;
 import technikum.at.tourplanner_swen2_team5.BL.models.TourLogModel;
 
 import java.util.List;
-import java.util.UUID;
 
 @Slf4j
 public class TourLogDAO extends BaseDAO<TourLogModel> {
