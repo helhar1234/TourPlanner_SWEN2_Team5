@@ -19,6 +19,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import technikum.at.tourplanner_swen2_team5.BL.models.TransportTypeModel;
 import technikum.at.tourplanner_swen2_team5.MainTourPlaner;
 import technikum.at.tourplanner_swen2_team5.BL.models.TourModel;
 import technikum.at.tourplanner_swen2_team5.View.viewmodels.TourViewModel;
@@ -45,19 +46,7 @@ public class TourEntryController {
         tourViewModel = TourViewModel.getInstance();
         Formatter formatter = new Formatter();
 
-        String imageName = "img/icons/" + tour.getTransportType().getName().toLowerCase() + "-icon.png";
-        URL resource = MainTourPlaner.class.getResource(imageName);
-
-        assert resource != null;
-        Image image = new Image(resource.toString());
-        transportIcon.setImage(image);
-        transportIcon.setFitHeight(25);
-        transportIcon.setFitWidth(25);
-        nameLabel.setText(tour.getName());
-        startLabel.setText(tour.getStart());
-        destinationLabel.setText(tour.getDestination());
-        distanceLabel.setText(Formatter.formatDistance(tour.getDistance()));
-        timeLabel.setText(formatter.formatTime(0, tour.getTime()));
+        bindTourData(tour);
 
         editButton.setOnAction(e -> onEditButtonClicked(tour.getId()));
         detailButton.setOnAction(e -> onDetailButtonClicked(tour.getId()));
@@ -69,6 +58,32 @@ public class TourEntryController {
             }
         });
         deleteButton.setOnAction(e -> onDeleteButtonTour(tour.getId()));
+    }
+
+    private void bindTourData(TourModel tour) {
+        // Binding properties
+        tour.initializeProperties();
+        nameLabel.textProperty().bind(tour.nameProperty());
+        startLabel.textProperty().bind(tour.startProperty());
+        destinationLabel.textProperty().bind(tour.destinationProperty());
+        distanceLabel.textProperty().bind(tour.distanceProperty().asString("%.2f km"));
+        timeLabel.textProperty().bind(tour.timeProperty().asString());
+
+        tour.transportTypeProperty().addListener((observable, oldValue, newValue) -> updateTransportIcon(newValue));
+        updateTransportIcon(tour.getTransportType());
+    }
+
+    private void updateTransportIcon(TransportTypeModel transportType) {
+        if (transportType != null) {
+            String imageName = "img/icons/" + transportType.getName().toLowerCase() + "-icon.png";
+            URL resource = MainTourPlaner.class.getResource(imageName);
+
+            assert resource != null;
+            Image image = new Image(resource.toString());
+            transportIcon.setImage(image);
+            transportIcon.setFitHeight(25);
+            transportIcon.setFitWidth(25);
+        }
     }
 
     public void onEditButtonClicked(String id) {
@@ -142,4 +157,5 @@ public class TourEntryController {
         PDFGenerator generator = new PDFGenerator();
         generator.generateTourReport(tourViewModel.getTourById(tourId));
     }
+
 }

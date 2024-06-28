@@ -36,6 +36,7 @@ public class AddTourController {
 
     public void initialize() {
         loadTransportTypes();
+        bindFieldsToModel();
     }
 
     private void loadTransportTypes() {
@@ -54,10 +55,19 @@ public class AddTourController {
         });
     }
 
+    private void bindFieldsToModel() {
+        nameField.textProperty().bindBidirectional(currentTour.nameProperty());
+        descriptionArea.textProperty().bindBidirectional(currentTour.descriptionProperty());
+        startField.textProperty().bindBidirectional(currentTour.startProperty());
+        destinationField.textProperty().bindBidirectional(currentTour.destinationProperty());
+        transportTypeBox.valueProperty().bindBidirectional(currentTour.transportTypeProperty());
+    }
+
+
     @FXML
     private void onSaveButtonClicked() throws IOException {
+        currentTour.syncWithProperties();
         if (validateInputs() && validateRoute()) {
-            updateTourModelFromFields();
             tourViewModel.addTour(currentTour);
             mapViewModel.addMap(currentTour);
             closeStage();
@@ -65,9 +75,7 @@ public class AddTourController {
         }
     }
 
-
     private boolean validateRoute() {
-
         boolean validStart = TourMapValidationService.isValidLocation(currentTour.getStart());
         boolean validDestination = TourMapValidationService.isValidLocation(currentTour.getDestination());
 
@@ -81,19 +89,9 @@ public class AddTourController {
         return validStart && validDestination;
     }
 
-    private void updateTourModelFromFields() {
-        currentTour.setName(nameField.getText());
-        currentTour.setDescription(descriptionArea.getText());
-        currentTour.setStart(startField.getText());
-        currentTour.setDestination(destinationField.getText());
-        currentTour.setTransportType(transportTypeBox.getValue());
-    }
-
     private boolean validateInputs() {
-        updateTourModelFromFields();
         Map<String, String> errors = tourValidationService.validateTour(currentTour);
         Map<String, String> nameError = tourValidationService.validateNameExists(currentTour.getName(), null);
-
 
         boolean hasError = false;
         if (!errors.isEmpty() || !nameError.isEmpty()) {
@@ -140,3 +138,4 @@ public class AddTourController {
         }
     }
 }
+

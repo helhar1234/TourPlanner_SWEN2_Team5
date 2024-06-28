@@ -1,5 +1,6 @@
 package technikum.at.tourplanner_swen2_team5.View.controllers;
 
+import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -25,8 +26,6 @@ public class TourDetailController {
     @FXML
     private Label tourDescription;
     @FXML
-    private Label tourName;
-    @FXML
     private Label tourStart;
     @FXML
     private Label tourDestination;
@@ -38,7 +37,6 @@ public class TourDetailController {
     private Label tourTime;
     @FXML
     private ImageView mapView;
-
 
     @FXML
     private TourLogListController tourLogListViewController;
@@ -57,13 +55,8 @@ public class TourDetailController {
 
     public void setTourDetails(TourModel tour) {
         this.currentTour = tour;
-        titleLabel.setText(currentTour.getName());
-        tourDescription.setText(currentTour.getDescription());
-        tourStart.setText("Start: " + currentTour.getStart());
-        tourDestination.setText("Destination: " + currentTour.getDestination());
-        tourTransportationType.setText("Transportation Type: " + currentTour.getTransportType().getName());
-        tourDistance.setText("Distance: " + Formatter.formatDistance(currentTour.getDistance()));
-        tourTime.setText("Time: " + formatter.formatTime(0, currentTour.getTime()));
+
+        bindTourData(tour);
 
         try {
             String filename = tour.getId() + "_map.png";
@@ -86,6 +79,34 @@ public class TourDetailController {
         tourLogListViewController.setTourId(currentTour.getId());
     }
 
+    private void bindTourData(TourModel tour) {
+        // Ensure properties are initialized from JPA attributes
+        tour.initializeProperties();
+
+        // Binding properties
+        titleLabel.textProperty().bind(tour.nameProperty());
+        tourDescription.textProperty().bind(tour.descriptionProperty());
+        tourStart.textProperty().bind(Bindings.createStringBinding(
+                () -> "Start: " + tour.getStart(),
+                tour.startProperty()
+        ));
+        tourDestination.textProperty().bind(Bindings.createStringBinding(
+                () -> "Destination: " + tour.getDestination(),
+                tour.destinationProperty()
+        ));
+        tourTransportationType.textProperty().bind(Bindings.createStringBinding(
+                () -> "Transport Type: " + (tour.getTransportType() != null ? tour.getTransportType().getName() : ""),
+                tour.transportTypeProperty()
+        ));
+        tourDistance.textProperty().bind(Bindings.createStringBinding(
+                () -> "Distance: " + String.format("%.2f km", tour.getDistance()),
+                tour.distanceProperty()
+        ));
+        tourTime.textProperty().bind(Bindings.createStringBinding(
+                () -> "Time: " + formatter.formatTime(0, tour.getTime()),
+                tour.timeProperty()
+        ));
+    }
 
     public void onAddLogButtonClicked(ActionEvent actionEvent) {
         EventHandler.openAddTourLog(currentTour);
@@ -94,7 +115,6 @@ public class TourDetailController {
     public void onEditButtonClicked(ActionEvent actionEvent) {
         EventHandler.openEditTour(currentTour, null);
     }
-
 
     public void onBackButtonClicked(ActionEvent actionEvent) {
         EventHandler.openTourList();
