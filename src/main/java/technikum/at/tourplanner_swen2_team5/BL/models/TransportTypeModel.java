@@ -27,5 +27,4 @@ public class TransportTypeModel {
         this.id = id;
         this.name = name;
     }
-
 }

@@ -96,7 +96,7 @@ public class EditTourLogController {
     }
 
     private void loadTourLogDetails() {
-        dateField.setValue(LocalDate.parse(formatter.formatDateReverse(currentTourLog.getDate())));
+        dateField.setValue(LocalDate.parse(Formatter.formatDateReverse(currentTourLog.getDate())));
         timeFieldHours.setValue(currentTourLog.getTimeHours());
         timeFieldMinutes.setValue(currentTourLog.getTimeMinutes());
         commentArea.setText(currentTourLog.getComment());

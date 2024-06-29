@@ -5,10 +5,8 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 import technikum.at.tourplanner_swen2_team5.MainTourPlaner;
 
 import java.net.URL;
@@ -28,7 +26,6 @@ public class HomeScreenController {
     }
 
     public void gotoHomeScreen() {
-        // Erzeuge die ImageView
         ImageView imageView = new ImageView();
         imageView.setFitHeight(200);
         imageView.setFitWidth(200);
@@ -40,25 +37,17 @@ public class HomeScreenController {
         Image image = new Image(resource.toString());
         imageView.setImage(image);
 
-        // Erzeuge das Label
         Label label = new Label("TOURS BY HELENA");
         label.getStyleClass().add("title-label");
 
-        // Erzeuge die VBox und füge ImageView und Label hinzu
         VBox content = new VBox(20);
         content.setAlignment(javafx.geometry.Pos.CENTER);
         content.getChildren().addAll(imageView, label);
 
-        // Setze den neuen Inhalt im Hauptinhaltbereich
         changeMainContent(content);
-    }
-
-    public VBox getMainContentArea() {
-        return mainContentArea;
     }
 
     public StackPane getContentPane() {
         return stackpane;
     }
-
 }

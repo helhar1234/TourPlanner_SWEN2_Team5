@@ -1,16 +1,17 @@
 package technikum.at.tourplanner_swen2_team5.BL.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import technikum.at.tourplanner_swen2_team5.BL.models.TourModel;
 import technikum.at.tourplanner_swen2_team5.DAL.repositories.TourDAO;
 
 import java.util.List;
+import java.util.Optional;
 
+@Service
 public class TourService implements ITourService {
-    private final TourDAO tourDAO;
-
-    public TourService() {
-        this.tourDAO = new TourDAO();
-    }
+    @Autowired
+    private TourDAO tourDAO;
 
     @Override
     public List<TourModel> getAllTours() {
@@ -28,7 +29,8 @@ public class TourService implements ITourService {
     }
 
     public TourModel getTourById(String id) {
-        return tourDAO.findById(id);
+        Optional<TourModel> optionalTour = tourDAO.findById(id);
+        return optionalTour.orElse(null);
     }
 
     public TourModel getTourByName(String name) {
@@ -36,7 +38,6 @@ public class TourService implements ITourService {
     }
 
     public void updateTour(TourModel tour) {
-        tourDAO.update(tour);
+        tourDAO.save(tour); // save kann sowohl zum Speichern als auch zum Aktualisieren verwendet werden
     }
-
 }

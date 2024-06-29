@@ -27,12 +27,11 @@ public class AddTourController {
     @FXML private Button saveButton, deleteButton, backButton;
     @FXML private Label warningLabelName, warningLabelDescription, warningLabelStart, warningLabelDestination, warningLabelTransportationType;
 
-    private TourViewModel tourViewModel = TourViewModel.getInstance();
-    private MapViewModel mapViewModel = MapViewModel.getInstance();
-    private TourValidationService tourValidationService = new TourValidationService();
-    private TourMapValidationService mapValidationService = new TourMapValidationService();
-    private TransportTypeService transportTypeService = new TransportTypeService();
-    private TourModel currentTour = new TourModel();
+    private final TourViewModel tourViewModel = TourViewModel.getInstance();
+    private final MapViewModel mapViewModel = MapViewModel.getInstance();
+    private final TourValidationService tourValidationService = new TourValidationService();
+    private final TransportTypeService transportTypeService = new TransportTypeService();
+    private final TourModel currentTour = new TourModel();
 
     public void initialize() {
         loadTransportTypes();
