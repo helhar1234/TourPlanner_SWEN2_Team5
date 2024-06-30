@@ -2,6 +2,7 @@ package technikum.at.tourplanner_swen2_team5.View.controllers;
 
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
@@ -19,14 +20,18 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import technikum.at.tourplanner_swen2_team5.BL.models.TourLogModel;
 import technikum.at.tourplanner_swen2_team5.BL.models.TransportTypeModel;
 import technikum.at.tourplanner_swen2_team5.MainTourPlaner;
 import technikum.at.tourplanner_swen2_team5.BL.models.TourModel;
+import technikum.at.tourplanner_swen2_team5.View.viewmodels.TourLogViewModel;
 import technikum.at.tourplanner_swen2_team5.View.viewmodels.TourViewModel;
 import technikum.at.tourplanner_swen2_team5.util.*;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 
 @Slf4j
 public class TourEntryController {
@@ -41,6 +46,8 @@ public class TourEntryController {
     private TourViewModel tourViewModel;
     @Setter
     private TourListController tourListController;
+
+    private Formatter formatter;
 
     public void setTourData(TourModel tour) {
         tourViewModel = TourViewModel.getInstance();
@@ -66,12 +73,20 @@ public class TourEntryController {
         nameLabel.textProperty().bind(tour.nameProperty());
         startLabel.textProperty().bind(tour.startProperty());
         destinationLabel.textProperty().bind(tour.destinationProperty());
-        distanceLabel.textProperty().bind(tour.distanceProperty().asString("%.2f km"));
-        timeLabel.textProperty().bind(tour.timeProperty().asString());
+
+        formatter = new Formatter();
+        distanceLabel.textProperty().bind(Bindings.createStringBinding(() -> {
+            return formatter.formatDistance(tour.getDistance());
+        }, tour.distanceProperty()));
+
+        timeLabel.textProperty().bind(Bindings.createStringBinding(() -> {
+            return formatter.formatTime(0, tour.getTime());
+        }, tour.timeProperty()));
 
         tour.transportTypeProperty().addListener((observable, oldValue, newValue) -> updateTransportIcon(newValue));
         updateTransportIcon(tour.getTransportType());
     }
+
 
     private void updateTransportIcon(TransportTypeModel transportType) {
         if (transportType != null) {
@@ -153,9 +168,18 @@ public class TourEntryController {
     }
 
     private void onDownloadButtonClicked(String tourId) throws IOException {
-        log.info("Download Tour Report Button clicked");
+        /*log.info("Download Tour Report Button clicked");
         PDFGenerator generator = new PDFGenerator();
-        generator.generateTourReport(tourViewModel.getTourById(tourId));
+        generator.generateTourReport(tourViewModel.getTourById(tourId));*/
+
+        log.info("Export Tour Button clicked");
+        JSONGenerator generator = new JSONGenerator();
+        TourModel tour = tourViewModel.getTourById(tourId);
+        TourLogViewModel tourLogViewModel = TourLogViewModel.getInstance();
+        List<TourLogModel> logs = tourLogViewModel.getTourLogsForTour(tourId);
+        generator.generateTourExportsJSON(tour, logs);
+
+
     }
 
 }

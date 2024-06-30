@@ -8,13 +8,16 @@ import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import lombok.extern.slf4j.Slf4j;
 import technikum.at.tourplanner_swen2_team5.MainTourPlaner;
+import technikum.at.tourplanner_swen2_team5.util.ConfirmationWindow;
 import technikum.at.tourplanner_swen2_team5.util.EventHandler;
 import technikum.at.tourplanner_swen2_team5.BL.models.TourModel;
 import technikum.at.tourplanner_swen2_team5.View.viewmodels.TourViewModel;
 import technikum.at.tourplanner_swen2_team5.util.ApplicationContext;
+import technikum.at.tourplanner_swen2_team5.util.JSONGenerator;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -26,6 +29,8 @@ public class TourListController {
 
     @FXML
     private ImageView reloadIcon;
+    @FXML
+    private Button uploadButton;
     @FXML
     private VBox tourEntryContainer;
     @FXML
@@ -96,6 +101,24 @@ public class TourListController {
     public void onAddButtonClicked(ActionEvent actionEvent) {
         EventHandler.openAddTour();
         onRefreshButtonClicked();
+    }
+
+    @FXML
+    public void onUploadButtonClicked(ActionEvent actionEvent) {
+        try {
+            JSONGenerator.uploadJSON((Stage) uploadButton.getScene().getWindow());
+            onRefreshButtonClicked();
+        } catch (IOException e) {
+            ConfirmationWindow dialog = new ConfirmationWindow(
+                    (Stage) uploadButton.getScene().getWindow(),
+                    "Error",
+                    "An Error Occurred",
+                    "An error occurred while uploading. Please make sure that the file is correct!");
+
+            dialog.showAndWait();
+        }
+
+
     }
 
     @FXML

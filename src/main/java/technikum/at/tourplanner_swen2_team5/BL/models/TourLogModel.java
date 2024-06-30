@@ -1,5 +1,6 @@
 package technikum.at.tourplanner_swen2_team5.BL.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -44,6 +45,9 @@ public class TourLogModel {
     @ManyToOne
     @JoinColumn(name = "transporttypeid_fk", referencedColumnName = "transporttypeid")
     private TransportTypeModel transportType;
+
+    @Transient
+    private double timeInHours;
 
     public TourLogModel() {
     }

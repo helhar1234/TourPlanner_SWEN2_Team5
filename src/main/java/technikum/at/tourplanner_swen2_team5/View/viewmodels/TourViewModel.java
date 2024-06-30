@@ -2,7 +2,9 @@ package technikum.at.tourplanner_swen2_team5.View.viewmodels;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import technikum.at.tourplanner_swen2_team5.BL.models.TourLogModel;
 import technikum.at.tourplanner_swen2_team5.BL.services.MapService;
+import technikum.at.tourplanner_swen2_team5.BL.services.TourLogService;
 import technikum.at.tourplanner_swen2_team5.BL.services.TourService;
 import technikum.at.tourplanner_swen2_team5.BL.models.TourModel;
 import technikum.at.tourplanner_swen2_team5.util.ChildFriendlinessCalculator;
@@ -17,6 +19,7 @@ public class TourViewModel {
     private ObservableList<TourModel> tourModels = FXCollections.observableArrayList();
     private final TourService tourService = new TourService();
     private final MapService mapService = new MapService();
+    private final TourLogService logService = new TourLogService();
 
     private TourViewModel() {
         loadTours();
@@ -55,20 +58,31 @@ public class TourViewModel {
         }
     }
 
-    public void addTour(TourModel tour) throws IOException {
+    public String addTour(TourModel tour) throws IOException {
         tour.setId(UUID.randomUUID().toString());
         tour.setDistance(MapRequester.getDistance(tour.getStart(), tour.getDestination()));
         tour.setTime(MapRequester.getTimeByTransportation(tour.getTransportType().getName(), tour.getDistance()));
         tourService.addTour(tour);
         loadTours();
+        return tour.getId();
     }
 
+
     public void deleteTour(TourModel tour) throws IOException {
-        tourService.deleteTour(tour);
         mapService.deleteExistingMaps(tour.getId());
         mapService.deleteMapById(tour.getId());
+
+        TourLogViewModel tourLogViewModel = TourLogViewModel.getInstance();
+        List<TourLogModel> logs = tourLogViewModel.getTourLogsForTour(tour.getId());
+
+        for (TourLogModel log : logs) {
+            logService.deleteTourLog(log);
+        }
+
+        tourService.deleteTour(tour);
         loadTours();
     }
+
 
     public TourModel getTourById(String id) {
         return tourService.getTourById(id);

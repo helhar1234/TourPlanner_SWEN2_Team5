@@ -18,6 +18,7 @@ module technikum.at.tourplanner_swen2_team5 {
     requires org.slf4j;
     requires org.apache.logging.log4j;
     requires org.apache.logging.log4j.core;
+    requires com.fasterxml.jackson.databind;
 
     exports technikum.at.tourplanner_swen2_team5;
     exports technikum.at.tourplanner_swen2_team5.util;
