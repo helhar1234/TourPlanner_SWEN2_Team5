@@ -42,7 +42,7 @@ public class ChildFriendlinessCalculator {
                 maxDifficulty = 2;
                 break;
             case "Vacation":
-                maxDistance = 5;
+                maxDistance = 500;
                 maxTime = 1;
                 maxDifficulty = 1;
                 break;
