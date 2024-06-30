@@ -23,12 +23,7 @@ import technikum.at.tourplanner_swen2_team5.MainTourPlanner;
 import technikum.at.tourplanner_swen2_team5.BL.models.TourModel;
 import technikum.at.tourplanner_swen2_team5.View.viewmodels.TourLogViewModel;
 import technikum.at.tourplanner_swen2_team5.View.viewmodels.TourViewModel;
-import technikum.at.tourplanner_swen2_team5.util.ApplicationContext;
-import technikum.at.tourplanner_swen2_team5.util.ConfirmationWindow;
-import technikum.at.tourplanner_swen2_team5.util.EventHandler;
-import technikum.at.tourplanner_swen2_team5.util.Formatter;
-import technikum.at.tourplanner_swen2_team5.util.PDFGenerator;
-import technikum.at.tourplanner_swen2_team5.util.MapRequester;
+import technikum.at.tourplanner_swen2_team5.util.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -47,22 +42,21 @@ public class TourEntryController {
     private Button editButton, detailButton, downloadButton, deleteButton;
 
     private final TourViewModel tourViewModel;
+    private final TourLogViewModel tourLogViewModel;
     private final EventHandler eventHandler;
     private final PDFGenerator pdfGenerator;
+    private final JSONGenerator jsonGenerator;
     @Setter
     private TourListController tourListController;
 
     private Formatter formatter;
-
-    public void setTourData(TourModel tour) {
-        tourViewModel = TourViewModel.getInstance();
-        Formatter formatter = new Formatter();
-    }
   
-    public TourEntryController(TourViewModel tourViewModel, EventHandler eventHandler, PDFGenerator pdfGenerator) {
+    public TourEntryController(TourViewModel tourViewModel, TourLogViewModel tourLogViewModel, EventHandler eventHandler, PDFGenerator pdfGenerator, JSONGenerator jsonGenerator) {
         this.tourViewModel = tourViewModel;
+        this.tourLogViewModel = tourLogViewModel;
         this.eventHandler = eventHandler;
         this.pdfGenerator = pdfGenerator;
+        this.jsonGenerator = jsonGenerator;
     }
 
     public void setTourData(TourModel tour) {
@@ -182,11 +176,9 @@ public class TourEntryController {
         generator.generateTourReport(tourViewModel.getTourById(tourId));*/
 
         log.info("Export Tour Button clicked");
-        JSONGenerator generator = new JSONGenerator();
         TourModel tour = tourViewModel.getTourById(tourId);
-        TourLogViewModel tourLogViewModel = TourLogViewModel.getInstance();
         List<TourLogModel> logs = tourLogViewModel.getTourLogsForTour(tourId);
-        generator.generateTourExportsJSON(tour, logs);
+        jsonGenerator.generateTourExportsJSON(tour, logs);
 
 
         /*log.info("Download Tour Report Button clicked");

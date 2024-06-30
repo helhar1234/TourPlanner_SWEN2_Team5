@@ -20,12 +20,6 @@ import java.util.UUID;
 @Slf4j
 @Component
 public class TourViewModel {
-    private static TourViewModel instance;
-    private ObservableList<TourModel> tourModels = FXCollections.observableArrayList();
-
-    private TourViewModel() {
-        loadTours();
-    }
   
     private final ObservableList<TourModel> tourModels = FXCollections.observableArrayList();
     @Autowired
@@ -33,7 +27,7 @@ public class TourViewModel {
     @Autowired
     private MapService mapService;
     @Autowired
-    private TourLogViewModel logViewModel;
+    private TourLogViewModel tourLogViewModel;
   @Autowired
     private TourLogService tourLogService;
 
@@ -41,8 +35,9 @@ public class TourViewModel {
     public TourViewModel(TourService tourService, MapService mapService, TourLogViewModel logViewModel, TourLogService tourLogService) {
         this.tourService = tourService;
         this.mapService = mapService;
-        this.logViewModel = logViewModel;
+        this.tourLogViewModel = logViewModel;
         this.tourLogService = tourLogService;
+        loadTours();
     }
 
     private void loadTours() {
@@ -59,14 +54,14 @@ public class TourViewModel {
 
     private void addTourPopularity(List<TourModel> tours) {
         for (TourModel tour : tours) {
-            tour.setPopularity(logViewModel.getTourLogCountForTour(tour.getId()));
+            tour.setPopularity(tourLogViewModel.getTourLogCountForTour(tour.getId()));
             log.info("Tour popularity: " + tour.getPopularity());
         }
     }
 
     private void addTourChildFriendliness(List<TourModel> tours) {
         for (TourModel tour : tours) {
-            tour.setChildFriendliness(ChildFriendlinessCalculator.calculateChildFriendliness(logViewModel.getTourLogsForTour(tour.getId()), tour.getTransportType()));
+            tour.setChildFriendliness(ChildFriendlinessCalculator.calculateChildFriendliness(tourLogViewModel.getTourLogsForTour(tour.getId()), tour.getTransportType()));
         }
     }
 
@@ -85,11 +80,10 @@ public class TourViewModel {
         mapService.deleteExistingMaps(tour.getId());
         mapService.deleteMapById(tour.getId());
 
-        TourLogViewModel tourLogViewModel = TourLogViewModel.getInstance();
         List<TourLogModel> logs = tourLogViewModel.getTourLogsForTour(tour.getId());
 
         for (TourLogModel log : logs) {
-            logService.deleteTourLog(log);
+            tourLogService.deleteTourLog(log);
         }
 
         tourService.deleteTour(tour);
