@@ -1,6 +1,7 @@
 package technikum.at.tourplanner_swen2_team5.util;
 
 import com.itextpdf.io.image.ImageDataFactory;
+import com.itextpdf.kernel.colors.ColorConstants;
 import com.itextpdf.kernel.colors.DeviceRgb;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
@@ -16,15 +17,22 @@ import com.itextpdf.layout.properties.UnitValue;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import technikum.at.tourplanner_swen2_team5.BL.models.TourLogModel;
 import technikum.at.tourplanner_swen2_team5.BL.models.TourModel;
 import technikum.at.tourplanner_swen2_team5.MainTourPlanner;
 import technikum.at.tourplanner_swen2_team5.View.viewmodels.TourLogViewModel;
-import technikum.at.tourplanner_swen2_team5.View.viewmodels.TourViewModel;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.ChartUtils;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -36,6 +44,7 @@ import java.nio.file.Path;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.io.ByteArrayOutputStream;
 
 @Slf4j
 @Component
@@ -100,7 +109,6 @@ public class PDFGenerator {
     }
 
     private void addHeader(Document document, TourModel tour) throws IOException {
-
         Table table = new Table(UnitValue.createPercentArray(new float[]{50, 5}))
                 .useAllAvailableWidth();
         String imageName = "img/logos/BikerLogoMave.png";
@@ -126,7 +134,6 @@ public class PDFGenerator {
         document.add(table);
         document.add(new Paragraph("Tour Report").setBold().setFontSize(20).setFontColor(BRIGHT_GREEN));
     }
-
 
     private void addMapImage(Document document, TourModel tour) throws IOException {
         String filename = tour.getId() + "_map.png";
@@ -183,6 +190,10 @@ public class PDFGenerator {
         document.add(new Paragraph("Tour Logs").setBold().setFontSize(16).setFontColor(BRIGHT_GREEN));
 
         List<TourLogModel> logs = logViewModel.getTourLogsForTour(tour.getId());
+
+        // Add total number of logs
+        document.add(new Paragraph("Total Logs: " + logs.size()).setFontSize(12).setFontColor(DARK_GREEN));
+
         for (TourLogModel log : logs) {
             Div logEntryDiv = new Div();
             logEntryDiv.setBackgroundColor(CREME_WHITE);
@@ -216,7 +227,7 @@ public class PDFGenerator {
             }
 
             Cell infoCell = new Cell(1, 2)  // Spanning both columns
-                    .add(new Paragraph("Started at " + log.getTimeHours() + ":" + log.getTimeMinutes() + "m").setBold())
+                    .add(new Paragraph("Started at " + log.getTimeHours() + "h " + log.getTimeMinutes() + "min").setBold())
                     .add(new Paragraph(log.getTotalTime() + " | " + log.getDistance() + " km | " + log.getDifficulty().getDifficulty()))
                     .add(new Paragraph(log.getComment()))
                     .setBorder(Border.NO_BORDER);
@@ -259,5 +270,147 @@ public class PDFGenerator {
         } catch (IOException e) {
             log.error("Failed to open the PDF automatically", e);
         }
+    }
+
+    public void generateSummaryReport(TourModel tour) {
+        try {
+            File selectedFile = promptUserForSaveLocation(tour.getName() + "-summary");
+            if (selectedFile != null) {
+                writeSummaryReport(tour, selectedFile.toPath());
+                byte[] pdfContent = Files.readAllBytes(selectedFile.toPath());
+                downloadAndShowPDF(pdfContent, selectedFile);
+                log.info("Successfully generated summary report for tour with id {}", tour.getId());
+            }
+        } catch (IOException e) {
+            log.error("Failed to generate summary report of tour with id {}", tour.getId(), e);
+        }
+    }
+
+    private void writeSummaryReport(TourModel tour, Path filePath) throws IOException {
+        try {
+            PdfWriter writer = new PdfWriter(filePath.toString());
+            PdfDocument pdf = new PdfDocument(writer);
+            Document document = new Document(pdf);
+
+            addHeader(document, tour);
+            addMapImage(document, tour);
+            addTourDataSection(document, tour);
+            addSectionSeparator(document);
+            addTourSummary(document, tour);
+
+            document.close();
+        } catch (FileNotFoundException e) {
+            log.error("Failed to write pdf to tour report", e);
+        }
+    }
+
+    private void addTourSummary(Document document, TourModel tour) throws IOException {
+        // Get all tour logs
+        List<TourLogModel> logs = logViewModel.getTourLogsForTour(tour.getId());
+
+        if (logs.isEmpty()) {
+            document.add(new Paragraph("No tour logs available for this tour."));
+            return;
+        }
+
+        // Calculate average values
+        double totalDistance = 0;
+        double totalTime = 0;
+        double totalRating = 0;
+
+        for (TourLogModel log : logs) {
+            totalDistance += log.getDistance();
+            totalTime += log.getTimeInHours();
+            totalRating += log.getRating();
+        }
+
+        int count = logs.size();
+        double avgDistance = totalDistance / count;
+        double avgTime = totalTime / count;
+        double avgRating = totalRating / count;
+
+        // Convert average time to hours and minutes
+        int avgTimeHours = (int) avgTime;
+        int avgTimeMinutes = (int) ((avgTime - avgTimeHours) * 60);
+
+        // Add summary section
+        document.add(new Paragraph("Tour Summary").setBold().setFontSize(16).setFontColor(ColorConstants.BLACK));
+        Table summaryTable = new Table(UnitValue.createPercentArray(new float[]{50, 50})).useAllAvailableWidth();
+        summaryTable.addCell(new Cell().add(new Paragraph("Total Logs:")).setBold());
+        summaryTable.addCell(new Cell().add(new Paragraph(String.valueOf(count))));
+        summaryTable.addCell(new Cell().add(new Paragraph("Average Distance (km):")).setBold());
+        summaryTable.addCell(new Cell().add(new Paragraph(String.format("%.2f", avgDistance))));
+        summaryTable.addCell(new Cell().add(new Paragraph("Average Time:")).setBold());
+        summaryTable.addCell(new Cell().add(new Paragraph(String.format("%dh %dmin", avgTimeHours, avgTimeMinutes))));
+        summaryTable.addCell(new Cell().add(new Paragraph("Average Rating:")).setBold());
+        summaryTable.addCell(new Cell().add(new Paragraph(String.format("%.2f", avgRating))));
+
+        document.add(summaryTable);
+
+        // Create line charts for each attribute
+        addDistanceChart(document, logs);
+        addTimeChart(document, logs);
+        addRatingChart(document, logs);
+    }
+
+    private void addDistanceChart(Document document, List<TourLogModel> logs) throws IOException {
+        XYSeries series = new XYSeries("Distance");
+        for (int i = 0; i < logs.size(); i++) {
+            series.add(i + 1, logs.get(i).getDistance());
+        }
+        XYSeriesCollection dataset = new XYSeriesCollection(series);
+        JFreeChart chart = ChartFactory.createXYLineChart(
+                "Distance Over Logs",
+                "Log Index",
+                "Distance (km)",
+                dataset,
+                PlotOrientation.VERTICAL,
+                false, true, false);
+
+        addChartToDocument(document, chart);
+    }
+
+    private void addTimeChart(Document document, List<TourLogModel> logs) throws IOException {
+        XYSeries series = new XYSeries("Time");
+        for (int i = 0; i < logs.size(); i++) {
+            series.add(i + 1, logs.get(i).getTimeInHours());
+        }
+        XYSeriesCollection dataset = new XYSeriesCollection(series);
+        JFreeChart chart = ChartFactory.createXYLineChart(
+                "Time Over Logs",
+                "Log Index",
+                "Time (hours)",
+                dataset,
+                PlotOrientation.VERTICAL,
+                false, true, false);
+
+        addChartToDocument(document, chart);
+    }
+
+    private void addRatingChart(Document document, List<TourLogModel> logs) throws IOException {
+        XYSeries series = new XYSeries("Rating");
+        for (int i = 0; i < logs.size(); i++) {
+            series.add(i + 1, logs.get(i).getRating());
+        }
+        XYSeriesCollection dataset = new XYSeriesCollection(series);
+        JFreeChart chart = ChartFactory.createXYLineChart(
+                "Rating Over Logs",
+                "Log Index",
+                "Rating",
+                dataset,
+                PlotOrientation.VERTICAL,
+                false, true, false);
+
+        addChartToDocument(document, chart);
+    }
+
+    private void addChartToDocument(Document document, JFreeChart chart) throws IOException {
+        BufferedImage chartImage = chart.createBufferedImage(500, 300);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ImageIO.write(chartImage, "png", baos);
+        Image chartITextImage = new Image(ImageDataFactory.create(baos.toByteArray()));
+        chartITextImage.setHorizontalAlignment(HorizontalAlignment.CENTER);
+
+        document.add(chartITextImage);
     }
 }

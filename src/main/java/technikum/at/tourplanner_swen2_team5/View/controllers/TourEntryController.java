@@ -44,7 +44,6 @@ public class TourEntryController {
     private final TourViewModel tourViewModel;
     private final TourLogViewModel tourLogViewModel;
     private final EventHandler eventHandler;
-    private final PDFGenerator pdfGenerator;
     private final JSONGenerator jsonGenerator;
     @Setter
     private TourListController tourListController;
@@ -55,7 +54,6 @@ public class TourEntryController {
         this.tourViewModel = tourViewModel;
         this.tourLogViewModel = tourLogViewModel;
         this.eventHandler = eventHandler;
-        this.pdfGenerator = pdfGenerator;
         this.jsonGenerator = jsonGenerator;
     }
 
