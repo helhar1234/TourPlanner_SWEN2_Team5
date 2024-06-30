@@ -9,11 +9,24 @@
         </File>
     </Appenders>
     <Loggers>
-        <!-- Logger for Hibernate -->
-        <Logger name="org.hibernate" level="error" additivity="true">
+        <!-- Logger for everything except own project -->
+        <Logger name="org" level="error" additivity="true">
             <AppenderRef ref="ConsoleAppender" />
             <AppenderRef ref="FileAppender" />
         </Logger>
+        <Logger name="_org" level="error" additivity="true">
+            <AppenderRef ref="ConsoleAppender" />
+            <AppenderRef ref="FileAppender" />
+        </Logger>
+        <Logger name="com" level="error" additivity="true">
+            <AppenderRef ref="ConsoleAppender" />
+            <AppenderRef ref="FileAppender" />
+        </Logger>
+        <Logger name="javafx" level="error" additivity="true">
+            <AppenderRef ref="ConsoleAppender" />
+            <AppenderRef ref="FileAppender" />
+        </Logger>
+        <!-- Root Logger -->
         <Root level="debug">
             <AppenderRef ref="ConsoleAppender" />
             <AppenderRef ref="FileAppender" />

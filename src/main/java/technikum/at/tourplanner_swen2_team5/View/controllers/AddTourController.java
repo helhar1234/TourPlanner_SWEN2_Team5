@@ -6,6 +6,8 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import technikum.at.tourplanner_swen2_team5.BL.models.TourModel;
 import technikum.at.tourplanner_swen2_team5.BL.models.TransportTypeModel;
 import technikum.at.tourplanner_swen2_team5.BL.services.TransportTypeService;
@@ -20,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 @Slf4j
+@Controller
 public class AddTourController {
     @FXML private TextField nameField, startField, destinationField;
     @FXML private TextArea descriptionArea;
@@ -27,11 +30,25 @@ public class AddTourController {
     @FXML private Button saveButton, deleteButton, backButton;
     @FXML private Label warningLabelName, warningLabelDescription, warningLabelStart, warningLabelDestination, warningLabelTransportationType;
 
-    private final TourViewModel tourViewModel = TourViewModel.getInstance();
-    private final MapViewModel mapViewModel = MapViewModel.getInstance();
-    private final TourValidationService tourValidationService = new TourValidationService();
-    private final TransportTypeService transportTypeService = new TransportTypeService();
-    private final TourModel currentTour = new TourModel();
+    @Autowired
+    private TourViewModel tourViewModel;
+
+    @Autowired
+    private MapViewModel mapViewModel;
+
+    @Autowired
+    private EventHandler eventHandler;
+
+    @Autowired
+    private TourValidationService tourValidationService;
+
+    @Autowired
+    private TourMapValidationService tourMapValidationService;
+
+    @Autowired
+    private TransportTypeService transportTypeService;
+
+    private TourModel currentTour = new TourModel();
 
     public void initialize() {
         loadTransportTypes();
@@ -62,7 +79,6 @@ public class AddTourController {
         transportTypeBox.valueProperty().bindBidirectional(currentTour.transportTypeProperty());
     }
 
-
     @FXML
     private void onSaveButtonClicked() throws IOException {
         currentTour.syncWithProperties();
@@ -75,8 +91,8 @@ public class AddTourController {
     }
 
     private boolean validateRoute() {
-        boolean validStart = TourMapValidationService.isValidLocation(currentTour.getStart());
-        boolean validDestination = TourMapValidationService.isValidLocation(currentTour.getDestination());
+        boolean validStart = tourMapValidationService.isValidLocation(currentTour.getStart());
+        boolean validDestination = tourMapValidationService.isValidLocation(currentTour.getDestination());
 
         if (!validStart) {
             setFieldError(startField, warningLabelStart, "Invalid Start Location in Europe");
@@ -124,7 +140,7 @@ public class AddTourController {
     @FXML
     private void onDeleteButtonClicked() throws IOException {
         log.info("Delete tour button clicked for Tour {}", currentTour.getName());
-        if (EventHandler.confirmBack((Stage) deleteButton.getScene().getWindow(), "Delete Tour", "Deletion Confirmation", "Do you want to delete this tour?")) {
+        if (eventHandler.confirmBack((Stage) deleteButton.getScene().getWindow(), "Delete Tour", "Deletion Confirmation", "Do you want to delete this tour?")) {
             tourViewModel.deleteTour(currentTour);
             closeStage();
         }
@@ -132,9 +148,8 @@ public class AddTourController {
 
     @FXML
     private void onBackButtonClicked() {
-        if (EventHandler.confirmBack((Stage) backButton.getScene().getWindow(), "Return to Tour Planner", "Return Confirmation", "If you go back now, your Tour will not be saved!")) {
+        if (eventHandler.confirmBack((Stage) backButton.getScene().getWindow(), "Return to Tour Planner", "Return Confirmation", "If you go back now, your Tour will not be saved!")) {
             closeStage();
         }
     }
 }
-

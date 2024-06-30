@@ -3,25 +3,24 @@ package technikum.at.tourplanner_swen2_team5.View.viewmodels;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import technikum.at.tourplanner_swen2_team5.BL.models.TourLogModel;
+import technikum.at.tourplanner_swen2_team5.BL.models.TourModel;
 import technikum.at.tourplanner_swen2_team5.BL.services.TourLogService;
 
 import java.util.List;
 
+@Slf4j
+@Component
 public class TourLogViewModel {
-    private static TourLogViewModel instance;
-    private final ObservableList<TourLogModel> tourLogModels = FXCollections.observableArrayList();
-    private final TourLogService tourLogService = new TourLogService();
+    private ObservableList<TourLogModel> tourLogModels = FXCollections.observableArrayList();
+    private TourLogService tourLogService;
 
-    public TourLogViewModel() {
-        loadTourLogs();
-    }
-
-    public static synchronized TourLogViewModel getInstance() {
-        if (instance == null) {
-            instance = new TourLogViewModel();
-        }
-        return instance;
+    @Autowired
+    public TourLogViewModel(TourLogService tourLogService) {
+        this.tourLogService = tourLogService;
     }
 
     private void loadTourLogs() {
@@ -59,5 +58,9 @@ public class TourLogViewModel {
     public void updateTourLog(TourLogModel tourLog) {
         tourLogService.updateTourLog(tourLog);
         loadTourLogs();
+    }
+
+    public List<TourLogModel> searchTourLogs(String keyword) {
+        return tourLogService.searchTourLogs(keyword);
     }
 }

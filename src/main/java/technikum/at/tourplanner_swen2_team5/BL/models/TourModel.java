@@ -3,54 +3,81 @@ package technikum.at.tourplanner_swen2_team5.BL.models;
 import javafx.beans.property.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
+@Indexed
 @Table(name = "tours")
 public class TourModel {
     // JPA attributes
+    @Setter
+    @Getter
     @Id
     @Column(name = "tourid", updatable = false, nullable = false)
     private String id;
 
+    @FullTextField
+    @Getter
     @Column(name = "name", nullable = false)
     private String name;
 
+    @FullTextField
+    @Getter
     @Column(name = "description")
     private String description;
 
+    @FullTextField
+    @Getter
     @Column(name = "start", nullable = false)
     private String start;
 
+    @FullTextField
+    @Getter
     @Column(name = "destination", nullable = false)
     private String destination;
 
+    @Getter
     @ManyToOne
     @JoinColumn(name = "transporttypeid_fk", referencedColumnName = "transporttypeid", nullable = false)
     private TransportTypeModel transportType;
 
+    @Getter
     @Column(name = "distance", nullable = false)
     private double distance;
 
+    @Getter
     @Column(name = "time", nullable = false)
     private int time;
 
+    @Getter
     @Transient
     private int popularity;
 
+    @Getter
     @Transient
     private float childFriendliness;
 
     // JavaFX Properties
+    @Transient
     private transient StringProperty nameProperty = new SimpleStringProperty();
+    @Transient
     private transient StringProperty descriptionProperty = new SimpleStringProperty();
+    @Transient
     private transient StringProperty startProperty = new SimpleStringProperty();
+    @Transient
     private transient StringProperty destinationProperty = new SimpleStringProperty();
+    @Transient
     private transient ObjectProperty<TransportTypeModel> transportTypeProperty = new SimpleObjectProperty<>();
+    @Transient
     private transient DoubleProperty distanceProperty = new SimpleDoubleProperty();
+    @Transient
     private transient IntegerProperty timeProperty = new SimpleIntegerProperty();
+    @Transient
     private transient IntegerProperty popularityProperty = new SimpleIntegerProperty();
+    @Transient
     private transient FloatProperty childFriendlinessProperty = new SimpleFloatProperty();
 
     // Standard constructor
@@ -67,26 +94,7 @@ public class TourModel {
         this.time = time;
 
         // Initialize properties
-        this.nameProperty.set(name);
-        this.descriptionProperty.set(description);
-        this.startProperty.set(start);
-        this.destinationProperty.set(destination);
-        this.transportTypeProperty.set(transportType);
-        this.distanceProperty.set(distance);
-        this.timeProperty.set(time);
-    }
-
-    // Getter and Setter for JPA attributes
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
+        initializeProperties();
     }
 
     public void setName(String name) {
@@ -94,17 +102,9 @@ public class TourModel {
         this.nameProperty.set(name);
     }
 
-    public String getDescription() {
-        return description;
-    }
-
     public void setDescription(String description) {
         this.description = description;
         this.descriptionProperty.set(description);
-    }
-
-    public String getStart() {
-        return start;
     }
 
     public void setStart(String start) {
@@ -112,17 +112,9 @@ public class TourModel {
         this.startProperty.set(start);
     }
 
-    public String getDestination() {
-        return destination;
-    }
-
     public void setDestination(String destination) {
         this.destination = destination;
         this.destinationProperty.set(destination);
-    }
-
-    public TransportTypeModel getTransportType() {
-        return transportType;
     }
 
     public void setTransportType(TransportTypeModel transportType) {
@@ -130,17 +122,9 @@ public class TourModel {
         this.transportTypeProperty.set(transportType);
     }
 
-    public double getDistance() {
-        return distance;
-    }
-
     public void setDistance(double distance) {
         this.distance = distance;
         this.distanceProperty.set(distance);
-    }
-
-    public int getTime() {
-        return time;
     }
 
     public void setTime(int time) {
@@ -148,17 +132,9 @@ public class TourModel {
         this.timeProperty.set(time);
     }
 
-    public int getPopularity() {
-        return popularity;
-    }
-
     public void setPopularity(int popularity) {
         this.popularity = popularity;
         this.popularityProperty.set(popularity);
-    }
-
-    public float getChildFriendliness() {
-        return childFriendliness;
     }
 
     public void setChildFriendliness(float childFriendliness) {
@@ -212,6 +188,8 @@ public class TourModel {
         this.transportType = transportTypeProperty.get();
         this.distance = distanceProperty.get();
         this.time = timeProperty.get();
+        this.popularity = popularityProperty.get();
+        this.childFriendliness = childFriendlinessProperty.get();
     }
 
     public void initializeProperties() {
@@ -225,5 +203,4 @@ public class TourModel {
         this.popularityProperty.set(this.popularity);
         this.childFriendlinessProperty.set(this.childFriendliness);
     }
-
 }

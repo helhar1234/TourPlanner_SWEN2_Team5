@@ -16,10 +16,13 @@ import com.itextpdf.layout.properties.UnitValue;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import technikum.at.tourplanner_swen2_team5.BL.models.TourLogModel;
 import technikum.at.tourplanner_swen2_team5.BL.models.TourModel;
-import technikum.at.tourplanner_swen2_team5.MainTourPlaner;
+import technikum.at.tourplanner_swen2_team5.MainTourPlanner;
 import technikum.at.tourplanner_swen2_team5.View.viewmodels.TourLogViewModel;
+import technikum.at.tourplanner_swen2_team5.View.viewmodels.TourViewModel;
 
 import java.awt.*;
 import java.io.File;
@@ -35,12 +38,22 @@ import java.util.Date;
 import java.util.List;
 
 @Slf4j
+@Component
 public class PDFGenerator {
 
-    private static final DeviceRgb BRIGHT_GREEN = new DeviceRgb(164, 214, 94);
-    private static final DeviceRgb DARK_GREEN = new DeviceRgb(57, 92, 55);
-    private static final DeviceRgb CREME_WHITE = new DeviceRgb(245, 245, 245);
-    private static final float ROUNDED_CORNER = 5f;
+    private final TourLogViewModel logViewModel;
+    private final Formatter formatter;
+
+    private static DeviceRgb BRIGHT_GREEN = new DeviceRgb(164, 214, 94);
+    private static DeviceRgb DARK_GREEN = new DeviceRgb(57, 92, 55);
+    private static DeviceRgb CREME_WHITE = new DeviceRgb(245, 245, 245);
+    private static float ROUNDED_CORNER = 5f;
+
+    @Autowired
+    public PDFGenerator(TourLogViewModel logViewModel, Formatter formatter) {
+        this.logViewModel = logViewModel;
+        this.formatter = formatter;
+    }
 
     public void generateTourReport(TourModel tour) {
         try {
@@ -86,18 +99,16 @@ public class PDFGenerator {
         }
     }
 
-    // Header mit Logo und Titel
     private void addHeader(Document document, TourModel tour) throws IOException {
-        // Tabelle mit zwei Spalten, ungleiche Aufteilung
+
         Table table = new Table(UnitValue.createPercentArray(new float[]{50, 5}))
                 .useAllAvailableWidth();
         String imageName = "img/logos/BikerLogoMave.png";
-        URL resource = MainTourPlaner.class.getResource(imageName);
+        URL resource = MainTourPlanner.class.getResource(imageName);
         Image logo = new Image(ImageDataFactory.create(resource.toString()));
         logo.setWidth(40);
         logo.setHeight(40);
 
-        // Titelzelle
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         String currentDate = dateFormat.format(new Date());
         Cell titleCell = new Cell().add(new Paragraph(currentDate + " - " + tour.getName() + " Report"))
@@ -148,7 +159,6 @@ public class PDFGenerator {
                 .add(new Text(tour.getDestination()).setFontColor(DARK_GREEN).setBold())
                 .setFontSize(12);
 
-        Formatter formatter = new Formatter();
         String estimatedTime = formatter.formatTime(0, tour.getTime());
         Paragraph distanceAndTime = new Paragraph()
                 .add(new Text(tour.getDistance() + " km | " + estimatedTime).setFontColor(DARK_GREEN))
@@ -172,7 +182,6 @@ public class PDFGenerator {
     private void addTourLogsSection(Document document, TourModel tour) throws MalformedURLException {
         document.add(new Paragraph("Tour Logs").setBold().setFontSize(16).setFontColor(BRIGHT_GREEN));
 
-        TourLogViewModel logViewModel = new TourLogViewModel();
         List<TourLogModel> logs = logViewModel.getTourLogsForTour(tour.getId());
         for (TourLogModel log : logs) {
             Div logEntryDiv = new Div();
@@ -182,7 +191,7 @@ public class PDFGenerator {
             logEntryDiv.setBorderRadius(new BorderRadius(ROUNDED_CORNER));
 
             Table logTable = new Table(UnitValue.createPercentArray(new float[]{70, 5})).useAllAvailableWidth();
-            logTable.setBorder(Border.NO_BORDER);  // Keine Umrandung der gesamten Tabelle
+            logTable.setBorder(Border.NO_BORDER);
 
             Cell dateCell = new Cell().add(new Paragraph(log.getDate())
                             .setFontColor(DARK_GREEN)
@@ -192,7 +201,7 @@ public class PDFGenerator {
             logTable.addCell(dateCell);
 
             if (log.getTransportType() != null) {
-                URL resource = MainTourPlaner.class.getResource("img/icons/" + log.getTransportType().getName().toLowerCase() + "-icon.png");
+                URL resource = MainTourPlanner.class.getResource("img/icons/" + log.getTransportType().getName().toLowerCase() + "-icon.png");
                 if (resource != null) {
                     Image transportIcon = new Image(ImageDataFactory.create(resource.toString()))
                             .setWidth(20)
@@ -240,6 +249,8 @@ public class PDFGenerator {
 
     private void showPDF(File file) {
         try {
+            System.out.println("java.awt.headless: " + System.getProperty("java.awt.headless"));
+
             if (Desktop.isDesktopSupported()) {
                 Desktop.getDesktop().open(file);
             } else {

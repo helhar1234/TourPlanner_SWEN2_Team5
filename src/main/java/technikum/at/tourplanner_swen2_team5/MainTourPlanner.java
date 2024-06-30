@@ -3,13 +3,15 @@ package technikum.at.tourplanner_swen2_team5;
 import javafx.application.Application;
 import javafx.application.HostServices;
 import javafx.stage.Stage;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
 import technikum.at.tourplanner_swen2_team5.util.ScreenManager;
 
 import java.io.File;
 
-public class MainTourPlaner extends Application {
+@Slf4j
+public class MainTourPlanner extends Application {
     private static Stage stg;
     private static HostServices hostServices;
     private ConfigurableApplicationContext springContext;
@@ -18,6 +20,7 @@ public class MainTourPlaner extends Application {
     public void init() throws Exception {
         springContext = new SpringApplicationBuilder(TourPlannerSpringBootApplication.class).run();
         hostServices = getHostServices();
+        System.setProperty("java.awt.headless", "false");
     }
 
     @Override

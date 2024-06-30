@@ -1,32 +1,42 @@
 package technikum.at.tourplanner_swen2_team5.BL.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import technikum.at.tourplanner_swen2_team5.BL.models.TourMapModel;
 import technikum.at.tourplanner_swen2_team5.BL.models.TourModel;
-import technikum.at.tourplanner_swen2_team5.DAL.repositories.MapDAO;
+import technikum.at.tourplanner_swen2_team5.DAL.repositories.TourMapDAO;
 import technikum.at.tourplanner_swen2_team5.util.MapRequester;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.List;
 
-public class MapService extends IMapService {
-    private final MapDAO mapDAO;
+@Service
+public class MapService implements IMapService {
+    private TourMapDAO tourMapDAO;
+    private MapRequester mapRequester;
 
-    public MapService() {
-        this.mapDAO = new MapDAO();
+    @Autowired
+    public MapService(TourMapDAO tourMapDAO, MapRequester mapRequester) {
+        this.tourMapDAO = tourMapDAO;
+        this.mapRequester = mapRequester;
     }
 
+    @Override
     public void saveMap(TourModel tour) throws IOException {
-        MapRequester.fetchMapImage(tour);
-        mapDAO.save(tour.getId(), tour.getId() + "_map.png");
+        mapRequester.fetchMapImage(tour);
+        tourMapDAO.save(new TourMapModel(tour.getId(), tour.getId() + "_map.png"));
     }
 
+    @Override
     public void updateMap(TourModel tour) throws IOException {
-        MapRequester.fetchMapImage(tour);
+        mapRequester.fetchMapImage(tour);
+        TourMapModel map = tourMapDAO.findByTourId(tour.getId()).orElse(new TourMapModel(tour.getId(), tour.getId() + "_map.png"));
+        map.setFilename(tour.getId() + "_map.png");
+        tourMapDAO.save(map);
     }
 
+    @Override
     public boolean deleteExistingMaps(String tourId) throws IOException {
         String USER_DIR = System.getProperty("user.home") + "/TourPlanner/maps";
         File dir = new File(USER_DIR);
@@ -44,8 +54,8 @@ public class MapService extends IMapService {
         return true;
     }
 
-    public void deleteMapById(String id) throws IOException {
-        mapDAO.deleteByTourId(id);
+    @Override
+    public void deleteMapById(String id) {
+        tourMapDAO.findByTourId(id).ifPresent(tourMapDAO::delete);
     }
 }
-

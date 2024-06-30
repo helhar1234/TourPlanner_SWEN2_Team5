@@ -1,17 +1,26 @@
 package technikum.at.tourplanner_swen2_team5.BL.services;
 
+import jakarta.persistence.EntityManager;
+import org.hibernate.search.mapper.orm.Search;
+import org.hibernate.search.mapper.orm.session.SearchSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import technikum.at.tourplanner_swen2_team5.BL.models.TourLogModel;
-import technikum.at.tourplanner_swen2_team5.BL.models.TourModel;
 import technikum.at.tourplanner_swen2_team5.DAL.repositories.TourLogDAO;
 
 import java.util.List;
 import java.util.UUID;
 
+@Service
 public class TourLogService implements ITourLogService {
     private final TourLogDAO tourLogDAO;
+    private final EntityManager entityManager;
 
-    public TourLogService() {
-        this.tourLogDAO = new TourLogDAO();
+    @Autowired
+    public TourLogService(EntityManager entityManager, TourLogDAO tourLogDAO) {
+        this.entityManager = entityManager;
+        this.tourLogDAO = tourLogDAO;
     }
 
     @Override
@@ -31,10 +40,18 @@ public class TourLogService implements ITourLogService {
     }
 
     public TourLogModel getTourLogById(String id) {
-        return tourLogDAO.findById(id);
+        return tourLogDAO.findById(id).orElse(null);
     }
 
     public void updateTourLog(TourLogModel tourLog) {
-        tourLogDAO.update(tourLog);
+        tourLogDAO.save(tourLog);
+    }
+
+    @Transactional
+    public List<TourLogModel> searchTourLogs(String keyword) {
+        SearchSession searchSession = Search.session(entityManager);
+        return searchSession.search(TourLogModel.class)
+                .where(f -> f.match().fields("date", "comment").matching(keyword))
+                .fetchHits(20); // Fetch the top 20 results
     }
 }

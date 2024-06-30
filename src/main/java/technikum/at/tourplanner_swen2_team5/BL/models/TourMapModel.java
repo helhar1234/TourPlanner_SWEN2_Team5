@@ -1,7 +1,7 @@
 package technikum.at.tourplanner_swen2_team5.BL.models;
 
 import lombok.Data;
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Data
 @Entity

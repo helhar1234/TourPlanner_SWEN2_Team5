@@ -7,16 +7,25 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import technikum.at.tourplanner_swen2_team5.MainTourPlaner;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Controller;
+import technikum.at.tourplanner_swen2_team5.MainTourPlanner;
 
 import java.net.URL;
 
+@Slf4j
+@Controller
 public class HomeScreenController {
+
     @FXML
     private VBox mainContentArea;
 
     @FXML
     private StackPane stackpane;
+
+    @Value("${logo.image.path}")
+    private String logoImagePath;
 
     public void changeMainContent(Node content) {
         if (mainContentArea != null) {
@@ -30,12 +39,16 @@ public class HomeScreenController {
         imageView.setFitHeight(200);
         imageView.setFitWidth(200);
         imageView.setPreserveRatio(true);
-        String filename = "BikerLogoMave.png";
+        String filename = logoImagePath;
         String imageName = "img/logos/" + filename;
-        URL resource = MainTourPlaner.class.getResource(imageName);
+        URL resource = MainTourPlanner.class.getResource(imageName);
 
-        Image image = new Image(resource.toString());
-        imageView.setImage(image);
+        if (resource != null) {
+            Image image = new Image(resource.toString());
+            imageView.setImage(image);
+        } else {
+            log.error("Image not found: {}", imageName);
+        }
 
         Label label = new Label("TOURS BY HELENA");
         label.getStyleClass().add("title-label");

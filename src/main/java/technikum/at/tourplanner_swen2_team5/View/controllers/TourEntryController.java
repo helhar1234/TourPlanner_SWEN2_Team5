@@ -1,34 +1,34 @@
 package technikum.at.tourplanner_swen2_team5.View.controllers;
 
 import javafx.animation.TranslateTransition;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
-import javafx.stage.Modality;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import technikum.at.tourplanner_swen2_team5.BL.models.TransportTypeModel;
-import technikum.at.tourplanner_swen2_team5.MainTourPlaner;
+import technikum.at.tourplanner_swen2_team5.MainTourPlanner;
 import technikum.at.tourplanner_swen2_team5.BL.models.TourModel;
 import technikum.at.tourplanner_swen2_team5.View.viewmodels.TourViewModel;
-import technikum.at.tourplanner_swen2_team5.util.*;
+import technikum.at.tourplanner_swen2_team5.util.ApplicationContext;
+import technikum.at.tourplanner_swen2_team5.util.ConfirmationWindow;
+import technikum.at.tourplanner_swen2_team5.util.EventHandler;
+import technikum.at.tourplanner_swen2_team5.util.Formatter;
+import technikum.at.tourplanner_swen2_team5.util.PDFGenerator;
+import technikum.at.tourplanner_swen2_team5.util.MapRequester;
 
 import java.io.IOException;
 import java.net.URL;
 
 @Slf4j
+@Controller
 public class TourEntryController {
 
     @FXML
@@ -38,14 +38,19 @@ public class TourEntryController {
     @FXML
     private Button editButton, detailButton, downloadButton, deleteButton;
 
-    private TourViewModel tourViewModel;
+    private final TourViewModel tourViewModel;
+    private final EventHandler eventHandler;
+    private final PDFGenerator pdfGenerator;
     @Setter
     private TourListController tourListController;
 
-    public void setTourData(TourModel tour) {
-        tourViewModel = TourViewModel.getInstance();
-        Formatter formatter = new Formatter();
+    public TourEntryController(TourViewModel tourViewModel, EventHandler eventHandler, PDFGenerator pdfGenerator) {
+        this.tourViewModel = tourViewModel;
+        this.eventHandler = eventHandler;
+        this.pdfGenerator = pdfGenerator;
+    }
 
+    public void setTourData(TourModel tour) {
         bindTourData(tour);
 
         editButton.setOnAction(e -> onEditButtonClicked(tour.getId()));
@@ -76,7 +81,7 @@ public class TourEntryController {
     private void updateTransportIcon(TransportTypeModel transportType) {
         if (transportType != null) {
             String imageName = "img/icons/" + transportType.getName().toLowerCase() + "-icon.png";
-            URL resource = MainTourPlaner.class.getResource(imageName);
+            URL resource = MainTourPlanner.class.getResource(imageName);
 
             assert resource != null;
             Image image = new Image(resource.toString());
@@ -87,15 +92,13 @@ public class TourEntryController {
     }
 
     public void onEditButtonClicked(String id) {
-        EventHandler.openEditTour(tourViewModel.getTourById(id), tourListController);
+        eventHandler.openEditTour(tourViewModel.getTourById(id), tourListController);
     }
 
     public void onDetailButtonClicked(String tourId) {
         TourModel currentTour = tourViewModel.getTourById(tourId);
         loadAnimation(currentTour);
     }
-
-
 
     public void loadAnimation(TourModel currentTour) {
         log.info("Starting animation");
@@ -107,7 +110,7 @@ public class TourEntryController {
 
         String transportType = currentTour.getTransportType().getName().toLowerCase();
         String imageName = "img/icons/" + transportType + "-color-icon.png";
-        URL resource = MainTourPlaner.class.getResource(imageName);
+        URL resource = MainTourPlanner.class.getResource(imageName);
         assert resource != null;
         Image image = new Image(resource.toString());
         animatedImage.setImage(image);
@@ -117,18 +120,16 @@ public class TourEntryController {
 
         TranslateTransition transition = new TranslateTransition();
         transition.setNode(animatedImage);
-        transition.setFromX(-contentPane.getWidth()+animatedImage.getFitWidth()/2);
-        transition.setToX(contentPane.getWidth()/2);
+        transition.setFromX(-contentPane.getWidth() + animatedImage.getFitWidth() / 2);
+        transition.setToX(contentPane.getWidth() / 2);
         transition.setDuration(Duration.seconds(2));
         transition.setOnFinished(event -> {
             contentPane.getChildren().remove(animatedImage);
-            EventHandler.openTourDetail(currentTour);
+            eventHandler.openTourDetail(currentTour);
         });
 
         transition.play();
     }
-
-
 
     private void onDeleteButtonTour(String tourId) {
         log.info("Delete Button for tour with id: {} clicked", tourId);
@@ -154,8 +155,6 @@ public class TourEntryController {
 
     private void onDownloadButtonClicked(String tourId) throws IOException {
         log.info("Download Tour Report Button clicked");
-        PDFGenerator generator = new PDFGenerator();
-        generator.generateTourReport(tourViewModel.getTourById(tourId));
+        pdfGenerator.generateTourReport(tourViewModel.getTourById(tourId));
     }
-
 }

@@ -7,6 +7,8 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import technikum.at.tourplanner_swen2_team5.BL.models.DifficultyModel;
 import technikum.at.tourplanner_swen2_team5.BL.models.TourLogModel;
 import technikum.at.tourplanner_swen2_team5.BL.models.TransportTypeModel;
@@ -24,6 +26,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Slf4j
+@Controller
 public class EditTourLogController {
 
     @FXML
@@ -67,20 +70,24 @@ public class EditTourLogController {
     @FXML
     private Label warningLabelTransportationType;
 
-    private TourLogViewModel tourLogViewModel;
     private TourLogModel currentTourLog;
-    private TourLogValidationService validationService;
-    private DifficultyService difficultyService;
-    private Formatter formatter;
-    private TransportTypeService transportTypeService;
 
+    private final TourLogValidationService validationService;
+    private final DifficultyService difficultyService;
+    private final Formatter formatter;
+    private final TransportTypeService transportTypeService;
+    private final TourLogViewModel tourLogViewModel;
+
+    public EditTourLogController(TourLogValidationService validationService, DifficultyService difficultyService, Formatter formatter, TransportTypeService transportTypeService, TourLogViewModel tourLogViewModel) {
+        this.validationService = validationService;
+        this.difficultyService = difficultyService;
+        this.formatter = formatter;
+        this.transportTypeService = transportTypeService;
+        this.tourLogViewModel = tourLogViewModel;
+    }
+
+    @FXML
     public void initialize() {
-        tourLogViewModel = TourLogViewModel.getInstance();
-        validationService = new TourLogValidationService();
-        difficultyService = new DifficultyService();
-        transportTypeService = new TransportTypeService();
-        formatter = new Formatter();
-
         loadDifficultyTypes();
         loadTransportTypes();
         loadTimeHours();
@@ -96,7 +103,7 @@ public class EditTourLogController {
     }
 
     private void loadTourLogDetails() {
-        dateField.setValue(LocalDate.parse(Formatter.formatDateReverse(currentTourLog.getDate())));
+        dateField.setValue(LocalDate.parse(formatter.formatDateReverse(currentTourLog.getDate())));
         timeFieldHours.setValue(currentTourLog.getTimeHours());
         timeFieldMinutes.setValue(currentTourLog.getTimeMinutes());
         commentArea.setText(currentTourLog.getComment());
@@ -154,7 +161,7 @@ public class EditTourLogController {
     private void onSaveButtonClicked() {
         updateTourLogModelFromFields();
         if (validateInputs()) {
-            currentTourLog.setTotalTime(Formatter.formatTime_hm(currentTourLog.getTotalTime()));
+            currentTourLog.setTotalTime(formatter.formatTime_hm(currentTourLog.getTotalTime()));
             tourLogViewModel.updateTourLog(currentTourLog);
             closeStage();
             log.info("Successfully updated tour log with id {}", currentTourLog.getId());
@@ -208,7 +215,7 @@ public class EditTourLogController {
         Integer timeHours = (timeFieldHours.getValue() != null) ? timeFieldHours.getValue() : null;
         Integer timeMinutes = (timeFieldMinutes.getValue() != null) ? timeFieldMinutes.getValue() : null;
 
-        currentTourLog.setDate(Formatter.formatDate(String.valueOf(dateField.getValue())));
+        currentTourLog.setDate(formatter.formatDate(String.valueOf(dateField.getValue())));
         currentTourLog.setTimeHours(timeHours != null ? timeHours : 0);
         currentTourLog.setTimeMinutes(timeMinutes != null ? timeMinutes : 0);
         currentTourLog.setComment(commentArea.getText());
@@ -224,6 +231,7 @@ public class EditTourLogController {
         stage.close();
     }
 
+    @FXML
     public void onBackButtonClicked() {
         ConfirmationWindow dialog = new ConfirmationWindow(
                 (Stage) backButton.getScene().getWindow(),

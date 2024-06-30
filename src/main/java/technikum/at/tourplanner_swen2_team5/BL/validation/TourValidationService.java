@@ -1,14 +1,22 @@
 package technikum.at.tourplanner_swen2_team5.BL.validation;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import technikum.at.tourplanner_swen2_team5.BL.models.TourModel;
 import technikum.at.tourplanner_swen2_team5.BL.services.TourService;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@Service
 public class TourValidationService {
 
-    private final TourService tourService = new TourService();
+    private TourService tourService;
+
+    @Autowired
+    public TourValidationService(TourService tourService) {
+        this.tourService = tourService;
+    }
 
     public Map<String, String> validateTour(TourModel tour) {
         Map<String, String> errors = new HashMap<>();

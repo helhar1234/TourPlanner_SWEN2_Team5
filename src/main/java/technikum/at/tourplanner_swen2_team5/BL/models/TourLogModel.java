@@ -1,11 +1,16 @@
 package technikum.at.tourplanner_swen2_team5.BL.models;
 
 import lombok.Data;
+import org.hibernate.search.mapper.pojo.bridge.mapping.annotation.ValueBridgeRef;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
+import technikum.at.tourplanner_swen2_team5.search.bridge.DifficultyModelValueBridge;
 
 @Data
 @Entity
+@Indexed // Hinzufügen, um die Klasse für die Volltextsuche zu indizieren
 @Table(name = "tourlogs")
 public class TourLogModel {
     @Id
@@ -16,6 +21,7 @@ public class TourLogModel {
     @JoinColumn(name = "tourid_fk", referencedColumnName = "tourid", nullable = false)
     private TourModel tour;
 
+    @FullTextField // Hinzufügen zur Indizierung für die Suche
     @Column(name = "date", nullable = false)
     private String date;
 
@@ -25,11 +31,13 @@ public class TourLogModel {
     @Column(name = "timeMinutes")
     private int timeMinutes;
 
+    @FullTextField // Hinzufügen zur Indizierung für die Suche
     @Column(name = "comment")
     private String comment;
 
     @ManyToOne
     @JoinColumn(name = "difficultyid", referencedColumnName = "difficultyid")
+    @FullTextField(valueBridge = @ValueBridgeRef(type = DifficultyModelValueBridge.class))
     private DifficultyModel difficulty;
 
     @Column(name = "distance")
@@ -45,9 +53,11 @@ public class TourLogModel {
     @JoinColumn(name = "transporttypeid_fk", referencedColumnName = "transporttypeid")
     private TransportTypeModel transportType;
 
+    // Default constructor
     public TourLogModel() {
     }
 
+    // Constructor with all parameters
     public TourLogModel(String id, TourModel tour, String date, int timeHours, int timeMinutes, String comment, DifficultyModel difficulty, float distance, String totalTime, int rating, TransportTypeModel transportType) {
         this.id = id;
         this.tour = tour;

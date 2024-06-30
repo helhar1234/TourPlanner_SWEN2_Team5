@@ -7,8 +7,9 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import technikum.at.tourplanner_swen2_team5.BL.models.TourModel;
-import technikum.at.tourplanner_swen2_team5.util.ApplicationContext;
 import technikum.at.tourplanner_swen2_team5.util.EventHandler;
 import technikum.at.tourplanner_swen2_team5.util.Formatter;
 import technikum.at.tourplanner_swen2_team5.View.viewmodels.MapViewModel;
@@ -19,6 +20,7 @@ import java.io.File;
 import java.io.IOException;
 
 @Slf4j
+@Controller
 public class TourDetailController {
 
     @FXML
@@ -41,16 +43,23 @@ public class TourDetailController {
     @FXML
     private TourLogListController tourLogListViewController;
 
+    @Autowired
     private TourViewModel tourViewModel;
+
+    @Autowired
     private MapViewModel mapViewModel;
+
+    @Autowired
     private Formatter formatter;
+
+    @Autowired
+    private EventHandler eventHandler;
 
     private TourModel currentTour;
 
+    @FXML
     public void initialize() {
-        tourViewModel = TourViewModel.getInstance();
-        mapViewModel = MapViewModel.getInstance();
-        formatter = new Formatter();
+        // Initialization code, if any
     }
 
     public void setTourDetails(TourModel tour) {
@@ -108,15 +117,18 @@ public class TourDetailController {
         ));
     }
 
+    @FXML
     public void onAddLogButtonClicked(ActionEvent actionEvent) {
-        EventHandler.openAddTourLog(currentTour);
+        eventHandler.openAddTourLog(currentTour);
     }
 
+    @FXML
     public void onEditButtonClicked(ActionEvent actionEvent) {
-        EventHandler.openEditTour(currentTour, null);
+        eventHandler.openEditTour(currentTour, null);
     }
 
+    @FXML
     public void onBackButtonClicked(ActionEvent actionEvent) {
-        EventHandler.openTourList();
+        eventHandler.openTourList();
     }
 }

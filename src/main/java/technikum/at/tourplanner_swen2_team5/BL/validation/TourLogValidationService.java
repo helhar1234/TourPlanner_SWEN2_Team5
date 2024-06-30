@@ -1,5 +1,6 @@
 package technikum.at.tourplanner_swen2_team5.BL.validation;
 
+import org.springframework.stereotype.Service;
 import technikum.at.tourplanner_swen2_team5.BL.models.TourLogModel;
 
 import java.time.LocalDate;
@@ -8,9 +9,10 @@ import java.time.format.DateTimeParseException;
 import java.util.HashMap;
 import java.util.Map;
 
+@Service
 public class TourLogValidationService {
 
-    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public Map<String, String> validateTourLog(TourLogModel tourLog) {
         Map<String, String> errors = new HashMap<>();
@@ -55,7 +57,6 @@ public class TourLogValidationService {
             return false;
         }
         try {
-            // Validiert, ob das Datum im Format dd.MM.yyyy ist
             if (!date.matches("\\d{2}\\.\\d{2}\\.\\d{4}")) {
                 return false;
             }
@@ -66,13 +67,8 @@ public class TourLogValidationService {
         }
     }
 
-
     private boolean isValidTime(int timeHours, int timeMinutes) {
-        try {
-            return timeHours >= 0 && timeHours < 24 && timeMinutes >= 0 && timeMinutes < 60 && (timeHours != 0 || timeMinutes != 0);
-        } catch (NumberFormatException e) {
-            return false;
-        }
+        return timeHours >= 0 && timeHours < 24 && timeMinutes >= 0 && timeMinutes < 60 && (timeHours != 0 || timeMinutes != 0);
     }
 
     private boolean isValidComment(String comment) {

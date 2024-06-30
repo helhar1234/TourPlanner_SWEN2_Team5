@@ -1,50 +1,36 @@
 package technikum.at.tourplanner_swen2_team5.util;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
-import java.io.InputStream;
-import java.util.Arrays;
 import java.util.Properties;
-import java.util.List;
 
 @Slf4j
+@Component
 public class ConfigHandler {
+
+    @Value("${api.key.ors.path}")
+    private String apiKeyOrsPath;
+
+    @Value("${api.key.mb.path}")
+    private String apiKeyMbPath;
+
     private Properties configProps;
 
-    public ConfigHandler() {
+    public void init() {
         configProps = new Properties();
+        configProps.setProperty("api.key.ors.path", apiKeyOrsPath);
+        configProps.setProperty("api.key.mb.path", apiKeyMbPath);
+
+        log.info("API Key paths initialized.");
     }
 
-    public boolean checkConfig(String fileName, List<String> requiredParams) {
-        try {
-            // Laden der Properties-Datei aus den Ressourcen
-            InputStream inputStream = this.getClass().getResourceAsStream(fileName);
-            if (inputStream == null) {
-                log.error("Konfigurationsdatei '" + fileName + "' nicht gefunden.");
-                return false;
-            }
-
-            configProps.load(inputStream);
-            inputStream.close();  // Wichtig: Schließen des InputStreams nach Gebrauch
-
-            // Überprüfung, ob alle notwendigen Schlüssel vorhanden sind
-            for (String key : requiredParams) {
-                if (!configProps.containsKey(key)) {
-                    log.error("Fehlender erforderlicher Konfigurationsschlüssel: " + key);
-                    return false;
-                }
-            }
-
-            log.info("Konfigurationsdatei '" + fileName + "' und alle Keys gefunden.");
-            return true;
-        } catch (Exception e) {
-            log.error("Fehler beim Laden der Konfiguration: " + e.getMessage());
-            return false;
-        }
+    public String getApiKeyOrsPath() {
+        return configProps.getProperty("api.key.ors.path");
     }
 
-    public String getConfigValue(String key) {
-        return configProps.getProperty(key);
+    public String getApiKeyMbPath() {
+        return configProps.getProperty("api.key.mb.path");
     }
 }
-

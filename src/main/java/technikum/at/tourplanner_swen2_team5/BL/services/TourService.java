@@ -1,7 +1,11 @@
 package technikum.at.tourplanner_swen2_team5.BL.services;
 
+import jakarta.persistence.EntityManager;
+import org.hibernate.search.mapper.orm.Search;
+import org.hibernate.search.mapper.orm.session.SearchSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import technikum.at.tourplanner_swen2_team5.BL.models.TourModel;
 import technikum.at.tourplanner_swen2_team5.DAL.repositories.TourDAO;
 
@@ -10,8 +14,15 @@ import java.util.Optional;
 
 @Service
 public class TourService implements ITourService {
+
+    private final TourDAO tourDAO;
+    private final EntityManager entityManager;
+
     @Autowired
-    private TourDAO tourDAO;
+    public TourService(EntityManager entityManager, TourDAO tourDAO) {
+        this.entityManager = entityManager;
+        this.tourDAO = tourDAO;
+    }
 
     @Override
     public List<TourModel> getAllTours() {
@@ -38,6 +49,14 @@ public class TourService implements ITourService {
     }
 
     public void updateTour(TourModel tour) {
-        tourDAO.save(tour); // save kann sowohl zum Speichern als auch zum Aktualisieren verwendet werden
+        tourDAO.save(tour);
+    }
+
+    @Transactional
+    public List<TourModel> searchTours(String keyword) {
+        SearchSession searchSession = Search.session(entityManager);
+        return searchSession.search(TourModel.class)
+                .where(f -> f.match().fields("name", "description").matching(keyword))
+                .fetchHits(20); // Fetch the top 20 results
     }
 }
