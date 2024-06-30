@@ -3,11 +3,9 @@ package technikum.at.tourplanner_swen2_team5.BL.models;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
-import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
 
 @Data
 @Entity
-@Indexed
 @Table(name = "difficulties")
 public class DifficultyModel {
     @Id

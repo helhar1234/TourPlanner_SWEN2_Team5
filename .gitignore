@@ -7,6 +7,10 @@ target/classes/module-info.class
 ### Generated Logfiles ###
 /src/main/resources/technikum/at/tourplanner_swen2_team5/logs/
 
+### Generated Indexfiles ###
+TourLogModel/
+TourModel/
+
 ### IntelliJ IDEA ###
 .idea/encodings.xml
 .idea/misc.xml

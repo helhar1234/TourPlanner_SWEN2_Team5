@@ -103,8 +103,6 @@ public class TourListController {
             addTourEntry(tour);
             log.debug("New tour added to current list: {} (popularity: {}, child-friendliness: {})", tour.getName(), tour.getPopularity(), tour.getChildFriendliness());
         }
-
-        isDescendingRecent = true;
         updateSortButtons();
     }
 
@@ -243,7 +241,7 @@ public class TourListController {
     }
 
     private void updateSortButtons() {
-        sortByRecentButton.setText("recent " + (isDescendingRecent ? "↓" : "↑"));
+        sortByRecentButton.setText("recent " + (!isDescendingRecent ? "↓" : "↑"));
         sortByPopularityButton.setText("popularity");
         sortByChildFriendlinessButton.setText("child-friendliness");
     }

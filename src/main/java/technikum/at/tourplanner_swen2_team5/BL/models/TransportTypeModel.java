@@ -3,13 +3,11 @@ package technikum.at.tourplanner_swen2_team5.BL.models;
 import lombok.Data;
 import lombok.Getter;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
-import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
 
 import jakarta.persistence.*;
 
 @Data
 @Entity
-@Indexed
 @Table(name = "transporttypes")
 public class TransportTypeModel {
     @Id
