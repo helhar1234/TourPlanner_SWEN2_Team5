@@ -58,15 +58,18 @@ public class TourDetailController {
 
     private final PDFGenerator pdfGenerator;
 
+    private final MapRequester mapRequester;
+
     @FXML
     public void initialize() {
         // Initialization code, if any
     }
 
-    public TourDetailController(TourViewModel tourViewModel, EventHandler eventHandler, PDFGenerator pdfGenerator) {
+    public TourDetailController(TourViewModel tourViewModel, EventHandler eventHandler, PDFGenerator pdfGenerator, MapRequester mapRequester) {
         this.tourViewModel = tourViewModel;
         this.pdfGenerator = pdfGenerator;
         this.eventHandler = eventHandler;
+        this.mapRequester = mapRequester;
     }
 
     public void setTourDetails(TourModel tour) {
@@ -79,14 +82,14 @@ public class TourDetailController {
             File mapFile = new File(System.getProperty("user.home") + "/TourPlanner/maps", filename);
 
             if (!mapFile.exists()) {
-                filename = MapRequester.fetchMapImage(tour);
+                filename = mapRequester.fetchMapImage(tour);
                 mapFile = new File(System.getProperty("user.home") + "/TourPlanner/maps", filename);
             }
 
             Image map = new Image(mapFile.toURI().toString());
             mapView.setPreserveRatio(true);
             mapView.setImage(map);
-            mapView.setOnMouseClicked(event -> MapRequester.openMapInBrowser(currentTour.getStart(), currentTour.getDestination()));
+            mapView.setOnMouseClicked(event -> mapRequester.openMapInBrowser(currentTour.getStart(), currentTour.getDestination()));
         } catch (IOException e) {
             log.error("Failed to load map image for tour {}", tour.getId(), e);
         }

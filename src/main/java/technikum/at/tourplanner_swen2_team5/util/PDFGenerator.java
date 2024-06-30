@@ -52,6 +52,7 @@ public class PDFGenerator {
 
     private final TourLogViewModel logViewModel;
     private final Formatter formatter;
+    private final MapRequester mapRequester;
 
     private static final DeviceRgb BRIGHT_GREEN = new DeviceRgb(164, 214, 94);
     private static final DeviceRgb DARK_GREEN = new DeviceRgb(57, 92, 55);
@@ -59,9 +60,10 @@ public class PDFGenerator {
     private static final float ROUNDED_CORNER = 5f;
 
     @Autowired
-    public PDFGenerator(TourLogViewModel logViewModel, Formatter formatter) {
+    public PDFGenerator(TourLogViewModel logViewModel, Formatter formatter, MapRequester mapRequester) {
         this.logViewModel = logViewModel;
         this.formatter = formatter;
+        this.mapRequester = mapRequester;
     }
 
     public void generateTourReport(TourModel tour) {
@@ -140,7 +142,7 @@ public class PDFGenerator {
         File mapFile = new File(System.getProperty("user.home") + "/TourPlanner/maps", filename);
 
         if (!mapFile.exists()) {
-            filename = MapRequester.fetchMapImage(tour);
+            filename = mapRequester.fetchMapImage(tour);
             mapFile = new File(System.getProperty("user.home") + "/TourPlanner/maps", filename);
         }
 
