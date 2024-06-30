@@ -26,15 +26,15 @@ public class TourLogValidationService {
         }
 
         if (!isValidComment(tourLog.getComment())) {
-            errors.put("comment", "Comment cannot be empty");
+            errors.put("comment", "Comment cannot be empty.");
         }
 
         if (!isValidDistance(tourLog.getDistance())) {
-            errors.put("distance", "Invalid or empty distance. Distance must be a number");
+            errors.put("distance", "Invalid or empty distance. Distance must be a number.");
         }
 
         if (!isValidTotalTime(tourLog.getTotalTime())) {
-            errors.put("totalTime", "Invalid or empty total time. Total time must be in format Xh Ymin");
+            errors.put("totalTime", "Invalid or empty total time. Total time must be in format Xh Ymin.");
         }
 
         if (tourLog.getRating() < 1 || tourLog.getRating() > 10) {
@@ -42,11 +42,11 @@ public class TourLogValidationService {
         }
 
         if (tourLog.getDifficulty() == null) {
-            errors.put("difficulty", "Difficulty cannot be empty");
+            errors.put("difficulty", "Difficulty cannot be empty.");
         }
 
         if (tourLog.getTransportType() == null) {
-            errors.put("transportType", "Transport Type cannot be empty");
+            errors.put("transportType", "Transport Type cannot be empty.");
         }
 
         return errors;

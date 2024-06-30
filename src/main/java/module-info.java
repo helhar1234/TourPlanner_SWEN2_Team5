@@ -49,7 +49,6 @@ module technikum.at.tourplanner_swen2_team5 {
     requires spring.orm;
     requires org.jfree.jfreechart;
 
-
     // Exports
     exports technikum.at.tourplanner_swen2_team5;
     exports technikum.at.tourplanner_swen2_team5.util;

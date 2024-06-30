@@ -12,6 +12,7 @@
     </columnConstraints>
     <rowConstraints>
         <RowConstraints prefHeight="70.0" vgrow="SOMETIMES"/>
+        <RowConstraints vgrow="SOMETIMES"/>
     </rowConstraints>
 
     <HBox GridPane.columnIndex="0" alignment="CENTER_LEFT" fillHeight="true" spacing="10" styleClass="navbar-container">
