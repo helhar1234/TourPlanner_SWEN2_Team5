@@ -22,31 +22,31 @@ public class TourValidationService {
         Map<String, String> errors = new HashMap<>();
 
         if (tour.getName() == null || tour.getName().trim().isEmpty()) {
-            errors.put("name", "Name cannot be empty");
+            errors.put("name", "Name cannot be empty.");
         } else if (tour.getName().length() > 50) {
-            errors.put("name", "Name is too long (max 50 characters)");
+            errors.put("name", "Name is too long (max 50 characters).");
         }
 
         if (tour.getDescription() == null || tour.getDescription().isEmpty()) {
-            errors.put("description", "Description cannot be empty");
+            errors.put("description", "Description cannot be empty.");
         } else if (tour.getDescription().length() > 500) {
-            errors.put("description", "Description is too long (max 500 characters)");
+            errors.put("description", "Description is too long (max 500 characters).");
         }
 
         if (tour.getStart() == null || tour.getStart().isEmpty()) {
-            errors.put("start", "Start location cannot be empty");
+            errors.put("start", "Start location cannot be empty.");
         } else if (tour.getStart().length() > 100) {
-            errors.put("start", "Start is too long (max 100 characters)");
+            errors.put("start", "Start is too long (max 100 characters).");
         }
 
         if (tour.getDestination() == null || tour.getDestination().isEmpty()) {
-            errors.put("destination", "Destination cannot be empty");
+            errors.put("destination", "Destination cannot be empty.");
         } else if (tour.getDestination().length() > 100) {
-            errors.put("destination", "Destination is too long (max 100 characters)");
+            errors.put("destination", "Destination is too long (max 100 characters).");
         }
 
         if (tour.getTransportType() == null) {
-            errors.put("transportType", "Transportation type must be selected");
+            errors.put("transportType", "Transportation type must be selected.");
         }
 
         return errors;

@@ -44,7 +44,7 @@ public class TourViewModel {
         List<TourModel> tours = tourService.getAllTours();
         addTourPopularity(tours);
         addTourChildFriendliness(tours);
-        tourModels.setAll(tours); // Convert ArrayList to ObservableList
+        tourModels.setAll(tours);
     }
 
     public ObservableList<TourModel> getTours() {

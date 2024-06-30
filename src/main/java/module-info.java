@@ -48,7 +48,6 @@ module technikum.at.tourplanner_swen2_team5 {
     requires jakarta.cdi;
     requires spring.orm;
 
-
     // Exports
     exports technikum.at.tourplanner_swen2_team5;
     exports technikum.at.tourplanner_swen2_team5.util;
