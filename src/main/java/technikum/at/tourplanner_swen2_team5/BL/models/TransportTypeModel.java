@@ -2,11 +2,14 @@ package technikum.at.tourplanner_swen2_team5.BL.models;
 
 import lombok.Data;
 import lombok.Getter;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Data
 @Entity
+@Indexed
 @Table(name = "transporttypes")
 public class TransportTypeModel {
     @Id
@@ -15,6 +18,7 @@ public class TransportTypeModel {
     private int id;
 
     @Getter
+    @FullTextField
     @Column(name = "name", nullable = false)
     private String name;
 
@@ -28,4 +32,8 @@ public class TransportTypeModel {
         this.name = name;
     }
 
+    // Konstruktor ohne ID, da ID automatisch generiert wird
+    public TransportTypeModel(String name) {
+        this.name = name;
+    }
 }

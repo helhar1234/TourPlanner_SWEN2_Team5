@@ -1,57 +1,63 @@
 package technikum.at.tourplanner_swen2_team5.util;
 
+import org.springframework.stereotype.Component;
+
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
+@Component
 public class Formatter {
+    private static DateTimeFormatter INPUT_DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private static DateTimeFormatter OUTPUT_DATE_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static DecimalFormat TIME_FORMATTER = new DecimalFormat("00");
+
+    // Formats the time given in hours and minutes to "Xh Ymin"
     public String formatTime(int hours, int minutes) {
         hours = hours + (minutes / 60);
         minutes = minutes % 60;
         return String.format("%dh %02dmin", hours, minutes);
     }
 
-    public static String formatDistance(double distance) {
+    // Formats the distance in kilometers. If the distance is less than 1 km, it converts it to meters.
+    public String formatDistance(double distance) {
         if (distance < 1.0) {
-            // Umrechnung von Kilometern in Meter, wenn die Distanz kleiner als ein Kilometer ist
+            // Convert kilometers to meters if the distance is less than one kilometer
             int meters = (int) (distance * 1000);
             return String.format("%d m", meters);
         } else {
-            // Runde auf zwei Dezimalstellen, wenn die Distanz mindestens ein Kilometer ist
+            // Round to two decimal places if the distance is at least one kilometer
             return String.format("%.2f km", distance);
         }
     }
 
-    private static final DateTimeFormatter INPUT_DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-    private static final DateTimeFormatter OUTPUT_DATE_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-
-    public static String formatDate(String date) {
+    // Formats a date from "yyyy-MM-dd" to "dd.MM.yyyy"
+    public String formatDate(String date) {
         try {
             LocalDate parsedDate = LocalDate.parse(date, INPUT_DATE_FORMATTER);
             return parsedDate.format(OUTPUT_DATE_FORMATTER);
         } catch (DateTimeParseException e) {
-            // Falls das Datum nicht geparst werden kann, geben wir es einfach unverändert zurück
+            // If the date cannot be parsed, return it unchanged
             return date;
         }
     }
 
-    public static String formatDateReverse(String date) {
+    // Formats a date from "dd.MM.yyyy" to "yyyy-MM-dd"
+    public String formatDateReverse(String date) {
         try {
             LocalDate parsedDate = LocalDate.parse(date, OUTPUT_DATE_FORMATTER);
             return parsedDate.format(INPUT_DATE_FORMATTER);
         } catch (DateTimeParseException e) {
-            // Falls das Datum nicht geparst werden kann, geben wir es einfach unverändert zurück
+            // If the date cannot be parsed, return it unchanged
             return date;
         }
     }
 
-    private static final DecimalFormat TIME_FORMATTER = new DecimalFormat("00");
-
     // Formats the time to "hh:mm"
-    public static String formatTime_hhmm(String time) {
+    public String formatTime_hhmm(String time) {
         if (time == null || time.isEmpty()) {
-            return null;
+            return "00:00";
         }
 
         String[] parts = time.split(":");
@@ -74,9 +80,9 @@ public class Formatter {
     }
 
     // Formats the time to "Xh Ymin"
-    public static String formatTime_hm(String time) {
+    public String formatTime_hm(String time) {
         if (time == null || time.isEmpty()) {
-            return null;
+            return "0h 0min";
         }
 
         String[] parts = time.split(" ");
@@ -108,7 +114,8 @@ public class Formatter {
         return String.format("%dh %dmin", hours, minutes);
     }
 
-    private static boolean isValidHourOrMinute(String part) {
+    // Checks if the given part is a valid hour or minute value
+    private boolean isValidHourOrMinute(String part) {
         if (part == null || part.isEmpty()) {
             return false;
         }

@@ -3,8 +3,9 @@ package technikum.at.tourplanner_swen2_team5.util;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.stereotype.Component;
 import technikum.at.tourplanner_swen2_team5.BL.models.TourModel;
-import technikum.at.tourplanner_swen2_team5.MainTourPlaner;
+import technikum.at.tourplanner_swen2_team5.MainTourPlanner;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -19,6 +20,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 
 @Slf4j
+@Component
 public class MapRequester {
 
     private static final String USER_DIR = System.getProperty("user.home") + "/TourPlanner";
@@ -31,7 +33,7 @@ public class MapRequester {
             MAP_DIR.mkdirs();
         }
         if (!LEAFLET_HTML_FILE.exists()) {
-            try (InputStream inputStream = MainTourPlaner.class.getResourceAsStream("/leaflet.html")) {
+            try (InputStream inputStream = MainTourPlanner.class.getResourceAsStream("/leaflet.html")) {
                 if (inputStream != null) {
                     Files.copy(inputStream, LEAFLET_HTML_FILE.toPath());
                 }
@@ -53,7 +55,7 @@ public class MapRequester {
         try {
             // Build the API URL for the static map image request
             String url = String.format("https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/pin-s+000(%s),pin-s+f44(%s)/auto/600x300?access_token=%s",
-                    startCoords, destinationCoords, ApplicationContext.API_KEY_MB);
+                    startCoords, destinationCoords, ApplicationContext.getApiKeyMb());
 
             // Fetch the map image from the URL
             BufferedImage image = fetchImageFromUrl(url);
@@ -93,13 +95,12 @@ public class MapRequester {
 
             if (startCoords == null || destinationCoords == null) {
                 log.warn("Failed to find start/destination coordinates");
-                System.out.println("Invalid start or destination coordinates");
                 return;
             }
 
             String routeData = fetchRouteData(startCoords, destinationCoords);
             writeDirectionsToFile(routeData);
-            MainTourPlaner.openMapInBrowser();
+            MainTourPlanner.openMapInBrowser();
             log.info("Successfully opened map in browser");
         } catch (Exception e) {
             log.error("Failed to open Map in Browser", e);
@@ -108,7 +109,7 @@ public class MapRequester {
 
     private static String fetchRouteData(String startCoords, String destinationCoords) throws IOException {
         String url = String.format("https://api.openrouteservice.org/v2/directions/driving-car?api_key=%s&start=%s&end=%s",
-                ApplicationContext.API_KEY_ORS, startCoords, destinationCoords);
+                ApplicationContext.getApiKeyOrs(), startCoords, destinationCoords);
 
         HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
         connection.setRequestMethod("GET");
@@ -135,7 +136,7 @@ public class MapRequester {
     public static String geocode(String location) throws IOException {
         String url = String.format(
                 "https://api.openrouteservice.org/geocode/search?api_key=%s&text=%s",
-                ApplicationContext.API_KEY_ORS, URLEncoder.encode(location, StandardCharsets.UTF_8));
+                ApplicationContext.getApiKeyOrs(), URLEncoder.encode(location, StandardCharsets.UTF_8));
 
         HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
         connection.setRequestMethod("GET");
@@ -184,7 +185,7 @@ public class MapRequester {
         }
 
         String url = String.format("https://api.openrouteservice.org/v2/directions/driving-car?api_key=%s&start=%s&end=%s",
-                ApplicationContext.API_KEY_ORS, startCoords, destinationCoords);
+                ApplicationContext.getApiKeyOrs(), startCoords, destinationCoords);
 
         HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
         connection.setRequestMethod("GET");

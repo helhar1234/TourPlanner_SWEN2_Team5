@@ -3,26 +3,26 @@ package technikum.at.tourplanner_swen2_team5.View.viewmodels;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import technikum.at.tourplanner_swen2_team5.BL.models.TourLogModel;
+import technikum.at.tourplanner_swen2_team5.BL.models.TourModel;
 import technikum.at.tourplanner_swen2_team5.BL.services.TourLogService;
 
 import java.util.List;
 import java.util.UUID;
 
+@Slf4j
+@Component
 public class TourLogViewModel {
-    private static TourLogViewModel instance;
     private final ObservableList<TourLogModel> tourLogModels = FXCollections.observableArrayList();
-    private final TourLogService tourLogService = new TourLogService();
+    private final TourLogService tourLogService;
 
-    public TourLogViewModel() {
+    @Autowired
+    public TourLogViewModel(TourLogService tourLogService) {
+        this.tourLogService = tourLogService;
         loadTourLogs();
-    }
-
-    public static synchronized TourLogViewModel getInstance() {
-        if (instance == null) {
-            instance = new TourLogViewModel();
-        }
-        return instance;
     }
 
     private void loadTourLogs() {
@@ -30,8 +30,10 @@ public class TourLogViewModel {
     }
 
     public FilteredList<TourLogModel> getTourLogsForTour(String tourId) {
+        log.info("Loading tour logs for tour {}", tourId);
         FilteredList<TourLogModel> tourLogs = new FilteredList<>(tourLogModels);
         tourLogs.setPredicate(tourLog -> tourLog.getTour().getId().equals(tourId));
+        log.debug("Loading tour logs for {} number {}", tourId, tourLogs.size());
         return tourLogs;
     }
 
@@ -64,5 +66,9 @@ public class TourLogViewModel {
     public void updateTourLog(TourLogModel tourLog) {
         tourLogService.updateTourLog(tourLog);
         loadTourLogs();
+    }
+
+    public List<TourLogModel> searchTourLogs(String keyword) {
+        return tourLogService.searchTourLogs(keyword);
     }
 }

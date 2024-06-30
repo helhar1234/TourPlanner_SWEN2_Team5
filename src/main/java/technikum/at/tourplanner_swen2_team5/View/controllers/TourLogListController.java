@@ -5,20 +5,17 @@ import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
-import javafx.stage.Screen;
-import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
-import technikum.at.tourplanner_swen2_team5.MainTourPlaner;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.stereotype.Controller;
+import technikum.at.tourplanner_swen2_team5.MainTourPlanner;
 import technikum.at.tourplanner_swen2_team5.BL.models.TourLogModel;
 import technikum.at.tourplanner_swen2_team5.View.viewmodels.TourLogViewModel;
 import technikum.at.tourplanner_swen2_team5.util.EventHandler;
@@ -28,15 +25,27 @@ import java.net.URL;
 import java.util.List;
 
 @Slf4j
+@Controller
 public class TourLogListController {
+
     @FXML
     private VBox tourLogsContainer;
 
-    private TourLogViewModel tourLogViewModel;
+    private final TourLogViewModel tourLogViewModel;
+    private final EventHandler eventHandler;
+    private final ConfigurableApplicationContext springContext;
+
     private String tourId;
 
+    @Autowired
+    public TourLogListController(TourLogViewModel tourLogViewModel, EventHandler eventHandler, ConfigurableApplicationContext springContext) {
+        this.tourLogViewModel = tourLogViewModel;
+        this.eventHandler = eventHandler;
+        this.springContext = springContext;
+    }
+
+    @FXML
     public void initialize() {
-        tourLogViewModel = TourLogViewModel.getInstance();
         tourLogViewModel.getTourLogsForTour(tourId).addListener((ListChangeListener<TourLogModel>) change -> refreshTourLogs());
     }
 
@@ -62,11 +71,12 @@ public class TourLogListController {
             boolean first = true;
             for (TourLogModel tourLog : tourLogs) {
                 try {
-                    FXMLLoader loader = new FXMLLoader(MainTourPlaner.class.getResource("tour_log_entry.fxml"));
+                    FXMLLoader loader = new FXMLLoader(MainTourPlanner.class.getResource("/technikum/at/tourplanner_swen2_team5/tour_log_entry.fxml"));
+                    loader.setControllerFactory(springContext::getBean); // Use Spring context to create controllers
                     VBox logEntry = loader.load();
 
                     String imageName = "img/icons/" + tourLog.getTransportType().getName().toLowerCase() + "-icon.png";
-                    URL resource = MainTourPlaner.class.getResource(imageName);
+                    URL resource = MainTourPlanner.class.getResource(imageName);
                     if (resource != null) {
                         Image transportIcon = new Image(resource.toString());
                         ImageView transportIconView = (ImageView) logEntry.lookup("#transportTypeIcon");
@@ -130,7 +140,7 @@ public class TourLogListController {
 
     private void onEditTourLogClicked(String id) {
         TourLogModel tourLog = tourLogViewModel.getTourLogById(id);
-        EventHandler.openEditTourLog(tourLog);
+        eventHandler.openEditTourLog(tourLog);
         refreshTourLogs();
     }
 }

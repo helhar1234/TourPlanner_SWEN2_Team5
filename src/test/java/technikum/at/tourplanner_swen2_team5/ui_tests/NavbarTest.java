@@ -4,7 +4,7 @@ import javafx.stage.Stage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
-import technikum.at.tourplanner_swen2_team5.MainTourPlaner;
+import technikum.at.tourplanner_swen2_team5.MainTourPlanner;
 
 import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.matcher.base.NodeMatchers.isVisible;
@@ -13,12 +13,12 @@ public class NavbarTest extends ApplicationTest {
 
     @Override
     public void start(Stage stage) throws Exception {
-        new MainTourPlaner().start(stage);
+        new MainTourPlanner().start(stage);
     }
 
     @BeforeEach
     void setUpClass() throws Exception {
-        ApplicationTest.launch(MainTourPlaner.class);
+        ApplicationTest.launch(MainTourPlanner.class);
     }
 
 

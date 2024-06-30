@@ -1,15 +1,19 @@
 package technikum.at.tourplanner_swen2_team5.BL.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import technikum.at.tourplanner_swen2_team5.BL.models.DifficultyModel;
 import technikum.at.tourplanner_swen2_team5.DAL.repositories.DifficultyDAO;
 
 import java.util.List;
 
-public class DifficultyService {
-    private final DifficultyDAO difficultyDAO;
+@Service
+public class DifficultyService implements IDifficultyService {
+    private DifficultyDAO difficultyDAO;
 
-    public DifficultyService() {
-        this.difficultyDAO = new DifficultyDAO();
+    @Autowired
+    public DifficultyService(DifficultyDAO difficultyDAO) {
+        this.difficultyDAO = difficultyDAO;
     }
 
     public List<DifficultyModel> getAllDifficulties() {

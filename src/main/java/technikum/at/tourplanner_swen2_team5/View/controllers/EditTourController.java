@@ -6,6 +6,8 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import technikum.at.tourplanner_swen2_team5.BL.validation.TourMapValidationService;
 import technikum.at.tourplanner_swen2_team5.BL.validation.TourValidationService;
 import technikum.at.tourplanner_swen2_team5.BL.models.TourModel;
@@ -13,7 +15,6 @@ import technikum.at.tourplanner_swen2_team5.BL.models.TransportTypeModel;
 import technikum.at.tourplanner_swen2_team5.BL.services.TransportTypeService;
 import technikum.at.tourplanner_swen2_team5.View.viewmodels.MapViewModel;
 import technikum.at.tourplanner_swen2_team5.View.viewmodels.TourViewModel;
-import technikum.at.tourplanner_swen2_team5.util.ApplicationContext;
 import technikum.at.tourplanner_swen2_team5.util.ConfirmationWindow;
 import technikum.at.tourplanner_swen2_team5.util.EventHandler;
 
@@ -22,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 @Slf4j
+@Controller
 public class EditTourController {
     @FXML
     private TextField nameField;
@@ -50,17 +52,25 @@ public class EditTourController {
     @FXML
     private Label warningLabelTransportationType;
 
-    private TourViewModel tourViewModel;
-    private MapViewModel mapViewModel;
+    @Autowired
     private TourValidationService validationService;
+
+    @Autowired
+    private TourMapValidationService tourMapValidationService;
+
+    @Autowired
     private TransportTypeService transportTypeService;
+
+    @Autowired
+    private TourViewModel tourViewModel;
+
+    @Autowired
+    private MapViewModel mapViewModel;
+
     private TourModel currentTour;
 
+    @FXML
     public void initialize() {
-        tourViewModel = TourViewModel.getInstance();
-        mapViewModel = MapViewModel.getInstance();
-        validationService = new TourValidationService();
-        transportTypeService = new TransportTypeService();
         loadTransportTypes();
     }
 
@@ -97,7 +107,6 @@ public class EditTourController {
     }
 
     private void loadTourDetails() {
-        // This method can be simplified or removed if binding is used correctly
         nameField.setText(currentTour.getName());
         descriptionArea.setText(currentTour.getDescription());
         startField.setText(currentTour.getStart());
@@ -117,8 +126,8 @@ public class EditTourController {
     }
 
     private boolean validateRoute() {
-        boolean validStart = TourMapValidationService.isValidLocation(currentTour.getStart());
-        boolean validDestination = TourMapValidationService.isValidLocation(currentTour.getDestination());
+        boolean validStart = tourMapValidationService.isValidLocation(currentTour.getStart());
+        boolean validDestination = tourMapValidationService.isValidLocation(currentTour.getDestination());
 
         if (!validStart) {
             setFieldError(startField, warningLabelStart, "Invalid Start Location in Europe");

@@ -5,12 +5,12 @@
 <?import javafx.scene.layout.VBox?>
 <GridPane xmlns="http://javafx.com/javafx"
           xmlns:fx="http://javafx.com/fxml"
-          fx:controller="technikum.at.tourplanner_swen2_team5.controller.TourLogListController"
+          fx:controller="technikum.at.tourplanner_swen2_team5.View.controllers.TourLogListController"
           styleClass="list-container" stylesheets="@css/tourList.css">
     <columnConstraints>
         <ColumnConstraints hgrow="ALWAYS"/>
     </columnConstraints>
 
-    <VBox fx:id="tourLogsContainer" fillWidth="true"/>
+    <VBox fx:id="tourLogsContainer" alignment="CENTER"/>
 
 </GridPane>

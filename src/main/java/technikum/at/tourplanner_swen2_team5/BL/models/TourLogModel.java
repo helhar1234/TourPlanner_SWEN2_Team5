@@ -2,11 +2,13 @@ package technikum.at.tourplanner_swen2_team5.BL.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
-
-import javax.persistence.*;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
+import jakarta.persistence.*;
 
 @Data
 @Entity
+@Indexed
 @Table(name = "tourlogs")
 public class TourLogModel {
     @Id
@@ -17,6 +19,7 @@ public class TourLogModel {
     @JoinColumn(name = "tourid_fk", referencedColumnName = "tourid", nullable = false)
     private TourModel tour;
 
+    @FullTextField
     @Column(name = "date", nullable = false)
     private String date;
 
@@ -26,6 +29,7 @@ public class TourLogModel {
     @Column(name = "timeMinutes")
     private int timeMinutes;
 
+    @FullTextField
     @Column(name = "comment")
     private String comment;
 
@@ -36,6 +40,7 @@ public class TourLogModel {
     @Column(name = "distance")
     private float distance;
 
+    @FullTextField
     @Column(name = "totaltime")
     private String totalTime;
 
@@ -46,12 +51,14 @@ public class TourLogModel {
     @JoinColumn(name = "transporttypeid_fk", referencedColumnName = "transporttypeid")
     private TransportTypeModel transportType;
 
+
     @Transient
     private double timeInHours;
 
     public TourLogModel() {
     }
 
+    // Constructor with all parameters
     public TourLogModel(String id, TourModel tour, String date, int timeHours, int timeMinutes, String comment, DifficultyModel difficulty, float distance, String totalTime, int rating, TransportTypeModel transportType) {
         this.id = id;
         this.tour = tour;

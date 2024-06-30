@@ -1,10 +1,12 @@
 package technikum.at.tourplanner_swen2_team5.util;
 
+import org.springframework.stereotype.Component;
 import technikum.at.tourplanner_swen2_team5.BL.models.TourLogModel;
 import technikum.at.tourplanner_swen2_team5.BL.models.TransportTypeModel;
 
 import java.util.List;
 
+@Component
 public class ChildFriendlinessCalculator {
 
     public static float calculateChildFriendliness(List<TourLogModel> tourLogs, TransportTypeModel transportType) {
@@ -59,7 +61,6 @@ public class ChildFriendlinessCalculator {
         double difficultyScore = Math.max(0, (maxDifficulty - avgDifficulty) / maxDifficulty);
 
         // Average
-
         return (float) ((distanceScore + timeScore + difficultyScore) / 3 * 100);
     }
 }

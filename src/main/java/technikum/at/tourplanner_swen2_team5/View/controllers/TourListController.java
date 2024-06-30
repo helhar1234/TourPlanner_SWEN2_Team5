@@ -13,6 +13,10 @@ import javafx.util.Duration;
 import lombok.extern.slf4j.Slf4j;
 import technikum.at.tourplanner_swen2_team5.MainTourPlaner;
 import technikum.at.tourplanner_swen2_team5.util.ConfirmationWindow;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.stereotype.Controller;
+import technikum.at.tourplanner_swen2_team5.MainTourPlanner;
 import technikum.at.tourplanner_swen2_team5.util.EventHandler;
 import technikum.at.tourplanner_swen2_team5.BL.models.TourModel;
 import technikum.at.tourplanner_swen2_team5.View.viewmodels.TourViewModel;
@@ -25,7 +29,10 @@ import java.util.Comparator;
 import java.util.List;
 
 @Slf4j
+@Controller
 public class TourListController {
+
+    private final ConfigurableApplicationContext springContext;
 
     @FXML
     private ImageView reloadIcon;
@@ -40,14 +47,21 @@ public class TourListController {
     @FXML
     private Button sortByChildFriendlinessButton;
 
-    private final TourViewModel tourViewModel = TourViewModel.getInstance();
+    private final TourViewModel tourViewModel;
+    private final EventHandler eventHandler;
 
     private boolean isDescendingRecent = false;
-
     private boolean isAscendingPopularity = true;
-
     private boolean isAscendingChildFriendliness = true;
 
+    @Autowired
+    public TourListController(ConfigurableApplicationContext springContext, TourViewModel tourViewModel, EventHandler eventHandler) {
+        this.springContext = springContext;
+        this.tourViewModel = tourViewModel;
+        this.eventHandler = eventHandler;
+    }
+
+    @FXML
     public void initialize() {
         updateTourList();
     }
@@ -73,7 +87,8 @@ public class TourListController {
 
     private void addTourEntry(TourModel tour) {
         try {
-            FXMLLoader loader = new FXMLLoader(MainTourPlaner.class.getResource("tour_list_entry.fxml"));
+            FXMLLoader loader = new FXMLLoader(MainTourPlanner.class.getResource("/technikum/at/tourplanner_swen2_team5/tour_list_entry.fxml"));
+            loader.setControllerFactory(springContext::getBean); // Use Spring context to create controllers
             HBox tourEntry = loader.load();
             TourEntryController entryController = loader.getController();
 
@@ -99,7 +114,7 @@ public class TourListController {
 
     @FXML
     public void onAddButtonClicked(ActionEvent actionEvent) {
-        EventHandler.openAddTour();
+        eventHandler.openAddTour();
         onRefreshButtonClicked();
     }
 

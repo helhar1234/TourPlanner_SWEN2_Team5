@@ -3,10 +3,13 @@ package technikum.at.tourplanner_swen2_team5.View.viewmodels;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import technikum.at.tourplanner_swen2_team5.BL.models.TourLogModel;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import technikum.at.tourplanner_swen2_team5.BL.models.TourModel;
 import technikum.at.tourplanner_swen2_team5.BL.services.MapService;
 import technikum.at.tourplanner_swen2_team5.BL.services.TourLogService;
 import technikum.at.tourplanner_swen2_team5.BL.services.TourService;
-import technikum.at.tourplanner_swen2_team5.BL.models.TourModel;
 import technikum.at.tourplanner_swen2_team5.util.ChildFriendlinessCalculator;
 import technikum.at.tourplanner_swen2_team5.util.MapRequester;
 
@@ -14,27 +17,32 @@ import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
+@Slf4j
+@Component
 public class TourViewModel {
     private static TourViewModel instance;
     private ObservableList<TourModel> tourModels = FXCollections.observableArrayList();
-    private final TourService tourService = new TourService();
-    private final MapService mapService = new MapService();
-    private final TourLogService logService = new TourLogService();
 
     private TourViewModel() {
         loadTours();
     }
+  
+    private final ObservableList<TourModel> tourModels = FXCollections.observableArrayList();
+    @Autowired
+    private TourService tourService;
+    @Autowired
+    private MapService mapService;
+    @Autowired
+    private TourLogViewModel logViewModel;
+  @Autowired
+    private TourLogService tourLogService;
 
-    public static synchronized TourViewModel getInstance() {
-        if (instance == null) {
-            instance = new TourViewModel();
-        }
-        return instance;
-    }
-
-    public ObservableList<TourModel> getTours() {
-        loadTours();
-        return tourModels;
+    @Autowired
+    public TourViewModel(TourService tourService, MapService mapService, TourLogViewModel logViewModel, TourLogService tourLogService) {
+        this.tourService = tourService;
+        this.mapService = mapService;
+        this.logViewModel = logViewModel;
+        this.tourLogService = tourLogService;
     }
 
     private void loadTours() {
@@ -44,15 +52,19 @@ public class TourViewModel {
         tourModels.setAll(tours); // Convert ArrayList to ObservableList
     }
 
+    public ObservableList<TourModel> getTours() {
+        loadTours();
+        return tourModels;
+    }
+
     private void addTourPopularity(List<TourModel> tours) {
-        TourLogViewModel logViewModel = new TourLogViewModel();
         for (TourModel tour : tours) {
             tour.setPopularity(logViewModel.getTourLogCountForTour(tour.getId()));
+            log.info("Tour popularity: " + tour.getPopularity());
         }
     }
 
     private void addTourChildFriendliness(List<TourModel> tours) {
-        TourLogViewModel logViewModel = new TourLogViewModel();
         for (TourModel tour : tours) {
             tour.setChildFriendliness(ChildFriendlinessCalculator.calculateChildFriendliness(logViewModel.getTourLogsForTour(tour.getId()), tour.getTransportType()));
         }
@@ -69,6 +81,7 @@ public class TourViewModel {
 
 
     public void deleteTour(TourModel tour) throws IOException {
+       
         mapService.deleteExistingMaps(tour.getId());
         mapService.deleteMapById(tour.getId());
 
@@ -93,5 +106,9 @@ public class TourViewModel {
         tour.setTime(MapRequester.getTimeByTransportation(tour.getTransportType().getName(), tour.getDistance()));
         tourService.updateTour(tour);
         loadTours();
+    }
+
+    public List<TourModel> searchTours(String keyword) {
+        return tourService.searchTours(keyword);
     }
 }

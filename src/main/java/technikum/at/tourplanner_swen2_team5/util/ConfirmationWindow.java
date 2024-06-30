@@ -8,21 +8,21 @@ import javafx.stage.Stage;
 import java.util.Optional;
 
 public class ConfirmationWindow {
-    private final Alert alert;
+
+    private Alert alert;
 
     public ConfirmationWindow(Stage parentStage, String title, String header, String content) {
-        alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.initOwner(parentStage);
-        alert.initModality(Modality.WINDOW_MODAL);
-        alert.setTitle(title);
-        alert.setHeaderText(header);
-        alert.setContentText(content);
-        alert.getButtonTypes().setAll(ButtonType.OK, ButtonType.CANCEL);
+        this.alert = new Alert(Alert.AlertType.CONFIRMATION);
+        this.alert.initOwner(parentStage);
+        this.alert.initModality(Modality.WINDOW_MODAL);
+        this.alert.setTitle(title);
+        this.alert.setHeaderText(header);
+        this.alert.setContentText(content);
+        this.alert.getButtonTypes().setAll(ButtonType.OK, ButtonType.CANCEL);
     }
 
     public boolean showAndWait() {
         Optional<ButtonType> result = alert.showAndWait();
-        return result.isPresent() && result.get() == ButtonType.OK;
+        return result.filter(buttonType -> buttonType == ButtonType.OK).isPresent();
     }
 }
-

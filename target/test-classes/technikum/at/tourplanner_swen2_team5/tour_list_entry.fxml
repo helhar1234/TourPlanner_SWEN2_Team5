@@ -4,10 +4,10 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
-<HBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="technikum.at.tourplanner_swen2_team5.controller.TourEntryController"
+<HBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="technikum.at.tourplanner_swen2_team5.View.controllers.TourEntryController"
       stylesheets="@css/tourListEntry.css"
-      spacing="10" alignment="CENTER_LEFT" fillHeight="true">
+      spacing="10" alignment="CENTER_LEFT" fillHeight="true" fx:id="tourListEntry">
     <ImageView fx:id="transportIcon" fitWidth="30" fitHeight="30" preserveRatio="true"/>
     <Label fx:id="nameLabel" minWidth="350" prefWidth="350"/>
     <Label fx:id="startLabel" minWidth="105" prefWidth="105"/>
