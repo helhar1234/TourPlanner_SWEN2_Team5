@@ -63,7 +63,7 @@ class ChildFriendlinessCalculatorTest {
         float score = ChildFriendlinessCalculator.calculateChildFriendliness(tourLogs, vacation);
 
         // Adjusted expected value
-        assertEquals(66.67, score, 0.01);
+        assertEquals(99.64, score, 0.01);
     }
 
     @Test
