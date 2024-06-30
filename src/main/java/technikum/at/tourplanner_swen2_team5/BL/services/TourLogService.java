@@ -51,7 +51,7 @@ public class TourLogService implements ITourLogService {
     public List<TourLogModel> searchTourLogs(String keyword) {
         SearchSession searchSession = Search.session(entityManager);
         return searchSession.search(TourLogModel.class)
-                .where(f -> f.match().fields("date", "comment").matching(keyword))
+                .where(f -> f.match().fields("date", "comment", "totalTime").matching(keyword))
                 .fetchHits(20); // Fetch the top 20 results
     }
 }

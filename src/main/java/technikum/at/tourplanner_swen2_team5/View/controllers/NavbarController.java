@@ -2,7 +2,11 @@ package technikum.at.tourplanner_swen2_team5.View.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.VBox;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -22,18 +26,19 @@ public class NavbarController {
     private TextField searchBar;
     @FXML
     private Button searchButton;
+    @FXML
+    private VBox searchResultsContainer;
 
     @Autowired
     private EventHandler eventHandler;
 
     private final TourViewModel tourViewModel;
-
     private final TourLogViewModel tourLogViewModel;
 
     @Autowired
     public NavbarController(TourViewModel tourViewModel, TourLogViewModel tourLogViewModel) {
         this.tourViewModel = tourViewModel;
-        this.tourLogViewModel  = tourLogViewModel;
+        this.tourLogViewModel = tourLogViewModel;
     }
 
     @FXML
@@ -51,6 +56,13 @@ public class NavbarController {
     @FXML
     public void initialize() {
         searchButton.setOnAction(event -> performSearch());
+        searchBar.setOnKeyPressed(this::handleEnterKey);
+    }
+
+    private void handleEnterKey(KeyEvent event) {
+        if (event.getCode() == KeyCode.ENTER) {
+            performSearch();
+        }
     }
 
     private void performSearch() {
@@ -66,16 +78,27 @@ public class NavbarController {
     }
 
     private void displayTourSearchResults(List<TourModel> results) {
-        // Code to update the UI with search results
+        searchResultsContainer.getChildren().clear();
+        if (results.isEmpty()) {
+            searchResultsContainer.getChildren().add(new Label("No tour results found."));
+        } else {
+            results.forEach(tour -> {
+                Label label = new Label("Tour: " + tour.getName());
+                searchResultsContainer.getChildren().add(label);
+            });
+        }
         log.info("Found {} tours", results.size());
-        results.forEach(tour -> log.info("Found tour: {}", tour.getName()));
-        // Update your UI elements to show the search results
     }
 
     private void displayTourLogSearchResults(List<TourLogModel> results) {
-        // Code to update the UI with search results
+        if (results.isEmpty()) {
+            searchResultsContainer.getChildren().add(new Label("No tour log results found."));
+        } else {
+            results.forEach(tourLog -> {
+                Label label = new Label("Tour Log: " + tourLog.getComment());
+                searchResultsContainer.getChildren().add(label);
+            });
+        }
         log.info("Found {} tour logs", results.size());
-        results.forEach(tourlog -> log.info("Found tourlog: {}", tourlog.getComment()));
-        // Update your UI elements to show the search results
     }
 }

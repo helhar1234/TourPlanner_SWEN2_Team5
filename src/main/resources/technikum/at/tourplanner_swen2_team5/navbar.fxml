@@ -12,6 +12,7 @@
     </columnConstraints>
     <rowConstraints>
         <RowConstraints prefHeight="70.0" vgrow="SOMETIMES"/>
+        <RowConstraints vgrow="SOMETIMES"/>
     </rowConstraints>
 
     <HBox GridPane.columnIndex="0" alignment="CENTER_LEFT" fillHeight="true" spacing="10" styleClass="navbar-container">
@@ -63,4 +64,8 @@
             </graphic>
         </Button>
     </HBox>
+
+    <!-- Container for search results -->
+    <VBox fx:id="searchResultsContainer" GridPane.columnIndex="0" GridPane.rowIndex="1" alignment="TOP_RIGHT" spacing="10" styleClass="search-results-container">
+    </VBox>
 </GridPane>

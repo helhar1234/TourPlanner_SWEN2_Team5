@@ -7,7 +7,7 @@ import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
 
 @Data
 @Entity
-@Indexed // Hinzufügen, um die Klasse für die Volltextsuche zu indizieren
+@Indexed
 @Table(name = "difficulties")
 public class DifficultyModel {
     @Id
@@ -15,7 +15,7 @@ public class DifficultyModel {
     @Column(name = "difficultyid")
     private int id;
 
-    @FullTextField // Hinzufügen zur Indizierung für die Suche
+    @FullTextField
     @Column(name = "difficulty", nullable = false)
     private String difficulty;
 

@@ -17,7 +17,7 @@
         <maven.compiler.plugin.version>3.10.1</maven.compiler.plugin.version>
         <jacoco.version>0.8.8</jacoco.version>
         <itext.version>8.0.4</itext.version>
-        <hibernate.version>6.5.2.Final</hibernate.version>
+        <hibernate.version>6.4.4.Final</hibernate.version>
         <hibernate.search.version>7.1.1.Final</hibernate.search.version>
         <spring.boot.version>3.2.2</spring.boot.version>
         <jvmArguments>--add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.lang.reflect=ALL-UNNAMED --add-opens java.base/java.lang=spring.core -Djava.awt.headless=false</jvmArguments>
@@ -118,6 +118,12 @@
             <artifactId>hibernate-search-backend-lucene</artifactId>
             <version>${hibernate.search.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-core</artifactId>
+            <version>9.9.2</version>
+        </dependency>
+
 
         <!-- PostgreSQL -->
         <dependency>

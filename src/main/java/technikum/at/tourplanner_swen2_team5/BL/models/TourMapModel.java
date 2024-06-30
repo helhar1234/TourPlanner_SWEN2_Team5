@@ -18,11 +18,9 @@ public class TourMapModel {
     @Column(name = "filename", nullable = false)
     private String filename;
 
-    // Standardkonstruktor
     public TourMapModel() {
     }
 
-    // Konstruktor mit allen Parametern
     public TourMapModel(String tourId, String filename) {
         this.tourId = tourId;
         this.filename = filename;

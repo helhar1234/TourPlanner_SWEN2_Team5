@@ -54,7 +54,6 @@ module technikum.at.tourplanner_swen2_team5 {
     exports technikum.at.tourplanner_swen2_team5.BL.validation;
     exports technikum.at.tourplanner_swen2_team5.DAL.repositories;
     exports technikum.at.tourplanner_swen2_team5.View.controllers;
-    exports technikum.at.tourplanner_swen2_team5.search.bridge to org.hibernate.search.engine;
 
     // Opens for reflection
     opens technikum.at.tourplanner_swen2_team5 to javafx.base, javafx.fxml, javafx.graphics, org.hibernate.orm.core, spring.core;

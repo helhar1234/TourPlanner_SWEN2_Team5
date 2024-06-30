@@ -56,7 +56,7 @@ public class TourService implements ITourService {
     public List<TourModel> searchTours(String keyword) {
         SearchSession searchSession = Search.session(entityManager);
         return searchSession.search(TourModel.class)
-                .where(f -> f.match().fields("name", "description").matching(keyword))
+                .where(f -> f.match().fields("name", "description", "start", "destination").matching(keyword))
                 .fetchHits(20); // Fetch the top 20 results
     }
 }

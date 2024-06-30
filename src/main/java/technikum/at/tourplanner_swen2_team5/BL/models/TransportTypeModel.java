@@ -9,7 +9,7 @@ import jakarta.persistence.*;
 
 @Data
 @Entity
-@Indexed // Hinzufügen zur Indizierung der Klasse für die Volltextsuche
+@Indexed
 @Table(name = "transporttypes")
 public class TransportTypeModel {
     @Id
@@ -18,7 +18,7 @@ public class TransportTypeModel {
     private int id;
 
     @Getter
-    @FullTextField // Hinzufügen zur Indizierung für die Suche
+    @FullTextField
     @Column(name = "name", nullable = false)
     private String name;
 
