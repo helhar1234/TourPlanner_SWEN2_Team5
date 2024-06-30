@@ -15,6 +15,7 @@ import technikum.at.tourplanner_swen2_team5.util.Formatter;
 import technikum.at.tourplanner_swen2_team5.View.viewmodels.MapViewModel;
 import technikum.at.tourplanner_swen2_team5.View.viewmodels.TourViewModel;
 import technikum.at.tourplanner_swen2_team5.util.MapRequester;
+import technikum.at.tourplanner_swen2_team5.util.PDFGenerator;
 
 import java.io.File;
 import java.io.IOException;
@@ -130,5 +131,13 @@ public class TourDetailController {
     @FXML
     public void onBackButtonClicked(ActionEvent actionEvent) {
         eventHandler.openTourList();
+    }
+
+    public void onSummaryReportButtonClicked(ActionEvent actionEvent) {
+    }
+
+    public void onSingleReportButtonClicked(ActionEvent actionEvent) {
+        /*PDFGenerator generator = new PDFGenerator();
+        generator.generateTourReport(tourViewModel.getTourById(tourId));*/
     }
 }
