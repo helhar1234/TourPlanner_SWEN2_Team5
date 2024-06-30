@@ -1,7 +1,14 @@
 package technikum.at.tourplanner_swen2_team5.util;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.attribute.PosixFilePermission;
+import java.nio.file.attribute.PosixFilePermissions;
+import java.util.Set;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
@@ -12,10 +19,8 @@ import technikum.at.tourplanner_swen2_team5.BL.validation.TourLogValidationServi
 import technikum.at.tourplanner_swen2_team5.BL.validation.TourValidationService;
 import technikum.at.tourplanner_swen2_team5.View.viewmodels.TourLogViewModel;
 import technikum.at.tourplanner_swen2_team5.View.viewmodels.TourViewModel;
-
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import java.util.List;
 
 @Slf4j
@@ -40,9 +45,10 @@ public class JSONGenerator {
     public void generateTourExportsJSON(TourModel tour, List<TourLogModel> tourLogs) {
         String jsonContent = generateJSON(tour, tourLogs);
         if (jsonContent != null) {
-            File file = chooseFileLocation(tour.getId());
+            File file = chooseFileLocation(tour.getName());
             if (file != null) {
                 saveJSONToFile(jsonContent, file);
+                setFilePermissions(file.toPath());
             }
         }
     }
@@ -57,9 +63,9 @@ public class JSONGenerator {
         }
     }
 
-    private File chooseFileLocation(String id) {
+    private File chooseFileLocation(String name) {
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setInitialFileName(id + "-tour.json");
+        fileChooser.setInitialFileName("Export " + name + ".json");
         FileChooser.ExtensionFilter jsonFilter = new FileChooser.ExtensionFilter("JSON files (*.json)", "*.json");
         fileChooser.getExtensionFilters().add(jsonFilter);
         File file = fileChooser.showSaveDialog(new Stage());
@@ -77,6 +83,16 @@ public class JSONGenerator {
             log.info("Saved JSON to {}", file.getPath());
         } catch (IOException e) {
             log.error("Error saving JSON to file: {}", e.getMessage());
+        }
+    }
+
+    private void setFilePermissions(Path filePath) {
+        try {
+            Set<PosixFilePermission> permissions = PosixFilePermissions.fromString("rwxrwxrwx");
+            Files.setPosixFilePermissions(filePath, permissions);
+            log.info("Set file permissions for {} to rwxrwxrwx", filePath);
+        } catch (IOException e) {
+            log.error("Error setting file permissions: {}", e.getMessage());
         }
     }
 
@@ -111,7 +127,7 @@ public class JSONGenerator {
                     }
                 }
             } else {
-                throw new IOException();
+                throw new IOException("Validation failed");
             }
         }
     }
