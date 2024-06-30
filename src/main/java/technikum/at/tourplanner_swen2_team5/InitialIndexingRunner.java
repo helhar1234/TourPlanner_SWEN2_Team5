@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 
 import jakarta.persistence.EntityManager;
 import org.springframework.transaction.annotation.Transactional;
-import technikum.at.tourplanner_swen2_team5.BL.models.TourLogModel;
 
 @Slf4j
 @Component

@@ -6,6 +6,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 import technikum.at.tourplanner_swen2_team5.BL.models.TourLogModel;
 import technikum.at.tourplanner_swen2_team5.BL.models.TourModel;
 import technikum.at.tourplanner_swen2_team5.BL.validation.TourLogValidationService;
@@ -19,10 +20,20 @@ import java.io.IOException;
 import java.util.List;
 
 @Slf4j
+@Component
 public class JSONGenerator {
     private ObjectMapper mapper;
 
-    public JSONGenerator() {
+    private final TourViewModel tourViewModel;
+    private final TourLogViewModel tourLogViewModel;
+    private final TourValidationService tourValidationService;
+    private final TourLogValidationService tourLogValidationService;
+
+    public JSONGenerator(TourViewModel tourViewModel, TourLogViewModel tourLogViewModel, TourValidationService tourValidationService, TourLogValidationService tourLogValidationService) {
+        this.tourViewModel = tourViewModel;
+        this.tourLogViewModel = tourLogViewModel;
+        this.tourValidationService = tourValidationService;
+        this.tourLogValidationService = tourLogValidationService;
         mapper = new ObjectMapper();
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
     }
@@ -91,7 +102,7 @@ public class JSONGenerator {
     private static ObjectMapper objectMapper = new ObjectMapper();
 
     // Methode, um den File Explorer zu öffnen und JSON hochzuladen
-    public static void uploadJSON(Stage stage) throws IOException {
+    public void uploadJSON(Stage stage) throws IOException {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Resource File");
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("JSON Files", "*.json"));
@@ -99,23 +110,17 @@ public class JSONGenerator {
 
         if (selectedFile != null) {
             TourExport tourExport = objectMapper.readValue(selectedFile, TourExport.class);
-            TourViewModel tourViewModel = TourViewModel.getInstance();
-            TourValidationService tourValidationService = new TourValidationService();
             if (tourValidationService.validateTour(tourExport.tour).isEmpty() && tourValidationService.validateNameExists(tourExport.tour.getName(), null).isEmpty()){
                 String id = tourViewModel.addTour(tourExport.tour);
-                TourLogViewModel tourLogViewModel = new TourLogViewModel();
-                TourLogValidationService tourLogValidationService = new TourLogValidationService();
                 for (TourLogModel log : tourExport.logs) {
                     if (tourLogValidationService.validateTourLog(log).isEmpty()){
                         log.setTour(tourViewModel.getTourById(id));
                         tourLogViewModel.addTourLogFromUpload(log);
                     }
                 }
-
             } else {
                 throw new IOException();
             }
-
         }
     }
 }

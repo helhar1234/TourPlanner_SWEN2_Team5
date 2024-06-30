@@ -11,12 +11,11 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import lombok.extern.slf4j.Slf4j;
-import technikum.at.tourplanner_swen2_team5.MainTourPlaner;
+import technikum.at.tourplanner_swen2_team5.MainTourPlanner;
 import technikum.at.tourplanner_swen2_team5.util.ConfirmationWindow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Controller;
-import technikum.at.tourplanner_swen2_team5.MainTourPlanner;
 import technikum.at.tourplanner_swen2_team5.util.EventHandler;
 import technikum.at.tourplanner_swen2_team5.BL.models.TourModel;
 import technikum.at.tourplanner_swen2_team5.View.viewmodels.TourViewModel;
@@ -49,16 +48,18 @@ public class TourListController {
 
     private final TourViewModel tourViewModel;
     private final EventHandler eventHandler;
+    private final JSONGenerator jsonGenerator;
 
     private boolean isDescendingRecent = false;
     private boolean isAscendingPopularity = true;
     private boolean isAscendingChildFriendliness = true;
 
     @Autowired
-    public TourListController(ConfigurableApplicationContext springContext, TourViewModel tourViewModel, EventHandler eventHandler) {
+    public TourListController(ConfigurableApplicationContext springContext, TourViewModel tourViewModel, EventHandler eventHandler, JSONGenerator jsonGenerator) {
         this.springContext = springContext;
         this.tourViewModel = tourViewModel;
         this.eventHandler = eventHandler;
+        this.jsonGenerator = jsonGenerator;
     }
 
     @FXML
@@ -121,7 +122,7 @@ public class TourListController {
     @FXML
     public void onUploadButtonClicked(ActionEvent actionEvent) {
         try {
-            JSONGenerator.uploadJSON((Stage) uploadButton.getScene().getWindow());
+            jsonGenerator.uploadJSON((Stage) uploadButton.getScene().getWindow());
             onRefreshButtonClicked();
         } catch (IOException e) {
             ConfirmationWindow dialog = new ConfirmationWindow(
@@ -132,8 +133,6 @@ public class TourListController {
 
             dialog.showAndWait();
         }
-
-
     }
 
     @FXML
