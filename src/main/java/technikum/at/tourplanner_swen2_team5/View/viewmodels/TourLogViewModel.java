@@ -7,11 +7,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import technikum.at.tourplanner_swen2_team5.BL.models.TourLogModel;
-import technikum.at.tourplanner_swen2_team5.BL.models.TourModel;
 import technikum.at.tourplanner_swen2_team5.BL.services.TourLogService;
 
 import java.util.List;
-import java.util.UUID;
 
 @Slf4j
 @Component
@@ -30,10 +28,8 @@ public class TourLogViewModel {
     }
 
     public FilteredList<TourLogModel> getTourLogsForTour(String tourId) {
-        log.info("Loading tour logs for tour {}", tourId);
         FilteredList<TourLogModel> tourLogs = new FilteredList<>(tourLogModels);
         tourLogs.setPredicate(tourLog -> tourLog.getTour().getId().equals(tourId));
-        log.debug("Loading tour logs for {} number {}", tourId, tourLogs.size());
         return tourLogs;
     }
 
