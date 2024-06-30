@@ -171,17 +171,9 @@ public class TourEntryController {
     }
 
     private void onDownloadButtonClicked(String tourId) throws IOException {
-        /*log.info("Download Tour Report Button clicked");
-        PDFGenerator generator = new PDFGenerator();
-        generator.generateTourReport(tourViewModel.getTourById(tourId));*/
-
         log.info("Export Tour Button clicked");
         TourModel tour = tourViewModel.getTourById(tourId);
         List<TourLogModel> logs = tourLogViewModel.getTourLogsForTour(tourId);
         jsonGenerator.generateTourExportsJSON(tour, logs);
-
-
-        /*log.info("Download Tour Report Button clicked");
-        pdfGenerator.generateTourReport(tourViewModel.getTourById(tourId));*/
     }
 }
