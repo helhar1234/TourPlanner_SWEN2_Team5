@@ -103,6 +103,9 @@ public class TourViewModel {
     }
 
     public List<TourModel> searchTours(String keyword) {
-        return tourService.searchTours(keyword);
+        List<TourModel> tours = tourService.searchTours(keyword);
+        addTourPopularity(tours);
+        addTourChildFriendliness(tours);
+        return tours;
     }
 }

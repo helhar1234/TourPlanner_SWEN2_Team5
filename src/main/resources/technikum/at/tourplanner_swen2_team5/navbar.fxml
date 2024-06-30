@@ -64,8 +64,4 @@
             </graphic>
         </Button>
     </HBox>
-
-    <!-- Container for search results -->
-    <VBox fx:id="searchResultsContainer" GridPane.columnIndex="0" GridPane.rowIndex="1" alignment="TOP_RIGHT" spacing="10" styleClass="search-results-container">
-    </VBox>
 </GridPane>

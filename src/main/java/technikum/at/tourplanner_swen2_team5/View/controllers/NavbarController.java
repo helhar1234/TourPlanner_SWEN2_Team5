@@ -2,14 +2,13 @@ package technikum.at.tourplanner_swen2_team5.View.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.VBox;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.context.ApplicationContext;
 import technikum.at.tourplanner_swen2_team5.BL.models.TourLogModel;
 import technikum.at.tourplanner_swen2_team5.BL.models.TourModel;
 import technikum.at.tourplanner_swen2_team5.View.viewmodels.TourLogViewModel;
@@ -26,11 +25,12 @@ public class NavbarController {
     private TextField searchBar;
     @FXML
     private Button searchButton;
-    @FXML
-    private VBox searchResultsContainer;
 
     @Autowired
     private EventHandler eventHandler;
+
+    @Autowired
+    private ApplicationContext applicationContext; // Add this
 
     private final TourViewModel tourViewModel;
     private final TourLogViewModel tourLogViewModel;
@@ -39,6 +39,12 @@ public class NavbarController {
     public NavbarController(TourViewModel tourViewModel, TourLogViewModel tourLogViewModel) {
         this.tourViewModel = tourViewModel;
         this.tourLogViewModel = tourLogViewModel;
+    }
+
+    @FXML
+    public void initialize() {
+        searchButton.setOnAction(event -> performSearch());
+        searchBar.setOnKeyPressed(this::handleEnterKey);
     }
 
     @FXML
@@ -51,12 +57,6 @@ public class NavbarController {
     private void onMapPinClicked() {
         log.info("onMapPinClicked");
         eventHandler.openTourList();
-    }
-
-    @FXML
-    public void initialize() {
-        searchButton.setOnAction(event -> performSearch());
-        searchBar.setOnKeyPressed(this::handleEnterKey);
     }
 
     private void handleEnterKey(KeyEvent event) {
@@ -72,33 +72,10 @@ public class NavbarController {
             log.info("Searched for {} in tours", query);
             List<TourLogModel> tourLogResults = tourLogViewModel.searchTourLogs(query);
             log.info("Searched for {} in tour logs", query);
-            displayTourSearchResults(tourResults);
-            displayTourLogSearchResults(tourLogResults);
-        }
-    }
 
-    private void displayTourSearchResults(List<TourModel> results) {
-        searchResultsContainer.getChildren().clear();
-        if (results.isEmpty()) {
-            searchResultsContainer.getChildren().add(new Label("No tour results found."));
-        } else {
-            results.forEach(tour -> {
-                Label label = new Label("Tour: " + tour.getName());
-                searchResultsContainer.getChildren().add(label);
-            });
+            // Update TourListController with the search results
+            TourListController tourListController = applicationContext.getBean(TourListController.class);
+            tourListController.updateTourListWithResults(tourResults, tourLogResults);
         }
-        log.info("Found {} tours", results.size());
-    }
-
-    private void displayTourLogSearchResults(List<TourLogModel> results) {
-        if (results.isEmpty()) {
-            searchResultsContainer.getChildren().add(new Label("No tour log results found."));
-        } else {
-            results.forEach(tourLog -> {
-                Label label = new Label("Tour Log: " + tourLog.getComment());
-                searchResultsContainer.getChildren().add(label);
-            });
-        }
-        log.info("Found {} tour logs", results.size());
     }
 }

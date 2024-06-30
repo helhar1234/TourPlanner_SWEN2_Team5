@@ -8,6 +8,4 @@ import java.util.Optional;
 
 @Repository
 public interface MapDAO extends JpaRepository<TourMapModel, Integer> {
-    Optional<TourMapModel> findByTourId(String tourId);
-    void deleteByTourId(String tourId);
 }
