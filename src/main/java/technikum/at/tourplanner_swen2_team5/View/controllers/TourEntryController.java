@@ -1,6 +1,9 @@
 package technikum.at.tourplanner_swen2_team5.View.controllers;
 
 import javafx.animation.TranslateTransition;
+import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -11,11 +14,14 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import technikum.at.tourplanner_swen2_team5.BL.models.TourLogModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+
 import technikum.at.tourplanner_swen2_team5.BL.models.TransportTypeModel;
 import technikum.at.tourplanner_swen2_team5.MainTourPlanner;
 import technikum.at.tourplanner_swen2_team5.BL.models.TourModel;
+import technikum.at.tourplanner_swen2_team5.View.viewmodels.TourLogViewModel;
 import technikum.at.tourplanner_swen2_team5.View.viewmodels.TourViewModel;
 import technikum.at.tourplanner_swen2_team5.util.ApplicationContext;
 import technikum.at.tourplanner_swen2_team5.util.ConfirmationWindow;
@@ -24,8 +30,10 @@ import technikum.at.tourplanner_swen2_team5.util.Formatter;
 import technikum.at.tourplanner_swen2_team5.util.PDFGenerator;
 import technikum.at.tourplanner_swen2_team5.util.MapRequester;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 
 @Slf4j
 @Controller
@@ -44,6 +52,13 @@ public class TourEntryController {
     @Setter
     private TourListController tourListController;
 
+    private Formatter formatter;
+
+    public void setTourData(TourModel tour) {
+        tourViewModel = TourViewModel.getInstance();
+        Formatter formatter = new Formatter();
+    }
+  
     public TourEntryController(TourViewModel tourViewModel, EventHandler eventHandler, PDFGenerator pdfGenerator) {
         this.tourViewModel = tourViewModel;
         this.eventHandler = eventHandler;
@@ -71,12 +86,20 @@ public class TourEntryController {
         nameLabel.textProperty().bind(tour.nameProperty());
         startLabel.textProperty().bind(tour.startProperty());
         destinationLabel.textProperty().bind(tour.destinationProperty());
-        distanceLabel.textProperty().bind(tour.distanceProperty().asString("%.2f km"));
-        timeLabel.textProperty().bind(tour.timeProperty().asString());
+
+        formatter = new Formatter();
+        distanceLabel.textProperty().bind(Bindings.createStringBinding(() -> {
+            return formatter.formatDistance(tour.getDistance());
+        }, tour.distanceProperty()));
+
+        timeLabel.textProperty().bind(Bindings.createStringBinding(() -> {
+            return formatter.formatTime(0, tour.getTime());
+        }, tour.timeProperty()));
 
         tour.transportTypeProperty().addListener((observable, oldValue, newValue) -> updateTransportIcon(newValue));
         updateTransportIcon(tour.getTransportType());
     }
+
 
     private void updateTransportIcon(TransportTypeModel transportType) {
         if (transportType != null) {
@@ -154,7 +177,19 @@ public class TourEntryController {
     }
 
     private void onDownloadButtonClicked(String tourId) throws IOException {
-        log.info("Download Tour Report Button clicked");
-        pdfGenerator.generateTourReport(tourViewModel.getTourById(tourId));
+        /*log.info("Download Tour Report Button clicked");
+        PDFGenerator generator = new PDFGenerator();
+        generator.generateTourReport(tourViewModel.getTourById(tourId));*/
+
+        log.info("Export Tour Button clicked");
+        JSONGenerator generator = new JSONGenerator();
+        TourModel tour = tourViewModel.getTourById(tourId);
+        TourLogViewModel tourLogViewModel = TourLogViewModel.getInstance();
+        List<TourLogModel> logs = tourLogViewModel.getTourLogsForTour(tourId);
+        generator.generateTourExportsJSON(tour, logs);
+
+
+        /*log.info("Download Tour Report Button clicked");
+        pdfGenerator.generateTourReport(tourViewModel.getTourById(tourId));*/
     }
 }

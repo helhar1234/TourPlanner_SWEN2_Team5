@@ -40,10 +40,14 @@ module technikum.at.tourplanner_swen2_team5 {
     requires kernel;
     requires layout;
     requires io;
+
+    requires com.fasterxml.jackson.databind;
+
     requires spring.tx;
     requires jakarta.persistence;
     requires jakarta.cdi;
     requires spring.orm;
+
 
     // Exports
     exports technikum.at.tourplanner_swen2_team5;

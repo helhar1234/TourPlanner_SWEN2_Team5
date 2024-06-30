@@ -11,6 +11,7 @@ import technikum.at.tourplanner_swen2_team5.BL.models.TourModel;
 import technikum.at.tourplanner_swen2_team5.BL.services.TourLogService;
 
 import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @Component
@@ -44,6 +45,10 @@ public class TourLogViewModel {
     public void addTourLog(TourLogModel tourLog) {
         tourLogService.addTourLog(tourLog);
         loadTourLogs();
+    }
+
+    public void addTourLogFromUpload(TourLogModel tourLog) {
+        tourLogService.addTourLog(tourLog);
     }
 
     public void deleteTourLogById(String id) {
