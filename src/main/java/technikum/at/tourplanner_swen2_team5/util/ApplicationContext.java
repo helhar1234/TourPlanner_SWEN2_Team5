@@ -1,8 +1,10 @@
 package technikum.at.tourplanner_swen2_team5.util;
 
+import jakarta.annotation.PostConstruct;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.PropertyBinding;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import technikum.at.tourplanner_swen2_team5.View.controllers.HomeScreenController;
@@ -30,6 +32,7 @@ public class ApplicationContext {
     @Setter
     private static HomeScreenController homeScreenController;
 
+    @PostConstruct
     public void init() {
         apiKeyOrs = loadApiKey(configHandler.getApiKeyOrsPath());
         apiKeyMb = loadApiKey(configHandler.getApiKeyMbPath());

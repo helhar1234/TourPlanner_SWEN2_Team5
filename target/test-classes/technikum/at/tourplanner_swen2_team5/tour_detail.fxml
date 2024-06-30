@@ -3,9 +3,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-<GridPane styleClass="detail-container" stylesheets="@css/tourDetail.css" xmlns="http://javafx.com/javafx/21"
+<GridPane styleClass="detail-container" stylesheets="@css/tourDetail.css" xmlns="http://javafx.com/javafx/17"
           xmlns:fx="http://javafx.com/fxml/1"
-          fx:controller="technikum.at.tourplanner_swen2_team5.controller.TourDetailController">
+          fx:controller="technikum.at.tourplanner_swen2_team5.View.controllers.TourDetailController">
     <HBox GridPane.columnIndex="0" GridPane.columnSpan="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0"
           GridPane.vgrow="ALWAYS">
         <Button fx:id="backButton" onAction="#onBackButtonClicked" styleClass="icon-button">
@@ -56,13 +56,9 @@
         </GridPane>
     </VBox>
 
-    <VBox styleClass="map-container" GridPane.columnIndex="1" GridPane.columnSpan="1" GridPane.hgrow="ALWAYS"
+    <VBox styleClass="mapContainer" GridPane.columnIndex="1" GridPane.columnSpan="1" GridPane.hgrow="ALWAYS"
           GridPane.rowIndex="3" GridPane.vgrow="ALWAYS">
-        <ImageView fx:id="mapImage" styleClass="">
-            <image>
-                <Image url="@img/maps/map-placeholder.png"/>
-            </image>
-        </ImageView>
+        <ImageView fx:id="mapView" styleClass="mapView" preserveRatio="true"/>
     </VBox>
 
     <VBox styleClass="log-container" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.hgrow="ALWAYS"

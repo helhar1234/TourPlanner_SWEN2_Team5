@@ -1,5 +1,6 @@
 package technikum.at.tourplanner_swen2_team5.util;
 
+import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -18,6 +19,7 @@ public class ConfigHandler {
 
     private Properties configProps;
 
+    @PostConstruct
     public void init() {
         configProps = new Properties();
         configProps.setProperty("api.key.ors.path", apiKeyOrsPath);
@@ -27,6 +29,7 @@ public class ConfigHandler {
     }
 
     public String getApiKeyOrsPath() {
+        log.info("API Key ors path initialized: {}", apiKeyOrsPath);
         return configProps.getProperty("api.key.ors.path");
     }
 

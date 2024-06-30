@@ -26,6 +26,14 @@
             <AppenderRef ref="ConsoleAppender" />
             <AppenderRef ref="FileAppender" />
         </Logger>
+        <Logger name="jdk" level="error" additivity="true">
+            <AppenderRef ref="ConsoleAppender" />
+            <AppenderRef ref="FileAppender" />
+        </Logger>
+        <Logger name="sun" level="error" additivity="true">
+            <AppenderRef ref="ConsoleAppender" />
+            <AppenderRef ref="FileAppender" />
+        </Logger>
         <!-- Root Logger -->
         <Root level="debug">
             <AppenderRef ref="ConsoleAppender" />
