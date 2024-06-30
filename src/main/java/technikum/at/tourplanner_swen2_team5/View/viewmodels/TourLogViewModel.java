@@ -15,12 +15,13 @@ import java.util.List;
 @Slf4j
 @Component
 public class TourLogViewModel {
-    private ObservableList<TourLogModel> tourLogModels = FXCollections.observableArrayList();
-    private TourLogService tourLogService;
+    private final ObservableList<TourLogModel> tourLogModels = FXCollections.observableArrayList();
+    private final TourLogService tourLogService;
 
     @Autowired
     public TourLogViewModel(TourLogService tourLogService) {
         this.tourLogService = tourLogService;
+        loadTourLogs();
     }
 
     private void loadTourLogs() {
@@ -28,8 +29,10 @@ public class TourLogViewModel {
     }
 
     public FilteredList<TourLogModel> getTourLogsForTour(String tourId) {
+        log.info("Loading tour logs for tour {}", tourId);
         FilteredList<TourLogModel> tourLogs = new FilteredList<>(tourLogModels);
         tourLogs.setPredicate(tourLog -> tourLog.getTour().getId().equals(tourId));
+        log.debug("Loading tour logs for {} number {}", tourId, tourLogs.size());
         return tourLogs;
     }
 

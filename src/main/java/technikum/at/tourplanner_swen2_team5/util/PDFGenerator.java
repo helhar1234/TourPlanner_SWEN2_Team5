@@ -44,10 +44,10 @@ public class PDFGenerator {
     private final TourLogViewModel logViewModel;
     private final Formatter formatter;
 
-    private static DeviceRgb BRIGHT_GREEN = new DeviceRgb(164, 214, 94);
-    private static DeviceRgb DARK_GREEN = new DeviceRgb(57, 92, 55);
-    private static DeviceRgb CREME_WHITE = new DeviceRgb(245, 245, 245);
-    private static float ROUNDED_CORNER = 5f;
+    private static final DeviceRgb BRIGHT_GREEN = new DeviceRgb(164, 214, 94);
+    private static final DeviceRgb DARK_GREEN = new DeviceRgb(57, 92, 55);
+    private static final DeviceRgb CREME_WHITE = new DeviceRgb(245, 245, 245);
+    private static final float ROUNDED_CORNER = 5f;
 
     @Autowired
     public PDFGenerator(TourLogViewModel logViewModel, Formatter formatter) {

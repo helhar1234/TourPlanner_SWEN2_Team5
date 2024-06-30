@@ -23,10 +23,10 @@ import java.nio.file.Files;
 @Component
 public class MapRequester {
 
-    private static String USER_DIR = System.getProperty("user.home") + "/TourPlanner";
-    private static File MAP_DIR = new File(USER_DIR, "maps");
-    private static File DIRECTIONS_FILE = new File(USER_DIR, "directions.js");
-    private static File LEAFLET_HTML_FILE = new File(USER_DIR, "leaflet.html");
+    private static final String USER_DIR = System.getProperty("user.home") + "/TourPlanner";
+    private static final File MAP_DIR = new File(USER_DIR, "maps");
+    private static final File DIRECTIONS_FILE = new File(USER_DIR, "directions.js");
+    private static final File LEAFLET_HTML_FILE = new File(USER_DIR, "leaflet.html");
 
     static {
         if (!MAP_DIR.exists()) {

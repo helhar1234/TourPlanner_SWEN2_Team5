@@ -48,6 +48,7 @@ public class TourViewModel {
     private void addTourPopularity(List<TourModel> tours) {
         for (TourModel tour : tours) {
             tour.setPopularity(logViewModel.getTourLogCountForTour(tour.getId()));
+            log.info("Tour popularity: " + tour.getPopularity());
         }
     }
 

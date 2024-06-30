@@ -40,10 +40,10 @@ public class ApplicationContext {
 
     private String loadApiKey(String filePath) {
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            return reader.readLine().trim(); // Nimmt an, dass der API-Schlüssel in der ersten Zeile steht
+            return reader.readLine().trim();
         } catch (IOException e) {
             log.error("Failed to read API key file: {}", filePath, e);
-            return null; // Rückgabe von null, wenn der Schlüssel nicht gelesen werden kann
+            return null;
         }
     }
 }
