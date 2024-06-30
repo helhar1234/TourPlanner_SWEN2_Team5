@@ -43,7 +43,7 @@ public class MapRequester {
         }
     }
 
-    public static String fetchMapImage(TourModel tour) throws IOException {
+    public String fetchMapImage(TourModel tour) throws IOException {
         String startCoords = geocode(tour.getStart());
         String destinationCoords = geocode(tour.getDestination());
 
@@ -88,7 +88,7 @@ public class MapRequester {
         }
     }
 
-    public static void openMapInBrowser(String start, String destination) {
+    public void openMapInBrowser(String start, String destination) {
         try {
             String startCoords = geocode(start);
             String destinationCoords = geocode(destination);
@@ -107,7 +107,7 @@ public class MapRequester {
         }
     }
 
-    private static String fetchRouteData(String startCoords, String destinationCoords) throws IOException {
+    private String fetchRouteData(String startCoords, String destinationCoords) throws IOException {
         String url = String.format("https://api.openrouteservice.org/v2/directions/driving-car?api_key=%s&start=%s&end=%s",
                 ApplicationContext.getApiKeyOrs(), startCoords, destinationCoords);
 
@@ -133,7 +133,7 @@ public class MapRequester {
         }
     }
 
-    public static String geocode(String location) throws IOException {
+    public String geocode(String location) throws IOException {
         String url = String.format(
                 "https://api.openrouteservice.org/geocode/search?api_key=%s&text=%s",
                 ApplicationContext.getApiKeyOrs(), URLEncoder.encode(location, StandardCharsets.UTF_8));
@@ -176,7 +176,7 @@ public class MapRequester {
     }
 
 
-    public static double getDistance(String start, String destination) throws IOException {
+    public double getDistance(String start, String destination) throws IOException {
         String startCoords = geocode(start);
         String destinationCoords = geocode(destination);
 

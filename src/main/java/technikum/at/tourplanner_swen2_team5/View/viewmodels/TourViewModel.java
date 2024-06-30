@@ -22,21 +22,23 @@ import java.util.UUID;
 public class TourViewModel {
   
     private final ObservableList<TourModel> tourModels = FXCollections.observableArrayList();
+    private final MapRequester mapRequester;
     @Autowired
     private TourService tourService;
     @Autowired
     private MapService mapService;
     @Autowired
     private TourLogViewModel tourLogViewModel;
-  @Autowired
+    @Autowired
     private TourLogService tourLogService;
 
     @Autowired
-    public TourViewModel(TourService tourService, MapService mapService, TourLogViewModel logViewModel, TourLogService tourLogService) {
+    public TourViewModel(TourService tourService, MapService mapService, TourLogViewModel logViewModel, TourLogService tourLogService, MapRequester mapRequester) {
         this.tourService = tourService;
         this.mapService = mapService;
         this.tourLogViewModel = logViewModel;
         this.tourLogService = tourLogService;
+        this.mapRequester = mapRequester;
         loadTours();
     }
 
@@ -67,7 +69,7 @@ public class TourViewModel {
 
     public String addTour(TourModel tour) throws IOException {
         tour.setId(UUID.randomUUID().toString());
-        tour.setDistance(MapRequester.getDistance(tour.getStart(), tour.getDestination()));
+        tour.setDistance(mapRequester.getDistance(tour.getStart(), tour.getDestination()));
         tour.setTime(MapRequester.getTimeByTransportation(tour.getTransportType().getName(), tour.getDistance()));
         tourService.addTour(tour);
         loadTours();
@@ -96,7 +98,7 @@ public class TourViewModel {
     }
 
     public void updateTour(TourModel tour) throws IOException {
-        tour.setDistance(MapRequester.getDistance(tour.getStart(), tour.getDestination()));
+        tour.setDistance(mapRequester.getDistance(tour.getStart(), tour.getDestination()));
         tour.setTime(MapRequester.getTimeByTransportation(tour.getTransportType().getName(), tour.getDistance()));
         tourService.updateTour(tour);
         loadTours();

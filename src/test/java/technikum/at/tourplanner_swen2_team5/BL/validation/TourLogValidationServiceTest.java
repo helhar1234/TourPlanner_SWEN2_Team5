@@ -41,220 +41,43 @@ class TourLogValidationServiceTest {
     }
 
     @Test
-    void testEmptyDate() {
+    void testEmptyTourLog() {
         TourLogModel tourLog = new TourLogModel();
-        DifficultyModel difficulty = mock(DifficultyModel.class);
-        TransportTypeModel transportType = mock(TransportTypeModel.class);
-
-        tourLog.setDate("");
-        tourLog.setTimeHours(2);
-        tourLog.setTimeMinutes(30);
-        tourLog.setComment("Comment");
-        tourLog.setDistance(100.5f);
-        tourLog.setTotalTime("2h 30min");
-        tourLog.setRating(9);
-        tourLog.setDifficulty(difficulty);
-        tourLog.setTransportType(transportType);
 
         Map<String, String> errors = tourLogValidationService.validateTourLog(tourLog);
+
         assertEquals("Invalid or empty date!", errors.get("date"));
+        assertEquals("Invalid or empty time.", errors.get("time"));
+        assertEquals("Comment cannot be empty.", errors.get("comment"));
+        assertEquals("Invalid or empty total time. Total time must be in format Xh Ymin.", errors.get("totalTime"));
+        assertEquals("Rating must be between 1 and 10", errors.get("rating"));
+        assertEquals("Difficulty cannot be empty.", errors.get("difficulty"));
+        assertEquals("Transport Type cannot be empty.", errors.get("transportType"));
     }
 
     @Test
-    void testInvalidDate() {
+    void testInvalidTourLog() {
         TourLogModel tourLog = new TourLogModel();
-        DifficultyModel difficulty = mock(DifficultyModel.class);
-        TransportTypeModel transportType = mock(TransportTypeModel.class);
 
         tourLog.setDate("13.03.204");
-        tourLog.setTimeHours(2);
-        tourLog.setTimeMinutes(30);
-        tourLog.setComment("Nice tour");
-        tourLog.setDistance(100.5f);
-        tourLog.setTotalTime("2h 30min");
-        tourLog.setRating(9);
-        tourLog.setDifficulty(difficulty);
-        tourLog.setTransportType(transportType);
-
-        Map<String, String> errors = tourLogValidationService.validateTourLog(tourLog);
-        assertEquals("Invalid or empty date!", errors.get("date"));
-    }
-
-    @Test
-    void testInvalidTimeHours() {
-        TourLogModel tourLog = new TourLogModel();
-        DifficultyModel difficulty = mock(DifficultyModel.class);
-        TransportTypeModel transportType = mock(TransportTypeModel.class);
-
-        tourLog.setDate("13.03.2024");
         tourLog.setTimeHours(25);
-        tourLog.setTimeMinutes(30);
-        tourLog.setComment("Nice tour");
-        tourLog.setDistance(100.5f);
-        tourLog.setTotalTime("2h 30min");
-        tourLog.setRating(9);
-        tourLog.setDifficulty(difficulty);
-        tourLog.setTransportType(transportType);
-
-        Map<String, String> errors = tourLogValidationService.validateTourLog(tourLog);
-        assertEquals("Invalid or empty time.", errors.get("time"));
-    }
-
-    @Test
-    void testInvalidTimeMinutes() {
-        TourLogModel tourLog = new TourLogModel();
-        DifficultyModel difficulty = mock(DifficultyModel.class);
-        TransportTypeModel transportType = mock(TransportTypeModel.class);
-
-        tourLog.setDate("13.03.2024");
-        tourLog.setTimeHours(23);
         tourLog.setTimeMinutes(-1);
-        tourLog.setComment("Nice tour");
-        tourLog.setDistance(100.5f);
-        tourLog.setTotalTime("2h 30min");
-        tourLog.setRating(9);
-        tourLog.setDifficulty(difficulty);
-        tourLog.setTransportType(transportType);
-
-        Map<String, String> errors = tourLogValidationService.validateTourLog(tourLog);
-        assertEquals("Invalid or empty time.", errors.get("time"));
-    }
-
-    @Test
-    void testEmptyComment() {
-        TourLogModel tourLog = new TourLogModel();
-        DifficultyModel difficulty = mock(DifficultyModel.class);
-        TransportTypeModel transportType = mock(TransportTypeModel.class);
-
-        tourLog.setDate("13.03.2024");
-        tourLog.setTimeHours(23);
-        tourLog.setTimeMinutes(30);
         tourLog.setComment("");
-        tourLog.setDistance(100.5f);
-        tourLog.setTotalTime("2h 30min");
-        tourLog.setRating(9);
-        tourLog.setDifficulty(difficulty);
-        tourLog.setTransportType(transportType);
-
-        Map<String, String> errors = tourLogValidationService.validateTourLog(tourLog);
-        assertEquals("Comment cannot be empty.", errors.get("comment"));
-    }
-
-    @Test
-    void testInvalidDistance() {
-        TourLogModel tourLog = new TourLogModel();
-        DifficultyModel difficulty = mock(DifficultyModel.class);
-        TransportTypeModel transportType = mock(TransportTypeModel.class);
-
-        tourLog.setDate("13.03.2024");
-        tourLog.setTimeHours(23);
-        tourLog.setTimeMinutes(30);
-        tourLog.setComment("Nice tour");
         tourLog.setDistance(-1);
-        tourLog.setTotalTime("2h 30min");
-        tourLog.setRating(9);
-        tourLog.setDifficulty(difficulty);
-        tourLog.setTransportType(transportType);
-
-        Map<String, String> errors = tourLogValidationService.validateTourLog(tourLog);
-        assertEquals("Invalid or empty distance. Distance must be a number.", errors.get("distance"));
-    }
-
-    @Test
-    void testEmptyTotalTime() {
-        TourLogModel tourLog = new TourLogModel();
-        DifficultyModel difficulty = mock(DifficultyModel.class);
-        TransportTypeModel transportType = mock(TransportTypeModel.class);
-
-        tourLog.setDate("13.03.2024");
-        tourLog.setTimeHours(23);
-        tourLog.setTimeMinutes(30);
-        tourLog.setComment("Nice tour");
-        tourLog.setDistance(100.5f);
-        tourLog.setTotalTime("");
-        tourLog.setRating(9);
-        tourLog.setDifficulty(difficulty);
-        tourLog.setTransportType(transportType);
-
-        Map<String, String> errors = tourLogValidationService.validateTourLog(tourLog);
-        assertEquals("Invalid or empty total time. Total time must be in format Xh Ymin.", errors.get("totalTime"));
-    }
-
-    @Test
-    void testInvalidTotalTime() {
-        TourLogModel tourLog = new TourLogModel();
-        DifficultyModel difficulty = mock(DifficultyModel.class);
-        TransportTypeModel transportType = mock(TransportTypeModel.class);
-
-        tourLog.setDate("13.03.2024");
-        tourLog.setTimeHours(23);
-        tourLog.setTimeMinutes(30);
-        tourLog.setComment("Nice tour");
-        tourLog.setDistance(100.5f);
         tourLog.setTotalTime("2h 30m");
-        tourLog.setRating(9);
-        tourLog.setDifficulty(difficulty);
-        tourLog.setTransportType(transportType);
-
-        Map<String, String> errors = tourLogValidationService.validateTourLog(tourLog);
-        assertEquals("Invalid or empty total time. Total time must be in format Xh Ymin.", errors.get("totalTime"));
-    }
-
-    @Test
-    void testInvalidRating() {
-        TourLogModel tourLog = new TourLogModel();
-        DifficultyModel difficulty = mock(DifficultyModel.class);
-        TransportTypeModel transportType = mock(TransportTypeModel.class);
-
-        tourLog.setDate("01.01.2022");
-        tourLog.setTimeHours(2);
-        tourLog.setTimeMinutes(30);
-        tourLog.setComment("Nice tour");
-        tourLog.setDistance(100.5f);
-        tourLog.setTotalTime("2h 30min");
-        tourLog.setRating(11);
-        tourLog.setDifficulty(difficulty);
-        tourLog.setTransportType(transportType);
-
-        Map<String, String> errors = tourLogValidationService.validateTourLog(tourLog);
-        assertEquals("Rating must be between 1 and 10", errors.get("rating"));
-    }
-
-    @Test
-    void testEmptyDifficulty() {
-        TourLogModel tourLog = new TourLogModel();
-        TransportTypeModel transportType = mock(TransportTypeModel.class);
-
-        tourLog.setDate("13.03.2024");
-        tourLog.setTimeHours(23);
-        tourLog.setTimeMinutes(30);
-        tourLog.setComment("Nice tour");
-        tourLog.setDistance(100.5f);
-        tourLog.setTotalTime("2h 30min");
-        tourLog.setRating(9);
+        tourLog.setRating(-1);
         tourLog.setDifficulty(null);
-        tourLog.setTransportType(transportType);
-
-        Map<String, String> errors = tourLogValidationService.validateTourLog(tourLog);
-        assertEquals("Difficulty cannot be empty.", errors.get("difficulty"));
-    }
-
-    @Test
-    void testEmptyTransportType() {
-        TourLogModel tourLog = new TourLogModel();
-        DifficultyModel difficulty = mock(DifficultyModel.class);
-
-        tourLog.setDate("13.03.2024");
-        tourLog.setTimeHours(2);
-        tourLog.setTimeMinutes(30);
-        tourLog.setComment("Nice tour");
-        tourLog.setDistance(100.5f);
-        tourLog.setTotalTime("2h 30min");
-        tourLog.setRating(5);
-        tourLog.setDifficulty(difficulty);
         tourLog.setTransportType(null);
 
         Map<String, String> errors = tourLogValidationService.validateTourLog(tourLog);
+
+        assertEquals("Invalid or empty date!", errors.get("date"));
+        assertEquals("Invalid or empty time.", errors.get("time"));
+        assertEquals("Comment cannot be empty.", errors.get("comment"));
+        assertEquals("Invalid or empty total time. Total time must be in format Xh Ymin.", errors.get("totalTime"));
+        assertEquals("Invalid or empty distance. Distance must be a number.", errors.get("distance"));
+        assertEquals("Rating must be between 1 and 10", errors.get("rating"));
+        assertEquals("Difficulty cannot be empty.", errors.get("difficulty"));
         assertEquals("Transport Type cannot be empty.", errors.get("transportType"));
     }
 }

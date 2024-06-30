@@ -3,98 +3,115 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-<GridPane styleClass="detail-container" stylesheets="@css/tourDetail.css" xmlns="http://javafx.com/javafx/17"
-          xmlns:fx="http://javafx.com/fxml/1"
-          fx:controller="technikum.at.tourplanner_swen2_team5.View.controllers.TourDetailController">
-    <HBox GridPane.columnIndex="0" GridPane.columnSpan="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0"
-          GridPane.vgrow="ALWAYS">
-        <Button fx:id="backButton" onAction="#onBackButtonClicked" styleClass="icon-button">
-            <graphic>
-                <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
-                    <Image url="@img/icons/arrow-icon.png"/>
-                </ImageView>
-            </graphic>
-        </Button>
-    </HBox>
+<?import javafx.geometry.Insets?>
 
-    <Label fx:id="titleLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" styleClass="detail-title"
-           text="TOURS" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1"
-           GridPane.vgrow="ALWAYS"/>
-
-    <VBox styleClass="tour-container" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.hgrow="ALWAYS"
-          GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
-        <Label fx:id="tourDescription" styleClass="detail-label" text="Placeholder" wrapText="true"/>
-    </VBox>
-
-    <VBox styleClass="tour-container" GridPane.columnIndex="0" GridPane.columnSpan="1" GridPane.hgrow="ALWAYS"
-          GridPane.rowIndex="3" GridPane.vgrow="ALWAYS">
-        <GridPane VBox.vgrow="ALWAYS">
-            <VBox GridPane.columnIndex="0" GridPane.rowIndex="0">
-                <Label styleClass="section-title" text="Tour Information:"/>
-                <Label fx:id="tourStart" styleClass="detail-label" text="Start: Placeholder"/>
-                <Label fx:id="tourDestination" styleClass="detail-label" text="Destination: Placeholder"/>
-                <Label fx:id="tourTransportationType" styleClass="detail-label" text="Transport Type: Placeholder"/>
-                <Label fx:id="tourDistance" styleClass="detail-label" text="Distance: 0 km"/>
-                <Label fx:id="tourTime" styleClass="detail-label" text="Time: 0h 0m"/>
-            </VBox>
-            <Button fx:id="editButton" onAction="#onEditButtonClicked" styleClass="icon-button" GridPane.columnIndex="1"
-                    GridPane.columnSpan="1" GridPane.rowIndex="1">
+<ScrollPane fitToWidth="true" styleClass="main-container" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="technikum.at.tourplanner_swen2_team5.View.controllers.TourDetailController">
+    <GridPane styleClass="detail-container" stylesheets="@css/tourDetail.css">
+        <HBox spacing="10" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0" GridPane.vgrow="NEVER">
+            <Button fx:id="backButton" onAction="#onBackButtonClicked" styleClass="icon-button">
                 <graphic>
-                    <ImageView fitHeight="25.0" fitWidth="25.0" preserveRatio="true">
-                        <Image url="@img/icons/edit-icon.png"/>
+                    <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@img/icons/arrow-icon.png"/>
                     </ImageView>
                 </graphic>
             </Button>
-            <columnConstraints>
-                <ColumnConstraints halignment="LEFT" hgrow="ALWAYS"/>
-                <ColumnConstraints halignment="RIGHT" hgrow="ALWAYS" percentWidth="0.0"/>
-            </columnConstraints>
-            <rowConstraints>
-                <RowConstraints vgrow="ALWAYS"/>
-                <RowConstraints percentHeight="0.0" vgrow="ALWAYS"/>
-            </rowConstraints>
-        </GridPane>
-    </VBox>
+            <Pane HBox.hgrow="ALWAYS"/>
+            <HBox spacing="10">
+                <HBox.margin>
+                    <Insets right="10.0"/>
+                </HBox.margin>
+                <Button fx:id="summaryReportButton" styleClass="icon-button" onAction="#onSummaryReportButtonClicked">
+                    <graphic>
+                        <ImageView fitHeight="25.0" fitWidth="25.0" preserveRatio="true">
+                            <Image url="@img/icons/summary-icon.png"/>
+                        </ImageView>
+                    </graphic>
+                </Button>
+                <Button fx:id="singleReportButton" styleClass="icon-button" onAction="#onSingleReportButtonClicked">
+                    <graphic>
+                        <ImageView fitHeight="25.0" fitWidth="25.0" preserveRatio="true">
+                            <Image url="@img/icons/report-icon.png"/>
+                        </ImageView>
+                    </graphic>
+                </Button>
+            </HBox>
+        </HBox>
 
-    <VBox styleClass="mapContainer" GridPane.columnIndex="1" GridPane.columnSpan="1" GridPane.hgrow="ALWAYS"
-          GridPane.rowIndex="3" GridPane.vgrow="ALWAYS">
-        <ImageView fx:id="mapView" styleClass="mapView" preserveRatio="true"/>
-    </VBox>
+        <!-- Title Label -->
+        <Label fx:id="titleLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" styleClass="detail-title" text="TOURS"
+               GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="NEVER"/>
 
-    <VBox styleClass="log-container" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.hgrow="ALWAYS"
-          GridPane.rowIndex="4" GridPane.vgrow="ALWAYS">
-        <GridPane>
-            <VBox GridPane.columnIndex="0" GridPane.rowIndex="0">
-                <Label styleClass="section-title" text="Tour Logs"/>
-                <fx:include source="tour_log_list.fxml" fx:id="tourLogListView"/>
-            </VBox>
-            <Button fx:id="addLogButton" onAction="#onAddLogButtonClicked" styleClass="icon-button"
-                    GridPane.columnIndex="1" GridPane.columnSpan="1" GridPane.rowIndex="1">
-                <graphic>
-                    <ImageView fitHeight="25.0" fitWidth="25.0" preserveRatio="true">
-                        <Image url="@img/icons/plus-icon.png"/>
-                    </ImageView>
-                </graphic>
-            </Button>
-            <columnConstraints>
-                <ColumnConstraints halignment="LEFT" hgrow="ALWAYS"/>
-                <ColumnConstraints halignment="RIGHT" hgrow="ALWAYS" percentWidth="0.0"/>
-            </columnConstraints>
-            <rowConstraints>
-                <RowConstraints/>
-                <RowConstraints/>
-            </rowConstraints>
-        </GridPane>
-    </VBox>
-    <columnConstraints>
-        <ColumnConstraints/>
-        <ColumnConstraints/>
-    </columnConstraints>
-    <rowConstraints>
-        <RowConstraints/>
-        <RowConstraints/>
-        <RowConstraints percentHeight="0.0"/>
-        <RowConstraints/>
-        <RowConstraints/>
-    </rowConstraints>
-</GridPane>
+        <!-- Description VBox -->
+        <VBox styleClass="tour-container" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="NEVER">
+            <Label fx:id="tourDescription" styleClass="detail-label" text="Placeholder" wrapText="true"/>
+        </VBox>
+
+        <!-- Tour Information and Map Container with ScrollPane -->
+        <ScrollPane GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="3" GridPane.vgrow="ALWAYS">
+            <HBox spacing="10" GridPane.hgrow="ALWAYS">
+                <!-- Tour Information VBox -->
+                <VBox styleClass="tour-container" minWidth="300" minHeight="200">
+                    <Label styleClass="section-title" text="Tour Information:"/>
+                    <Label fx:id="tourStart" styleClass="detail-label" text="Start: Placeholder"/>
+                    <Label fx:id="tourDestination" styleClass="detail-label" text="Destination: Placeholder"/>
+                    <Label fx:id="tourTransportationType" styleClass="detail-label" text="Transport Type: Placeholder"/>
+                    <Label fx:id="tourDistance" styleClass="detail-label" text="Distance: 0 km"/>
+                    <Label fx:id="tourTime" styleClass="detail-label" text="Time: 0h 0m"/>
+                    <Button fx:id="editButton" onAction="#onEditButtonClicked" styleClass="icon-button" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <graphic>
+                            <ImageView fitHeight="25.0" fitWidth="25.0" preserveRatio="true">
+                                <Image url="@img/icons/edit-icon.png"/>
+                            </ImageView>
+                        </graphic>
+                    </Button>
+                </VBox>
+
+                <!-- Map Container -->
+                <VBox styleClass="mapContainer" minWidth="300" minHeight="200">
+                    <ImageView fx:id="mapView" styleClass="mapView" preserveRatio="true"/>
+                </VBox>
+            </HBox>
+        </ScrollPane>
+
+        <!-- Tour Logs Container -->
+        <VBox styleClass="log-container" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" GridPane.vgrow="ALWAYS">
+            <GridPane>
+                <VBox GridPane.columnIndex="0" GridPane.rowIndex="0" minHeight="100.0">
+                    <Label styleClass="section-title" text="Tour Logs"/>
+                    <fx:include source="tour_log_list.fxml" fx:id="tourLogListView"/>
+                </VBox>
+                <Button fx:id="addLogButton" onAction="#onAddLogButtonClicked" styleClass="icon-button" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                    <graphic>
+                        <ImageView fitHeight="25.0" fitWidth="25.0" preserveRatio="true">
+                            <Image url="@img/icons/plus-icon.png"/>
+                        </ImageView>
+                    </graphic>
+                </Button>
+                <columnConstraints>
+                    <ColumnConstraints halignment="LEFT" hgrow="ALWAYS"/>
+                    <ColumnConstraints halignment="RIGHT" hgrow="NEVER"/>
+                </columnConstraints>
+                <rowConstraints>
+                    <RowConstraints/>
+                    <RowConstraints/>
+                </rowConstraints>
+            </GridPane>
+        </VBox>
+
+        <!-- Column Constraints -->
+        <columnConstraints>
+            <ColumnConstraints hgrow="ALWAYS"/>
+            <ColumnConstraints hgrow="ALWAYS"/>
+        </columnConstraints>
+
+        <!-- Row Constraints -->
+        <rowConstraints>
+            <RowConstraints vgrow="NEVER"/>
+            <RowConstraints vgrow="NEVER"/>
+            <RowConstraints vgrow="NEVER"/>
+            <RowConstraints vgrow="ALWAYS"/>
+            <RowConstraints vgrow="ALWAYS"/>
+        </rowConstraints>
+    </GridPane>
+</ScrollPane>
