@@ -10,12 +10,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import technikum.at.tourplanner_swen2_team5.BL.models.TourModel;
-import technikum.at.tourplanner_swen2_team5.util.EventHandler;
-import technikum.at.tourplanner_swen2_team5.util.Formatter;
+import technikum.at.tourplanner_swen2_team5.View.viewmodels.TourLogViewModel;
+import technikum.at.tourplanner_swen2_team5.util.*;
 import technikum.at.tourplanner_swen2_team5.View.viewmodels.MapViewModel;
 import technikum.at.tourplanner_swen2_team5.View.viewmodels.TourViewModel;
-import technikum.at.tourplanner_swen2_team5.util.MapRequester;
-import technikum.at.tourplanner_swen2_team5.util.PDFGenerator;
 
 import java.io.File;
 import java.io.IOException;
@@ -58,9 +56,17 @@ public class TourDetailController {
 
     private TourModel currentTour;
 
+    private final PDFGenerator pdfGenerator;
+
     @FXML
     public void initialize() {
         // Initialization code, if any
+    }
+
+    public TourDetailController(TourViewModel tourViewModel, EventHandler eventHandler, PDFGenerator pdfGenerator) {
+        this.tourViewModel = tourViewModel;
+        this.pdfGenerator = pdfGenerator;
+        this.eventHandler = eventHandler;
     }
 
     public void setTourDetails(TourModel tour) {
@@ -134,10 +140,10 @@ public class TourDetailController {
     }
 
     public void onSummaryReportButtonClicked(ActionEvent actionEvent) {
+        pdfGenerator.generateSummaryReport(currentTour);
     }
 
     public void onSingleReportButtonClicked(ActionEvent actionEvent) {
-        /*PDFGenerator generator = new PDFGenerator();
-        generator.generateTourReport(tourViewModel.getTourById(tourId));*/
+        pdfGenerator.generateTourReport(currentTour);
     }
 }

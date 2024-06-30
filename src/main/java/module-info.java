@@ -47,6 +47,7 @@ module technikum.at.tourplanner_swen2_team5 {
     requires jakarta.persistence;
     requires jakarta.cdi;
     requires spring.orm;
+    requires org.jfree.jfreechart;
 
 
     // Exports
